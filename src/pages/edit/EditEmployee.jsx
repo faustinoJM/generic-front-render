@@ -210,6 +210,10 @@ const EditEmployee = ({ inputs, title }) => {
                                             <input className="inputClass" type="number" id="dependents"
                                                  defaultValue={data.dependents} onChange={handleChange} onBlur={handleBlur}/>
                                                   {errors.dependents && touched.dependents && <p>{errors.dependents}</p>}
+                                        <label>Total dias de ferias</label>
+                                            <input className="inputClass" type="number" id="vacation"
+                                                 value={values.vacation} onChange={handleChange} onBlur={handleBlur}/>
+                                                  {errors.vacation && touched.vacation && <p>{errors.vacation}</p>}
                                     </div>
                                     <div className="formInput3">
                                         <img 
