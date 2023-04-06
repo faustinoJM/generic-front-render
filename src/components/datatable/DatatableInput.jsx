@@ -253,7 +253,7 @@ export default DatatableInput;
 
 
 const payrollInputColumns = [
-    { field: 'employee_id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center',},
+    { field: 'employee_id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center', hide: true},
     { field: 'employee_name', headerName: 'Nome', width: 200,align:'left', headerAlign: 'center',},
     // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
     { field: "departament_name", headerName:"Departemento", width: 180,  align:'left', headerAlign: 'center', },

@@ -438,6 +438,7 @@ useEffect(() => {
                       columns: {
                         columnVisibilityModel: {
                             id: false,
+                            employee_id: false
                           // Hide columns status and traderName, the other columns will remain visible
                         //   dependents: visible ? true : false,
                         //   action: false
