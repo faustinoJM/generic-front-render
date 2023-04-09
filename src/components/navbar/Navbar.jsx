@@ -17,7 +17,7 @@ const Navbar = () => {
                     <SearchOutlinedIcon className="icon" />
                 </div>
                 <div className="image">
-                    <img src={logo} />
+                    {/* <img src={logo} /> */}
                 </div>
                 <div className="items">
                     <div className="item">

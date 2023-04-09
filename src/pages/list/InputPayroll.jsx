@@ -11,7 +11,7 @@ const payrollInputColumns = [
     { field: 'employee_id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center', hide: true},
     { field: 'employee_name', headerName: 'Nome', width: 200,align:'left', headerAlign: 'center', },
     // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
-    { field: "departament_name", headerName:"Departemento", width: 180,  align:'left', headerAlign: 'center',  },
+    { field: "departament_name", headerName:"Departamento", width: 180,  align:'left', headerAlign: 'center',  },
     { field: "position_name", headerName:"Cargo", width: 180,  align:'left', headerAlign: 'center', },
     { field: "salary_base", headerName: "Salario Base", width: 130, editable: false, align:'center', headerAlign: 'center',},
     { field: "subsidy", headerName: "Subsidio", width: 130, editable: false, align:'center', headerAlign: 'center',},

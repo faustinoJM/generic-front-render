@@ -9,7 +9,7 @@ import { compareAsc, format } from 'date-fns'
 
 
 const employeeColumns = [
-    { field: 'employee_id', headerName: 'ID', width: 70, pinnable: true, hide: true },
+    { field: 'employee_id', headerName: 'ID', width: 70, pinnable: true },
     { field: 'name', headerName: 'Nome', width: 150, editable: true, align:'left', headerAlign: 'center'},
     { field: "birth_date", headerName:"Data Nascimento", width: 160,  },
     { field: "gender", headerName: "Genero", width: 130, align:'center', headerAlign: 'center' },

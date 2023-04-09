@@ -19,6 +19,8 @@ const Datatable = ({ listName, listPath, columns, userRows, setUserRows }) => {
   const [visible, setVisible] = useState(false);
   const [excelFile, setExcelFile] = useState([]);
   const [excelError, setExcellError] = useState("")
+  const [loading, setLoading] = useState(false)
+
 
   const keyToPropMap = {
   "Nome": "name",
@@ -57,53 +59,63 @@ const Datatable = ({ listName, listPath, columns, userRows, setUserRows }) => {
         const fetch = () => {
             api.get("employees").then((response) => setUserRows(response.data))
         }
-        console.log(data.length)
+        api.post("payrolls/excel/import", data).then((response) => {
+            if (response.status === 201){
+                //timer setUserRows
+                console.log("maumau")
+                setTimeout(() => {
+                    api.get("employees").then((response) => setUserRows(response.data))
+                    setLoading(false)
+                }, 5000);
+                
+            }
+        })
         const timer = ms => new Promise(res => setTimeout(res, ms))
 
-        data.forEach(async (d)=> {
-            const employee = {};
+        // data.forEach(async (d)=> {
+        //     const employee = {};
             
-            // for (const property in object) {
-            //     console.log(`${property}: ${object[property]}`);
-            //   }
-            Object.entries(keyToPropMap).forEach(([key, prop]) => {
-              if (d[key] !== undefined) {
-                if(prop === "birth_date" || prop === "start_date")
-                    employee[prop] = new Date(Date.UTC(0, 0, d[key] - 1))  
-                else
-                    employee[prop] = d[key];           
-              }
-            });
+        //     // for (const property in object) {
+        //     //     console.log(`${property}: ${object[property]}`);
+        //     //   }
+        //     Object.entries(keyToPropMap).forEach(([key, prop]) => {
+        //       if (d[key] !== undefined) {
+        //         if(prop === "birth_date" || prop === "start_date")
+        //             employee[prop] = new Date(Date.UTC(0, 0, d[key] - 1))  
+        //         else
+        //             employee[prop] = d[key];           
+        //       }
+        //     });
 
-            api.post('positions', {name: employee.position_id}).then(() => {})
-            api.post('departments', {name: employee.department_id}).then(() => {})
-            const departments = await api.get("departments")
-            const positions = await api.get("positions")
+        //     api.post('positions', {name: employee.position_id}).then(() => {})
+        //     api.post('departments', {name: employee.department_id}).then(() => {})
+        //     const departments = await api.get("departments")
+        //     const positions = await api.get("positions")
 
-            if (departments.data)
-                departments.data.map(department => {
-                    if (department.name === employee.department_id)
-                        employee.department_id = department.id
-                })
+        //     if (departments.data)
+        //         departments.data.map(department => {
+        //             if (department.name === employee.department_id)
+        //                 employee.department_id = department.id
+        //         })
             
 
-            if (positions.data) 
-                positions.data.forEach(position => {
-                    if (position.name === employee.position_id)
-                        employee.position_id = position.id
-                })
+        //     if (positions.data) 
+        //         positions.data.forEach(position => {
+        //             if (position.name === employee.position_id)
+        //                 employee.position_id = position.id
+        //         })
                 
 
 
 
-            //   employee.position_id = "eb66f3cd-4a4a-4fb8-b895-04705d43fa52";
+        //     //   employee.position_id = "eb66f3cd-4a4a-4fb8-b895-04705d43fa52";
             
-            //   employee.department_id = "a89af668-a809-4d3b-9b87-7b5f3e304bd0";
-            // console.log(employee)
-            api.post("employees", employee)
-              .then(() => fetch())
-              .catch(error => console.error(error));
-          });
+        //     //   employee.department_id = "a89af668-a809-4d3b-9b87-7b5f3e304bd0";
+        //     // console.log(employee)
+        //     api.post("employees", employee)
+        //       .then(() => fetch())
+        //       .catch(error => console.error(error));
+        //   });
 
         // async function load () { // We need to wrap the loop into an async function for this to work
         // for (var i = 0; i < data.length; i++) {
@@ -273,6 +285,7 @@ const Datatable = ({ listName, listPath, columns, userRows, setUserRows }) => {
     let fileType = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]
     const selectedFile = e.target.files[0]
     console.log(selectedFile)
+    setLoading(true)
 
     // selectedFile && fileType.includes(selectedFile.type) ? console.log(selectedFile.type) : console.log("Selected File")
     if (selectedFile && fileType.includes(selectedFile.type)) {
@@ -429,7 +442,8 @@ useEffect(() => {
                 rowsPerPageOptions={[8]}
                 // checkboxSelection
                 onCellEditCommit={onCellEditCommit}
-                autoHeight        
+                autoHeight       
+                loading={loading}
                 initialState={{
                     pinnedColumns: { left: ['id', 'name'] },
                     sorting: {
