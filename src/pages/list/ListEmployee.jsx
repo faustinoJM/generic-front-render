@@ -1,11 +1,10 @@
-import "./list.scss"
+import "./listEmployee.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import Datatable from "../../components/datatable/Datatable"
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
 import api from "../../services/api"
 import { compareAsc, format } from 'date-fns'
+import DatatableEmployee from "../../components/datatable/DatatableEmployee"
 
 
 const employeeColumns = [
@@ -51,7 +50,7 @@ const ListEmployee = ({ listName, listPath }) => {
                 // let date = format(new Date(user.birth_date), 'yyyy-MM-dd')
                 user.birth_date = formatDate.format(birth_date)
                 user.start_date = formatDate.format(start_date)
-                console.log(user.birth_date)
+                // console.log(user.birth_date)
 
             })
             setUserRows(response.data)
@@ -68,7 +67,7 @@ const ListEmployee = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <Datatable listName={listName} listPath={listPath} columns={employeeColumns} userRows={userRows} setUserRows={setUserRows}/>
+                <DatatableEmployee listName={listName} listPath={listPath} columns={employeeColumns} userRows={userRows} setUserRows={setUserRows}/>
             </div>
         </div>
     )

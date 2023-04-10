@@ -1,11 +1,9 @@
-import "./list.scss"
+import "./listOutputPayroll.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import Datatable from "../../components/datatable/Datatable"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import api from "../../services/api"
-import DatatablePayroll from "../../components/datatable/DatatablePayroll"
+import DatatableOutputPayroll from "../../components/datatable/DatatableOutputPayroll"
 
 const payrollColumns = [
     { field: 'employee_id', headerName: 'ID', width: 70, pinnable: true, headerAlign: 'center',},
@@ -39,7 +37,7 @@ export const outputColumnVisible= {
     backpay: true
   };
   
-const ListPayroll = ({ listName, listPath }) => {
+const ListOutputPayroll = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [settings, setSettings] = useState({});
 
@@ -167,7 +165,7 @@ const ListPayroll = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <DatatablePayroll listName={listName} listPath={listPath} columns={payrollColumns} userRows={userRows} setUserRows={setUserRows} settings={settings} outputColumnVisible={outputColumnVisible}/>
+                <DatatableOutputPayroll listName={listName} listPath={listPath} columns={payrollColumns} userRows={userRows} setUserRows={setUserRows} settings={settings} outputColumnVisible={outputColumnVisible}/>
             </div>
         </div>
     )
@@ -177,5 +175,5 @@ function formatSalary() {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
   }
 
-export default ListPayroll
+export default ListOutputPayroll
 

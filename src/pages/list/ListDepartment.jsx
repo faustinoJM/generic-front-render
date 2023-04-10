@@ -1,9 +1,8 @@
-import "./list.scss"
+import "./listDepartment.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import Datatable from "../../components/datatable/Datatable"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import api from "../../services/api"
 
 const departmentColumn = [

@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
 import { Routes, Route, Navigate, useLocation} from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import EditDepartment from '../pages/edit/EditDepartment';
 import EditEmployee from '../pages/edit/EditEmployee';
 import EditPosition from '../pages/edit/EditPosition';
 import EditProfile from '../pages/edit/EditProfile';
 import Home from '../pages/home/Home';
-import InputPayroll from '../pages/list/InputPayroll';
-import List from '../pages/list/List';
 import ListDepartment from '../pages/list/ListDepartment';
 import ListEmployee from '../pages/list/ListEmployee';
 import ListInputPayroll from '../pages/list/ListInputPayroll';
-import ListPayroll from '../pages/list/ListPayroll';
+import ListOutputPayroll from '../pages/list/ListOutputPayroll';
 import ListPosition from '../pages/list/ListPosition';
 import Login from '../pages/login/Login';
 import NewDepartment from '../pages/new/NewDepartment';
@@ -27,6 +24,7 @@ import SettingPayroll from '../pages/settings/SettingPayroll';
 import Single from '../pages/single/Single';
 import SingleEmployee from '../pages/single/SingleEmployee';
 import RouteAuth from './RouteAuth';
+import ListPayrolls from '../pages/list/ListPayrolls';
 
 export default function Routers() {
 
@@ -52,10 +50,10 @@ export default function Routers() {
         <Route path="new" element={<RouteAuth isPrivate={true}><NewDepartment title="Adicionar novo Departamento"/></RouteAuth>} />
       </Route>
       <Route path="payrolls">
-        <Route path="output" element={<RouteAuth isPrivate={true}><ListPayroll listName={"Folha Salario"} listPath={"payrolls"}/> </RouteAuth>} />
-        <Route path="input" element={<RouteAuth isPrivate={true}><InputPayroll listName={"Processamento Salario"} listPath={"payrolls"}/></RouteAuth>} />
-        <Route path="list" element={<RouteAuth isPrivate={true}><ListInputPayroll title="Lista de Folhas Pagamento" listPath={"payrolls"}/></RouteAuth>} />
-        <Route path="input/:payrollId" element={<RouteAuth isPrivate={true}><Single/></RouteAuth>} />
+        <Route path="output" element={<RouteAuth isPrivate={true}><ListOutputPayroll listName={"Folha Salario"} listPath={"payrolls"}/> </RouteAuth>} />
+        <Route path="input" element={<RouteAuth isPrivate={true}><ListInputPayroll listName={"Processamento Salario"} listPath={"payrolls"}/></RouteAuth>} />
+        <Route path="list" element={<RouteAuth isPrivate={true}><ListPayrolls title="Lista de Folhas Pagamento" listPath={"payrolls"}/></RouteAuth>} />
+        <Route path="output/:payrollId" element={<RouteAuth isPrivate={true}><ListOutputPayroll listName={"Folha Salario"} listPath={"payrolls"}/></RouteAuth>} />
         <Route path="new" element={<RouteAuth isPrivate={true}><NewPayroll title="Adicionar novo Pagamento" /></RouteAuth>} />
       </Route>
       <Route path="profile">

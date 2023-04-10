@@ -1,20 +1,13 @@
-import "./datatablePayroll.scss";
-import { DataGrid, GridToolbar} from '@mui/x-data-grid';
-// import { userColumns, userRows } from "../../datatablesource";
+import "./datatableOutputPayroll.scss";
+import { DataGrid,} from '@mui/x-data-grid';
 import { Link } from "react-router-dom"
 import { useCallback, useEffect, useRef, useState } from "react";
 import api from "../../services/api";
-import { useDemoData } from '@mui/x-data-grid-generator';
 import { useReactToPrint } from "react-to-print";
-import { mock } from "../../assets/mockData";
-import { PrintButton } from "../printButton/PrintButton";
-import { read, utils, writeFileXLSX } from 'xlsx';
-import LinearProgress from '@mui/material/LinearProgress';
 import PrintPayslip from "../printPayslip/PrintPayslip";
 import exceljs from 'exceljs';
 import { saveAs } from 'file-saver';
 import PrintIcon from '@mui/icons-material/Print';
-import { set } from "react-hook-form";
 
 const formatSalary = () => {
     return new Intl.NumberFormat("en-US",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -23,7 +16,7 @@ const formatDate = new Intl.DateTimeFormat("pt-br", { dateStyle: 'short'})
 
 const payrollDate = formatDate.format(new Date())
 
-const DatatablePayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, outputColumnVisible }) => {
+const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, outputColumnVisible }) => {
     const workbook = new exceljs.Workbook();
     const [maumau, setmaumau] = useState([])
     const [data2, setData2] = useState(userRows);
@@ -498,7 +491,7 @@ const DatatablePayroll = ({ listName, listPath, columns, userRows, setUserRows, 
 
                 <PrintPayslip componentRef={componentRef} single={single} />
             </div>
-
+            <div  style={{ height: 540, width: '100%' }}>
             <DataGrid
             sx={{
                 "& .MuiDataGrid-main": {
@@ -541,7 +534,7 @@ const DatatablePayroll = ({ listName, listPath, columns, userRows, setUserRows, 
                 rowsPerPageOptions={[8]}
                 // checkboxSelection
                 onCellEditCommit={onCellEditCommit}
-                autoHeight 
+                // autoHeight 
                 columnVisibilityModel={columnVisible} 
                 // showCellRightBorder={true}  
                 // slots={{
@@ -566,11 +559,12 @@ const DatatablePayroll = ({ listName, listPath, columns, userRows, setUserRows, 
                     // },
                 }}          
                 />
+            </div>
         </div>
     )
 }
 
-export default DatatablePayroll;
+export default DatatableOutputPayroll;
 
 
 const columnsExcel = [

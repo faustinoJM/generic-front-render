@@ -1,6 +1,5 @@
-import "./datatableListInput.scss";
-import { DataGrid, GridToolbar} from '@mui/x-data-grid';
-// import { userColumns, userRows } from "../../datatablesource";
+import "./datatableListPayrolls.scss";
+import { DataGrid} from '@mui/x-data-grid';
 import { Link } from "react-router-dom"
 import { useEffect, useState } from "react";
 import api from "../../services/api";
@@ -107,7 +106,9 @@ useEffect(() => {
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        <Link to={`/${listPath}/${params.row.id}`} style={{textDecoration: "none"}}>
+                        <Link to={`/${listPath}/output/${params.row.month}/${params.row.year}`} style={{textDecoration: "none"}}>
+                        {/* to={`/${listPath}/${params.row.id}`} */}
+                        {console.log(params.row.month+"/"+listPath)}
                                 <div className="viewButton">
                                     <VisibilityIcon /> Ver
                                 </div>

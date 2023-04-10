@@ -1,12 +1,9 @@
-import "./datatableInput.scss";
-import { DataGrid, GridToolbar} from '@mui/x-data-grid';
+import "./datatableInputPayroll.scss";
+import { DataGrid} from '@mui/x-data-grid';
 // import { userColumns, userRows } from "../../datatablesource";
 import { Link } from "react-router-dom"
 import { useEffect, useState } from "react";
 import api from "../../services/api";
-import { useDemoData } from '@mui/x-data-grid-generator';
-import { useQuery } from "react-query";
-import { NoEncryption } from "@mui/icons-material";
 
 const formatSalary = () => {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -29,7 +26,7 @@ export const visible = {
     overtime100: true,
 }
 
-const DatatableInput = ({ listName, listPath, columns, userRows, setUserRows, settings}) => {
+const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings}) => {
     const [data2, setData2] = useState(userRows);
     const [columnsVisible, setColumnsVisible] = useState(payrollInputColumns);
     const [year, setYear] = useState(0);
@@ -175,6 +172,7 @@ const DatatableInput = ({ listName, listPath, columns, userRows, setUserRows, se
                     Nova Folha
                 </Link>
             </div>
+            <div  style={{ height: 540, width: '100%' }}>
             <DataGrid
             sx={{
                 "& .MuiDataGrid-main": {
@@ -222,7 +220,7 @@ const DatatableInput = ({ listName, listPath, columns, userRows, setUserRows, se
                 rowsPerPageOptions={[8]}
                 // checkboxSelection
                 onCellEditCommit={onCellEditCommit}
-                autoHeight 
+                // autoHeight 
                 // columnVisibilityModel={columnVisible} 
                 // showCellRightBorder={true}  
                 initialState={{
@@ -244,11 +242,12 @@ const DatatableInput = ({ listName, listPath, columns, userRows, setUserRows, se
                 }} 
                 
                 />
+            </div>
         </div>
     )
 }
 
-export default DatatableInput;
+export default DatatableInputPayroll;
 
 
 
