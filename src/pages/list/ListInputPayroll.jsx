@@ -1,4 +1,4 @@
-import "./list.scss"
+import "./listInputPayroll.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import { useEffect, useState } from "react"
@@ -23,8 +23,8 @@ const payrollInputColumns = [
     // { field: "irps",  headerName: "IRPS", width: 130,  align:'center', headerAlign: 'center',},
     // { field: "inss",  headerName: "INSS", width: 130, align:'center', headerAlign: 'center',},
     // { field: "salary_liquid",headerName: "Salario Liquido", width: 150, align:'center', headerAlign: 'center',},
-    // { field: "month",headerName: "MES", width: 50},
-    // { field: "year",headerName: "ANO", width: 70}
+    { field: "month",headerName: "MES", width: 100},
+    { field: "year",headerName: "ANO", width: 70}
 ]
 const formatSalary = () => {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})

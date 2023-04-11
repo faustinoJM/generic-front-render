@@ -41,19 +41,45 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
     }, [settings])
 
   useEffect(() => {
-    async function fetchData() {
-        const response = await api.get("settings")
-        if (response.data) {
-            
-        } else {
-           
-        }
+        let monthGreater = 0
+        let yearGreater = 0
+        let dateAux = new Date("2000/12/31")
+
+        if (year <= 0) {
+            userRows.map((data, index) => {
+
+                if (dateAux.getTime() < new Date(data.created_at).getTime()) {
+                    monthGreater = data.month
+                    yearGreater = data.year
+                    dateAux = new Date(data.created_at)
+                }
+             })
+             setYear(yearGreater)
+             setMonth(monthGreater)
+             console.log(monthGreater, yearGreater)
+        } 
         
-    }
-        fetchData()
-    }, [])
+    }, [userRows])
 
+    useEffect(() => {
+        setUserRows(() => data2.filter(data => data.month === month && data.year === year))
+    }, [year, month])
 
+    useEffect(() => {
+        async function fetchData() {
+            const response = await api.get("payrolls/input")
+
+            response.data.map((data) => {
+                data.salary_base = formatSalary().format(data.salary_base)
+                data.subsidy = formatSalary().format(data.subsidy)
+                data.bonus = formatSalary().format(data.bonus)
+                data.cash_advances = formatSalary().format(data.cash_advances)
+                data.backpay = formatSalary().format(data.backpay)
+            })
+            setData2(response.data)
+        }
+            fetchData()
+        }, [])
 
     useEffect(() => {
     async function fetchData() {
@@ -68,41 +94,16 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
         })
 
         setYearOptions(yearsArray)
-        setData2(response.data)
-    
-        console.log(year)
-        console.log(month)
-    }
+        }
         fetchData()
-    }, [year, month])
+    }, [])
 
     const submitByYear = async (e) => {
-        setYear(e)
-        data2.map((data) => {
-            data.salary_base = formatSalary().format(data.salary_base)
-            data.subsidy = formatSalary().format(data.subsidy)
-            data.bonus = formatSalary().format(data.bonus)
-            data.cash_advances = formatSalary().format(data.cash_advances)
-            data.backpay = formatSalary().format(data.backpay)
-        })
-        setUserRows(data2.filter(row => (row.year === +e) && (row.month === month)))
-        // console.log(data.filter(row => row.year === +e))
-        
+        setYear(+e)
     }
 
     const submitByMonth = async (e) => {
-        // console.log("kkk: ",e, year)
         setMonth(e)
-        data2.map((data) => {
-            data.salary_base = formatSalary().format(data.salary_base)
-            data.subsidy = formatSalary().format(data.subsidy)
-            data.bonus = formatSalary().format(data.bonus)
-            data.cash_advances = formatSalary().format(data.cash_advances)
-            data.backpay = formatSalary().format(data.backpay)
-        })
-        setUserRows(data2.filter(row => (row.month === e) && (row.year === +year)))
-        // console.log(data.filter(row => row.month === month))
-        
     }
 
     const handleDelete = async (id, router) => {
@@ -140,7 +141,7 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
                 {listName}
                 <div className="anoMes">
                     <label>Ano: </label>
-                        <select id="year" name="year" onChange={e => submitByYear(e.target.value)}>
+                        <select id="year" name="year" value={year} onChange={e => submitByYear(e.target.value)}>
                             <option value="">Selecione Ano</option>
                             {yearOptions ? yearOptions.map((data, i) => {
                                 return <option key={i}>{data}</option>
@@ -152,7 +153,7 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
                             <option >2024</option> */}
                         </select>
                     <label>Mes: </label>
-                        <select id="month" name="month" onChange={e => submitByMonth(e.target.value)} >
+                        <select id="month" name="month" value={month} onChange={e => submitByMonth(e.target.value)} >
                             <option value="">Selecione Mes</option>
                             <option >Janeiro</option>
                             <option >Fevereiro</option>

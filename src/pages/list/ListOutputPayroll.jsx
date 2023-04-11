@@ -23,8 +23,8 @@ const payrollColumns = [
     { field: "salary_liquid",headerName: "Salario Liquido", width: 150, align:'center', headerAlign: 'center',},
     { field: "inss_company",  headerName: "INSS (4%)", width: 130,  align:'center', headerAlign: 'center',},
     { field: "total_inss",  headerName: "Total INSS", width: 130,  align:'center', headerAlign: 'center',},
-    // { field: "month",headerName: "MES", width: 50},
-    // { field: "year",headerName: "ANO", width: 70}
+    { field: "month",headerName: "MES", width: 100},
+    { field: "year",headerName: "ANO", width: 70}
 ]
 
 export const outputColumnVisible= {
@@ -40,6 +40,8 @@ export const outputColumnVisible= {
 const ListOutputPayroll = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [settings, setSettings] = useState({});
+    const [month2, setMonth2] = useState()
+    const [year2, setYear2] = useState()
 
     useEffect(() => {
         async function fetchData() {
@@ -77,7 +79,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                 response.data.cash_advances === "true" ? outputColumnVisible.cash_advances = true : outputColumnVisible.cash_advances = false
                 response.data.bonus === "true" ? outputColumnVisible.bonus = true : outputColumnVisible.bonus = false
                 response.data.subsidy === "true" ? outputColumnVisible.subsidy = true : outputColumnVisible.subsidy = false
-                    console.log("Input", payrollColumns)
+                    // console.log("Input", payrollColumns)
                 setSettings(response.data)
                 
             }
@@ -87,10 +89,10 @@ const ListOutputPayroll = ({ listName, listPath }) => {
         }, [])
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get(`${listPath}`, {month: 2, year: 2024})
-             console.log(listPath)
-             console.log(response.data)
-             console.log(response.data.data)
+            const response = await api.get(`${listPath}`)
+            //  console.log(listPath)
+            //  console.log(response.data)
+            //  console.log(response.data.data)
 
             let totalLiquid = 0
             let totalBase = 0
@@ -100,6 +102,9 @@ const ListOutputPayroll = ({ listName, listPath }) => {
             let totalInssCompany = 0
             let totalInssEmployee = 0
             let totalLength = 0
+            let monthGreater = 0
+            let yearGreater = 0
+            let dateAux = new Date("2000/12/31")
 
             totalLength = response.data.map((data, index) => {
                 totalLiquid += (+data.salary_liquid)
@@ -109,8 +114,16 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                 totalInss += (+data.inss_company) + (+data.inss_employee)
                 totalInssCompany += (+data.inss_company)
                 totalInssEmployee += (+data.inss_employee)
-                console.log(data.created_at <= new Date())
+                
+                if (dateAux.getTime() < new Date(data.created_at).getTime()) {
+                    monthGreater = data.month
+                    yearGreater = data.year
+                    dateAux = new Date(data.created_at)
+                }
              })
+             setYear2(yearGreater)
+             setMonth2(monthGreater)
+             console.log(monthGreater, yearGreater)
 
              response.data.map((data, index) => {
                 data.employee_id = index + 1
@@ -153,7 +166,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
             }
         ]
             setUserRows(response.data.concat(totalRow))
-            console.log("1")
+            // console.log("1")
         }
         fetchData()
       
@@ -161,11 +174,15 @@ const ListOutputPayroll = ({ listName, listPath }) => {
 
     return (
         <div className="list">
-            {console.log(userRows)}
+            {/* {console.log(userRows)} */}
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <DatatableOutputPayroll listName={listName} listPath={listPath} columns={payrollColumns} userRows={userRows} setUserRows={setUserRows} settings={settings} outputColumnVisible={outputColumnVisible}/>
+                <DatatableOutputPayroll listName={listName} listPath={listPath} 
+                    columns={payrollColumns} userRows={userRows} setUserRows={setUserRows} 
+                    settings={settings} outputColumnVisible={outputColumnVisible}
+                    year2={year2} month2={month2} setMonth2={setMonth2} setYear2={setYear2}
+                    />
             </div>
         </div>
     )
