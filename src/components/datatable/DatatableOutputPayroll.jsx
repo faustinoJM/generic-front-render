@@ -109,8 +109,70 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
           if (params.payrollId) {
             const year = params.payrollId.split("-")[1]
             const monht = params.payrollId.split("-")[0]
-            setUserRows(() => data2.filter(row => (row.year === +year) && (row.month === month)))
-
+            let filteredRows = data2.filter(row => (row.year === +year) && (row.month === month))
+            let totalLiquid = 0
+                let totalBase = 0
+                let totalIrps = 0
+                let totalGross = 0
+                let totalInss = 0
+                let totalInssCompany = 0
+                let totalInssEmployee = 0
+                let totalLength = 0
+    
+                totalLength = filteredRows.map((data, index) => {
+                    totalLiquid += (+data.salary_liquid)
+                    totalBase += (+data.salary_base)
+                    totalGross += (+data.total_income)
+                    totalIrps += (+data.irps)
+                    totalInss += (+data.inss_company) + (+data.inss_employee)
+                    totalInssCompany += (+data.inss_company)
+                    totalInssEmployee += (+data.inss_employee)
+                    // console.log(data.created_at.getTime() > (new Date()).getTime()
+                 })
+    
+                 const totalRow = [
+                  {
+                  id: "totalId",
+                  employee_id: totalLength.length + 1,
+                  employee_name: "Total",
+                  departament_name: "", 
+                  position_name: "", 
+                  salary_base: formatSalary().format(totalBase), 
+                  subsidy: "", 
+                  bonus: "", 
+                  total_overtime: "", 
+                  total_absences: "", 
+                  cash_advances: "", 
+                  backpay: "", 
+                  total_income: formatSalary().format(totalGross), 
+                  irps: formatSalary().format(totalIrps), 
+                  inss_employee: formatSalary().format(totalInssEmployee), 
+                  salary_liquid: formatSalary().format(totalLiquid), 
+                  inss_company: formatSalary().format(totalInssCompany), 
+                  total_inss: formatSalary().format(totalInss), 
+              }
+          ]
+    
+            // setExcelPayroll(ddd)
+            filteredRows.map((data, index) => {
+                data.employee_id = index + 1
+                data.salary_base = formatSalary().format(data.salary_base)
+                data.salary_liquid = formatSalary().format(data.salary_liquid)
+                data.total_income = formatSalary().format(data.total_income)
+                data.irps = formatSalary().format(data.irps)
+                data.inss_employee = formatSalary().format(data.inss_employee)
+                data.subsidy = formatSalary().format(data.subsidy)
+                data.bonus = formatSalary().format(data.bonus)
+                data.cash_advances = formatSalary().format(data.cash_advances)
+                data.backpay = formatSalary().format(data.backpay)
+                data.total_absences = formatSalary().format(data.total_absences)
+                data.total_overtime = formatSalary().format(data.total_overtime)
+                data.inss_company = formatSalary().format(data.inss_company)
+                data.total_inss = formatSalary().format(data.total_inss)
+            })
+            // console.log(data3.filter(row => (row.year === "2023")))
+            setUserRows(filteredRows.concat(totalRow))
+    
             setYear(+year)
             setMonth(monht)
           }
@@ -166,7 +228,8 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
       ]
 
         // setExcelPayroll(ddd)
-        filteredRows.map((data) => {
+        filteredRows.map((data, index) => {
+            data.employee_id = index + 1
             data.salary_base = formatSalary().format(data.salary_base)
             data.salary_liquid = formatSalary().format(data.salary_liquid)
             data.total_income = formatSalary().format(data.total_income)
