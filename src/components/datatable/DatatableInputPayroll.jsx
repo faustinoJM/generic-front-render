@@ -173,9 +173,11 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
                     Nova Folha
                 </Link>
             </div>
-            <div  style={{ height: 540, width: '100%' }}>
+            <div  style={{ height: 545, width: '100%' }}>
             <DataGrid
             sx={{
+                fontFamily:"Plus Jakarta Sans, sans-serif", color:'black',
+
                 "& .MuiDataGrid-main": {
                     // remove overflow hidden overwise sticky does not work
                     overflow: "unset"
@@ -193,7 +195,7 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
                     zIndex:"1",
                     backgroundColor: "white",
                     borderLeft: "0.2px solid lightGray",
-                    borderRight: "1px solid black"
+                    // borderRight: "1px solid black"
                   },
 
                 //   '& .MuiDataGrid-cell:nth-child(1)': {                    
@@ -205,14 +207,14 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
                 // //   borderRight: 1,
                 // },
 
-                    "& .MuiDataGrid-cell": {
-                    border: 1,
-                    borderRight: 1,
-                    borderLeft: 0,
-                    borderTop: 1,
-                    borderBottom: 0,
-                    // add more css for customization
-                    },
+                    // "& .MuiDataGrid-cell": {
+                    // border: 1,
+                    // borderRight: 1,
+                    // borderLeft: 0,
+                    // borderTop: 1,
+                    // borderBottom: 1,
+                    // // add more css for customization
+                    // },
              }}
                  columnBuffer={columns.length}
                 rows={userRows}
@@ -223,7 +225,8 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
                 onCellEditCommit={onCellEditCommit}
                 // autoHeight 
                 // columnVisibilityModel={columnVisible} 
-                // showCellRightBorder={true}  
+                showCellRightBorder={true}  
+                showColumnRightBorder={true}
                 initialState={{
                     pinnedColumns: { left: ['id', 'name'] },
                     sorting: {

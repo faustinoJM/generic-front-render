@@ -73,6 +73,8 @@ const Datatable = ({ listName, listPath, columns, userRows, setUserRows }) => {
                     // remove overflow hidden overwise sticky does not work
                     overflow: "unset"
                   },
+                  fontFamily:"Plus Jakarta Sans, sans-serif", color:'black'
+
                                                
              }}
                  columnBuffer={columns.length}

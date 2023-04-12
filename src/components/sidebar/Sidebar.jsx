@@ -140,12 +140,12 @@ const Sidebar = (d, f) => {
                         </li>
                         */}
                     <p className="title">USUARIO</p>
-                    {/* <li>
+                    <li>
                         <NavLink to="/profile" className="navLink" style={{textDecoration: "none"}}>
                             <AccountBoxOutlinedIcon className="icon" />
                             <span>Perfil</span>
                         </NavLink>
-                    </li> */}
+                    </li>
                     <li>
                         <NavLink to="/settings" className="navLink" style={{textDecoration: "none"}}>
                             <SettingsApplicationsIcon className="icon" />

@@ -69,7 +69,7 @@ const EditEmployee = ({ inputs, title }) => {
         contact: Yup.string().required("Contacto Obrigatorio"),
         email: Yup.string().required("Email Obrigatorio").email("Insira endereco Email valido"),
         nuit: Yup.number().positive("NUIT deve ser numero positivo").integer("NUIT deve ser numero inteiro").required("NUIT obrigatorio"),
-        dependents: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro").required("Numero de Dependentes obrigatorio"),
+        dependents: Yup.number().min(0, "Deve ser numero maior ou igual a zero").integer("Deve ser numero inteiro").required("Numero de Dependentes obrigatorio"),
         salary: Yup.number().positive("Deve ser numero positivo").required("Salario base obrigatorio"),
         subsidy: Yup.number().min(0, "Subsidio deve ser maior ou igual a zero"),
         department_id: Yup.string().required("Endereco Obrigatorio"),
@@ -237,7 +237,7 @@ const EditEmployee = ({ inputs, title }) => {
                                                     onChange={e => setFieldValue("department_id", e.target.value)} onBlur={handleBlur}>
                                             <option value="">Selecione Departemento</option>
                                             {listDepartment ? listDepartment.map((department) => {
-                                                return data.department_id === department.name ?
+                                                return data.department_id === department.id ?
                                                 <option key={department.id} value={department.id} selected>{department.name}</option>
                                                 :<option key={department.id} value={department.id} >{department.name}</option>
                                             })
@@ -249,7 +249,7 @@ const EditEmployee = ({ inputs, title }) => {
                                                     onChange={e => setFieldValue("position_id", e.target.value)} onBlur={handleBlur}>
                                             <option value="">Selecione Cargo</option>
                                             {listPosition ? listPosition.map((position) => {
-                                                return (data.position_id === position.name ? 
+                                                return (data.position_id === position.id ? 
                                                     <option key={position.id} value={position.id} selected>{position.name}</option>
                                                     :<option key={position.id} value={position.id} >{position.name}</option>)
                                             })

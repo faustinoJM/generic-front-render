@@ -1,6 +1,6 @@
 import "./datatableOutputPayroll.scss";
 import { DataGrid,} from '@mui/x-data-grid';
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useCallback, useEffect, useRef, useState } from "react";
 import api from "../../services/api";
 import { useReactToPrint } from "react-to-print";
@@ -19,18 +19,18 @@ const payrollDate = formatDate.format(new Date())
 
 const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, outputColumnVisible, year2, month2, setMonth2, setYear2 }) => {
     const workbook = new exceljs.Workbook();
-    const [maumau, setmaumau] = useState([])
     const [data2, setData2] = useState(userRows);
     const [columnVisible, setColumnVisible] = useState(outputColumnVisible);
-    const [columnsVisible, setColumnsVisible] = useState(payrollColumns);
     const [year, setYear] = useState(0);
     const [month, setMonth] = useState("");
     const componentRef = useRef();
     const [single, setSingle] = useState({});
     const [yearOptions, setYearOptions] = useState([])
-    const [data3, setData3] = useState([])
     const [excelPayroll, setExcelPayroll] = useState([])
     const [loading, setLoading] = useState(true)
+    const params = useParams()
+
+    console.log("187",params.payrollId)
     
     useEffect(() => {
         // console.log("2", settings)
@@ -69,6 +69,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             // console.log(yearsArray)
             setYearOptions(yearsArray)
             setData2(response.data)
+
             // console.log(response.data)
             
             // if (response.data)
@@ -76,7 +77,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             // console.log(month)
         }
             fetchData()
-        }, [year, month])
+        }, [])
 
     useEffect(() => {
         async function fetchData() {
@@ -104,7 +105,17 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
           setUserRows(() => userRows.filter(row => (row.year === year2) && (row.month === month2)))
           setYear(year2)
           setMonth(month2)
+
+          if (params.payrollId) {
+            const year = params.payrollId.split("-")[1]
+            const monht = params.payrollId.split("-")[0]
+            setUserRows(() => data2.filter(row => (row.year === +year) && (row.month === month)))
+
+            setYear(+year)
+            setMonth(monht)
+          }
           }, [year2, month2])
+          
 
     const submitByYear = async (e) => {
         setYear(e)
@@ -288,7 +299,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
         
       }
 
-    const exportFile = useCallback(async () => {
+    const exportExcelFile = useCallback(async () => {
         const workSheetName = 'Worksheet-1';
         const workBookName = 'Elint-Systems-Payroll';
         try {
@@ -457,7 +468,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             {/* {console.log("encima")} */}
             {listName}
             <div className="datatableTitle">
-                <div className="link" onClick={exportFile}>
+                <div className="link" onClick={exportExcelFile}>
                     Exportar Excel
                 </div>
                 <div className="anoMes">
@@ -504,6 +515,8 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             <div  style={{ height: 540, width: '100%' }}>
             <DataGrid
             sx={{
+              fontFamily:"Plus Jakarta Sans, sans-serif", color:'black',
+
                 "& .MuiDataGrid-main": {
                     // remove overflow hidden overwise sticky does not work
                     overflow: "unset"
@@ -588,7 +601,7 @@ const columnsExcel = [
     {header: "Mes", key: "month", width: 25},
     {header: "Ano", key: "year", width: 25},
     // {header: "NIB", key: "nib", width: 25, type: "text"},
-    {header: "Num. Seg. INSS", key: "social_security", width: 25},
+    // {header: "Num. Seg. INSS", key: "social_security", width: 25},
     {header: "Salario Base", key: "salary_base", width: 25},
     {header: "Subsidio", key: "subsidy", width: 25},
     {header: "Salario Bruto", key: "total_income", width: 25},

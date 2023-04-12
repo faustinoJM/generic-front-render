@@ -163,7 +163,8 @@ const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows 
                 "& .MuiDataGrid-main": {
                     overflow: "unset"
                   },
-                                               
+                          
+                fontFamily:"Plus Jakarta Sans, sans-serif", color:'black'
              }}
                  columnBuffer={columns.length}
                 rows={userRows}

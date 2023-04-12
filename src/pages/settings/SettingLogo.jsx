@@ -72,16 +72,16 @@ const SettingLogo = () => {
                                 defaultValue={setting.company_name} onChange={handleChange} onBlur={handleBlur}/>
                         </div>
                         <div className="upload">
-                            <div>
+                            <div className="labelIcon">
                                 <label htmlFor="file">Logo da Empresa: <DriveFolderUploadOutlinedIcon className="icon" /></label>
                                 <input   type="file" id="file" style={{ display: 'none' }}/>
                             </div> 
                             <div className="imgDiv">
-                            <img 
-                                src={
-                                file ? URL.createObjectURL(file) : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                                } 
-                                alt="" />
+                                <img 
+                                    src={
+                                    file ? URL.createObjectURL(file) : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                                    } 
+                                    alt="" />
                             </div>
                             
                         </div>

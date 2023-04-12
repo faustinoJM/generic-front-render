@@ -21,17 +21,8 @@ const ListPayrolls = ({ listName, listPath }) => {
             const response = await api.get(`${listPath}`)
              console.log(listPath)
              console.log(response.data)
-             console.log(response.data.data)
 
-            //  response.data.map((data) => {
-            //     data.salary_base = formatSalary().format(data.salary_base)
-            //     data.bonus = formatSalary().format(data.bonus)
-            //     data.cash_advances = formatSalary().format(data.cash_advances)
-            // })
             setUserRows(response.data)
-
-    
-
         }
         fetchData()
       
