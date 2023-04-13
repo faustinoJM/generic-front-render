@@ -108,7 +108,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
 
           if (params.payrollId) {
             const year = params.payrollId.split("-")[1]
-            const monht = params.payrollId.split("-")[0]
+            const month = params.payrollId.split("-")[0]
             let filteredRows = data2.filter(row => (row.year === +year) && (row.month === month))
             let totalLiquid = 0
                 let totalBase = 0
@@ -118,6 +118,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 let totalInssCompany = 0
                 let totalInssEmployee = 0
                 let totalLength = 0
+                let total_cash_advances = 0
+                let total_subsidy = 0
+                let total_bonus = 0
+                let total_backpay = 0
+                let total_total_absences = 0
+                let total_total_overtime = 0
     
                 totalLength = filteredRows.map((data, index) => {
                     totalLiquid += (+data.salary_liquid)
@@ -127,6 +133,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                     totalInss += (+data.inss_company) + (+data.inss_employee)
                     totalInssCompany += (+data.inss_company)
                     totalInssEmployee += (+data.inss_employee)
+                    total_cash_advances += (+data.cash_advances)
+                    total_subsidy += (+data.subsidy)
+                    total_bonus += (+data.bonus)
+                    total_backpay += (+data.backpay)
+                    total_total_absences += (+data.total_absences)
+                    total_total_overtime += (+data.total_overtime)
                     // console.log(data.created_at.getTime() > (new Date()).getTime()
                  })
     
@@ -138,12 +150,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                   departament_name: "", 
                   position_name: "", 
                   salary_base: formatSalary().format(totalBase), 
-                  subsidy: "", 
-                  bonus: "", 
-                  total_overtime: "", 
-                  total_absences: "", 
-                  cash_advances: "", 
-                  backpay: "", 
+                  subsidy: formatSalary().format(total_subsidy), 
+                  bonus: formatSalary().format(total_bonus), 
+                  total_overtime: formatSalary().format(total_total_absences), 
+                  total_absences: formatSalary().format(total_total_overtime), 
+                  cash_advances: formatSalary().format(total_cash_advances), 
+                  backpay: formatSalary().format(total_backpay), 
                   total_income: formatSalary().format(totalGross), 
                   irps: formatSalary().format(totalIrps), 
                   inss_employee: formatSalary().format(totalInssEmployee), 
@@ -174,7 +186,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             setUserRows(filteredRows.concat(totalRow))
     
             setYear(+year)
-            setMonth(monht)
+            setMonth(month)
           }
           }, [year2, month2])
           
@@ -192,6 +204,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             let totalInssCompany = 0
             let totalInssEmployee = 0
             let totalLength = 0
+            let total_cash_advances = 0
+            let total_subsidy = 0
+            let total_bonus = 0
+            let total_backpay = 0
+            let total_total_absences = 0
+            let total_total_overtime = 0
 
             totalLength = filteredRows.map((data, index) => {
                 totalLiquid += (+data.salary_liquid)
@@ -201,6 +219,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 totalInss += (+data.inss_company) + (+data.inss_employee)
                 totalInssCompany += (+data.inss_company)
                 totalInssEmployee += (+data.inss_employee)
+                total_cash_advances += (+data.cash_advances)
+                total_subsidy += (+data.subsidy)
+                total_bonus += (+data.bonus)
+                total_backpay += (+data.backpay)
+                total_total_absences += (+data.total_absences)
+                total_total_overtime += (+data.total_overtime)
                 // console.log(data.created_at.getTime() > (new Date()).getTime()
              })
 
@@ -212,12 +236,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               departament_name: "", 
               position_name: "", 
               salary_base: formatSalary().format(totalBase), 
-              subsidy: "", 
-              bonus: "", 
-              total_overtime: "", 
-              total_absences: "", 
-              cash_advances: "", 
-              backpay: "", 
+              subsidy: formatSalary().format(total_subsidy), 
+              bonus: formatSalary().format(total_bonus), 
+              total_overtime: formatSalary().format(total_total_absences), 
+              total_absences: formatSalary().format(total_total_overtime), 
+              cash_advances: formatSalary().format(total_cash_advances), 
+              backpay: formatSalary().format(total_backpay), 
               total_income: formatSalary().format(totalGross), 
               irps: formatSalary().format(totalIrps), 
               inss_employee: formatSalary().format(totalInssEmployee), 
@@ -268,6 +292,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             let totalInssCompany = 0
             let totalInssEmployee = 0
             let totalLength = 0
+            let total_cash_advances = 0
+            let total_subsidy = 0
+            let total_bonus = 0
+            let total_backpay = 0
+            let total_total_absences = 0
+            let total_total_overtime = 0
 
             totalLength = filteredRows.map((data, index) => {
                 totalLiquid += (+data.salary_liquid)
@@ -277,6 +307,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 totalInss += (+data.inss_company) + (+data.inss_employee)
                 totalInssCompany += (+data.inss_company)
                 totalInssEmployee += (+data.inss_employee)
+                total_cash_advances += (+data.cash_advances)
+                total_subsidy += (+data.subsidy)
+                total_bonus += (+data.bonus)
+                total_backpay += (+data.backpay)
+                total_total_absences += (+data.total_absences)
+                total_total_overtime += (+data.total_overtime)
              })
 
              const totalRow = [
@@ -287,18 +323,23 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               departament_name: "", 
               position_name: "", 
               salary_base: formatSalary().format(totalBase), 
-              subsidy: "", 
-              bonus: "", 
-              total_overtime: "", 
-              total_absences: "", 
-              cash_advances: "", 
-              backpay: "", 
+              subsidy: formatSalary().format(total_subsidy), 
+              bonus: formatSalary().format(total_bonus), 
+              total_overtime: formatSalary().format(total_total_absences), 
+              total_absences: formatSalary().format(total_total_overtime), 
+              cash_advances: formatSalary().format(total_cash_advances), 
+              backpay: formatSalary().format(total_backpay), 
               total_income: formatSalary().format(totalGross), 
               irps: formatSalary().format(totalIrps), 
               inss_employee: formatSalary().format(totalInssEmployee), 
               salary_liquid: formatSalary().format(totalLiquid), 
               inss_company: formatSalary().format(totalInssCompany), 
               total_inss: formatSalary().format(totalInss), 
+              // total_subsidy
+
+
+
+
             }
       ]
 
@@ -398,6 +439,10 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             let total_cash_advances = 0
             let total_subsidy = 0
             let irps = 0
+            let total_bonus = 0
+            let total_backpay = 0
+            let total_total_absences = 0
+            let total_total_overtime = 0
 
             excelPayroll.map(data => {
                 salary_liquid = salary_liquid + data.salary_liquid
@@ -409,6 +454,10 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 total_inss = total_inss + data.total_inss
                 total_cash_advances = total_cash_advances + data.cash_advances
                 total_subsidy = total_subsidy + data.subsidy
+                total_bonus +=  data.bonus
+                total_backpay += data.backpay
+                total_total_absences += data.total_absences
+                total_total_overtime += data.total_overtime
 
                 data.salary_base = formatSalary().format(data.salary_base)
                 data.salary_liquid = formatSalary().format(data.salary_liquid)
@@ -450,13 +499,18 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             social_security: "",
             overtime50: "", 
             overtime100: "", 
-            total_overtime: "", 
+            total_overtime: formatSalary().format(total_total_overtime), 
             absences: "", 
-            total_absences: "", 
+            total_absences: formatSalary().format(total_total_absences), 
             cash_advances: formatSalary().format(total_cash_advances), 
             subsidy: formatSalary().format(total_subsidy), 
             bonus: "", 
-            backpay: "", 
+            backpay: formatSalary().format(total_backpay), 
+
+            total_bonus
+
+
+
         });
        
           // loop through all of the rows and set the outline style.

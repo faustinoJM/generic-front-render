@@ -102,6 +102,12 @@ const ListOutputPayroll = ({ listName, listPath }) => {
             let totalInssCompany = 0
             let totalInssEmployee = 0
             let totalLength = 0
+            let total_cash_advances = 0
+            let total_subsidy = 0
+            let total_bonus = 0
+            let total_backpay = 0
+            let total_total_absences = 0
+            let total_total_overtime = 0
             let monthGreater = 0
             let yearGreater = 0
             let dateAux = new Date("2000/12/31")
@@ -114,6 +120,12 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                 totalInss += (+data.inss_company) + (+data.inss_employee)
                 totalInssCompany += (+data.inss_company)
                 totalInssEmployee += (+data.inss_employee)
+                total_cash_advances += (+data.cash_advances)
+                total_subsidy += (+data.subsidy)
+                total_bonus += (+data.bonus)
+                total_backpay += (+data.backpay)
+                total_total_absences += (+data.total_absences)
+                total_total_overtime += (+data.total_overtime)
                 
                 if (dateAux.getTime() < new Date(data.created_at).getTime()) {
                     monthGreater = data.month
@@ -151,20 +163,20 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                 departament_name: "", 
                 position_name: "", 
                 salary_base: formatSalary().format(totalBase), 
-                subsidy: "", 
-                bonus: "", 
-                total_overtime: "", 
-                total_absences: "", 
-                cash_advances: "", 
-                backpay: "", 
+                subsidy: formatSalary().format(total_subsidy), 
+                bonus: formatSalary().format(total_bonus), 
+                total_overtime: formatSalary().format(total_total_absences), 
+                total_absences: formatSalary().format(total_total_overtime), 
+                cash_advances: formatSalary().format(total_cash_advances), 
+                backpay: formatSalary().format(total_backpay), 
                 total_income: formatSalary().format(totalGross), 
                 irps: formatSalary().format(totalIrps), 
                 inss_employee: formatSalary().format(totalInssEmployee), 
                 salary_liquid: formatSalary().format(totalLiquid), 
                 inss_company: formatSalary().format(totalInssCompany), 
                 total_inss: formatSalary().format(totalInss), 
-            }
-        ]
+                }
+            ]
             setUserRows(response.data.concat(totalRow))
             // console.log("1")
         }
