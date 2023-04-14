@@ -30,7 +30,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
     const [loading, setLoading] = useState(true)
     const params = useParams()
 
-    console.log("187",params.payrollId)
+    // console.log("187",params.payrollId)
     
     useEffect(() => {
         // console.log("2", settings)
@@ -77,7 +77,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             // console.log(month)
         }
             fetchData()
-        }, [])
+        }, [year, month, userRows])
 
     useEffect(() => {
         async function fetchData() {
@@ -100,95 +100,103 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
 
         }, [userRows])
 
-        useEffect(() => {
-          // setLoading(true)
-          setUserRows(() => userRows.filter(row => (row.year === year2) && (row.month === month2)))
-          setYear(year2)
-          setMonth(month2)
+    useEffect(() => {
+      setLoading(true)
+      // console.log(userRows.filter(row => (row.year === year2) && (row.month === month2)))
+      // setUserRows(() => userRows.filter(row => (row.year === year2) && (row.month === month2)))
+      // setYear(year2)
+      // setMonth(month2)
 
-          if (params.payrollId) {
-            const year = params.payrollId.split("-")[1]
-            const month = params.payrollId.split("-")[0]
-            let filteredRows = data2.filter(row => (row.year === +year) && (row.month === month))
-            let totalLiquid = 0
-                let totalBase = 0
-                let totalIrps = 0
-                let totalGross = 0
-                let totalInss = 0
-                let totalInssCompany = 0
-                let totalInssEmployee = 0
-                let totalLength = 0
-                let total_cash_advances = 0
-                let total_subsidy = 0
-                let total_bonus = 0
-                let total_backpay = 0
-                let total_total_absences = 0
-                let total_total_overtime = 0
-    
-                totalLength = filteredRows.map((data, index) => {
-                    totalLiquid += (+data.salary_liquid)
-                    totalBase += (+data.salary_base)
-                    totalGross += (+data.total_income)
-                    totalIrps += (+data.irps)
-                    totalInss += (+data.inss_company) + (+data.inss_employee)
-                    totalInssCompany += (+data.inss_company)
-                    totalInssEmployee += (+data.inss_employee)
-                    total_cash_advances += (+data.cash_advances)
-                    total_subsidy += (+data.subsidy)
-                    total_bonus += (+data.bonus)
-                    total_backpay += (+data.backpay)
-                    total_total_absences += (+data.total_absences)
-                    total_total_overtime += (+data.total_overtime)
-                    // console.log(data.created_at.getTime() > (new Date()).getTime()
-                 })
-    
-                 const totalRow = [
-                  {
-                  id: "totalId",
-                  employee_id: totalLength.length + 1,
-                  employee_name: "Total",
-                  departament_name: "", 
-                  position_name: "", 
-                  salary_base: formatSalary().format(totalBase), 
-                  subsidy: formatSalary().format(total_subsidy), 
-                  bonus: formatSalary().format(total_bonus), 
-                  total_overtime: formatSalary().format(total_total_absences), 
-                  total_absences: formatSalary().format(total_total_overtime), 
-                  cash_advances: formatSalary().format(total_cash_advances), 
-                  backpay: formatSalary().format(total_backpay), 
-                  total_income: formatSalary().format(totalGross), 
-                  irps: formatSalary().format(totalIrps), 
-                  inss_employee: formatSalary().format(totalInssEmployee), 
-                  salary_liquid: formatSalary().format(totalLiquid), 
-                  inss_company: formatSalary().format(totalInssCompany), 
-                  total_inss: formatSalary().format(totalInss), 
-              }
-          ]
-    
-            // setExcelPayroll(ddd)
-            filteredRows.map((data, index) => {
-                data.employee_id = index + 1
-                data.salary_base = formatSalary().format(data.salary_base)
-                data.salary_liquid = formatSalary().format(data.salary_liquid)
-                data.total_income = formatSalary().format(data.total_income)
-                data.irps = formatSalary().format(data.irps)
-                data.inss_employee = formatSalary().format(data.inss_employee)
-                data.subsidy = formatSalary().format(data.subsidy)
-                data.bonus = formatSalary().format(data.bonus)
-                data.cash_advances = formatSalary().format(data.cash_advances)
-                data.backpay = formatSalary().format(data.backpay)
-                data.total_absences = formatSalary().format(data.total_absences)
-                data.total_overtime = formatSalary().format(data.total_overtime)
-                data.inss_company = formatSalary().format(data.inss_company)
-                data.total_inss = formatSalary().format(data.total_inss)
-            })
-            // console.log(data3.filter(row => (row.year === "2023")))
-            setUserRows(filteredRows.concat(totalRow))
-    
-            setYear(+year)
-            setMonth(month)
+      if (params.payrollId || year2 && month2) {
+        const year = params.payrollId ? params.payrollId.split("-")[1] : ""
+        const month = params.payrollId ? params.payrollId.split("-")[0] : ""
+        let filteredRows;
+        params.payrollId ? filteredRows= data2.filter(row => (row.year === +year) && (row.month === month)) 
+        : filteredRows = data2.filter(row => (row.year === year2) && (row.month === month2))
+        let totalLiquid = 0
+            let totalBase = 0
+            let totalIrps = 0
+            let totalGross = 0
+            let totalInss = 0
+            let totalInssCompany = 0
+            let totalInssEmployee = 0
+            let totalLength = 0
+            let total_cash_advances = 0
+            let total_subsidy = 0
+            let total_bonus = 0
+            let total_backpay = 0
+            let total_total_absences = 0
+            let total_total_overtime = 0
+
+            totalLength = filteredRows.map((data, index) => {
+                totalLiquid += (+data.salary_liquid)
+                totalBase += (+data.salary_base)
+                totalGross += (+data.total_income)
+                totalIrps += (+data.irps)
+                totalInss += (+data.inss_company) + (+data.inss_employee)
+                totalInssCompany += (+data.inss_company)
+                totalInssEmployee += (+data.inss_employee)
+                total_cash_advances += (+data.cash_advances)
+                total_subsidy += (+data.subsidy)
+                total_bonus += (+data.bonus)
+                total_backpay += (+data.backpay)
+                total_total_absences += (+data.total_absences)
+                total_total_overtime += (+data.total_overtime)
+                // console.log(data.created_at.getTime() > (new Date()).getTime()
+              })
+
+              const totalRow = [
+              {
+              id: "totalId",
+              employee_id: totalLength.length + 1,
+              employee_name: "Total",
+              departament_name: "", 
+              position_name: "", 
+              salary_base: formatSalary().format(totalBase), 
+              subsidy: formatSalary().format(total_subsidy), 
+              bonus: formatSalary().format(total_bonus), 
+              total_overtime: formatSalary().format(total_total_absences), 
+              total_absences: formatSalary().format(total_total_overtime), 
+              cash_advances: formatSalary().format(total_cash_advances), 
+              backpay: formatSalary().format(total_backpay), 
+              total_income: formatSalary().format(totalGross), 
+              irps: formatSalary().format(totalIrps), 
+              inss_employee: formatSalary().format(totalInssEmployee), 
+              salary_liquid: formatSalary().format(totalLiquid), 
+              inss_company: formatSalary().format(totalInssCompany), 
+              total_inss: formatSalary().format(totalInss), 
           }
-          }, [year2, month2])
+      ]
+
+        // setExcelPayroll(ddd)
+        filteredRows.map((data, index) => {
+            data.employee_id = index + 1
+            data.salary_base = formatSalary().format(data.salary_base)
+            data.salary_liquid = formatSalary().format(data.salary_liquid)
+            data.total_income = formatSalary().format(data.total_income)
+            data.irps = formatSalary().format(data.irps)
+            data.inss_employee = formatSalary().format(data.inss_employee)
+            data.subsidy = formatSalary().format(data.subsidy)
+            data.bonus = formatSalary().format(data.bonus)
+            data.cash_advances = formatSalary().format(data.cash_advances)
+            data.backpay = formatSalary().format(data.backpay)
+            data.total_absences = formatSalary().format(data.total_absences)
+            data.total_overtime = formatSalary().format(data.total_overtime)
+            data.inss_company = formatSalary().format(data.inss_company)
+            data.total_inss = formatSalary().format(data.total_inss)
+        })
+        // console.log(data3.filter(row => (row.year === "2023")))
+        setUserRows(filteredRows.concat(totalRow))
+        if (params.payrollId) {
+          setYear(+year)
+          setMonth(month)
+        } else {
+        setYear(year2)
+        setMonth(month2)
+        }
+        
+      }
+      }, [year2, month2])
           
 
     const submitByYear = async (e) => {

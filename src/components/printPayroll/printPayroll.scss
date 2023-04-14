@@ -1,0 +1,94 @@
+div{
+    .container {
+        display: flex;
+        flex-direction: column;
+        // border: 1px solid red;
+
+        padding: 20px;
+    
+        .nameAdress{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .employeeData {
+            display: flex;
+            flex-direction: column;
+
+            .idRecibo{
+                display: flex;
+                justify-content: space-between;
+                                
+                .id{
+                    align-self: end;
+                    // margin-top: 25px;
+                    margin-right: 10px;
+
+                    span {
+                        margin-right: 5px;
+                    }
+                }
+                .recibo {
+                    display: flex;
+                    flex-direction: column;
+
+                    .title {
+                        text-align: center;
+                        font-size: 24px;
+                    }
+
+                    .mes{
+                        display: flex;
+                        flex-direction: row;
+
+                        span{
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+              }
+
+            .tableEmployeeData {
+                th {
+                    width: 150px; 
+                    background:	silver;
+                }
+                td {
+                    width: 200px; 
+                    text-align: center;
+                }
+            }
+        }
+
+        .employePayment {
+            
+              th{
+                width: 200px;
+              }td{
+                width: 200px;
+                text-align: center;
+              }
+
+        }
+
+        .footer{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+
+            // div {
+            //     .linha{
+            //         width: 40px;
+            //         border-bottom: 1px solid #000;
+            //     }
+            // }
+        }
+       
+    }
+}
