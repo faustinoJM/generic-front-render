@@ -73,7 +73,7 @@ const Login = () => {
               </div></Link>
             <Form className="formContainer" ref={formRef} onSubmit={handleSubmit} >
                 <div className="formInput">
-                    <Input type="text" name="email" label="Email" loginError={loginError} />
+                    <Input type="text" name="email" label="Usuario" loginError={loginError} />
                 </div>
                 <div className="formInput">
                     <Input type="password" name="password" label="Senha" loginError={loginError} />
