@@ -3,6 +3,9 @@
     padding: 20px;
     font-size: 24px;
     color: gray;
+    // border: 1px solid green;
+
+    
 
     .link {
         text-decoration: none;
@@ -16,6 +19,7 @@
         cursor: pointer;
         transition: opacity 0.1s;
         touch-action: manipulation;
+        background-color: black;
 
         &:hover {
             background-color: rgb(7, 161, 7);
@@ -37,6 +41,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        // border: 1px solid red;
 
         .anoMes {
             display: flex;

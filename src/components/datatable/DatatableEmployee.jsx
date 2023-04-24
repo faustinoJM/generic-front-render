@@ -8,39 +8,44 @@ import { read, utils, writeFileXLSX } from 'xlsx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import {useQuery} from 'react-query'
 
+const keyToPropMap = {
+    "Nome": "name",
+    "Dependentes": "dependents",
+    "Salario Base": "salary",
+    "Cargo": "position_id",
+    "Departamento": "department_id",
+    "Data de Nascimento": "birth_date",
+    "Naturalidade": "place_birth",
+    "Nacionalidade": "nationality",
+    "Numero de BI": "bi",
+    "Estado Civil": "marital_status",
+    "Sexo": "gender",
+    "Residencia": "address",
+    "Contacto1": "contact",
+    "Contacto2": "contact2",
+    "Email": "email",
+    "NUIT": "nuit",
+    "Subsidio": "subsidy",
+    "Data de Inicio": "start_date",
+    "Estado do Funcionario": "employee_status",
+    "Nome do Banco": "bank_name",
+    "Numero da Conta": "bank_account",
+    "NIB": "nib",
+    "Numero de Seg. Social": "social_security"
+  };
 
-const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows }) => {
+const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading}) => {
   const [excelFile, setExcelFile] = useState([]);
   const [excelError, setExcellError] = useState("")
-  const [loading, setLoading] = useState(false)
+//   const [loading, setLoading] = useState(false)
+//   const {data, error, isError, isLoading } = useQuery('payrollsOutput', fetchPrintData)
+    
 
-
-  const keyToPropMap = {
-  "Nome": "name",
-  "Dependentes": "dependents",
-  "Salario Base": "salary",
-  "Cargo": "position_id",
-  "Departamento": "department_id",
-  "Data de Nascimento": "birth_date",
-  "Naturalidade": "place_birth",
-  "Nacionalidade": "nationality",
-  "Numero de BI": "bi",
-  "Estado Civil": "marital_status",
-  "Sexo": "gender",
-  "Residencia": "address",
-  "Contacto1": "contact",
-  "Contacto2": "contact2",
-  "Email": "email",
-  "NUIT": "nuit",
-  "Subsidio": "subsidy",
-  "Data de Inicio": "start_date",
-  "Estado do Funcionario": "employee_status",
-  "Nome do Banco": "bank_name",
-  "Numero da Conta": "bank_account",
-  "NIB": "nib",
-  "Numero de Seg. Social": "social_security"
-};
+  useEffect(() => {
+    
+  }, [loading])
 
   useEffect(() => { 
     if (excelFile) {
@@ -58,10 +63,13 @@ const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows 
                 if (response.status === 201){
                     //timer setUserRows
                     console.log("maumau")
-                    setTimeout(() => {
-                        api.get("employees").then((response) => setUserRows(response.data))
-                        setLoading(false)
-                    }, 5000);
+                   
+                    api.get("employees").then((response) => {
+                        setUserRows(response.data)
+                        if (response.status === 200)
+                            setLoading(false)
+                        })
+                        
                     
                 }
             })

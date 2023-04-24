@@ -4,10 +4,11 @@ import { Link, useParams } from "react-router-dom"
 import { useCallback, useEffect, useRef, useState } from "react";
 import api from "../../services/api";
 import { useReactToPrint } from "react-to-print";
-import PrintPayslip from "../printPayslip/PrintPayslip";
+import PrintPayslip, { printPayslipBucket } from "../printPayslip/PrintPayslip";
 import exceljs from 'exceljs';
 import { saveAs } from 'file-saver';
 import PrintIcon from '@mui/icons-material/Print';
+import {useQuery} from 'react-query'
 
 const formatSalary = () => {
     return new Intl.NumberFormat("en-US",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -17,23 +18,30 @@ const formatDate = new Intl.DateTimeFormat("pt-br", { dateStyle: 'short'})
 
 const payrollDate = formatDate.format(new Date())
 
-const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, outputColumnVisible, year2, month2, setMonth2, setYear2 }) => {
+async function fetchPrintData(){
+  const {data} = await api.get("payrolls")
+  return data
+}
+
+const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, outputColumnVisible, year2, month2, setMonth2, setYear2, loading, setLoading }) => {
     const workbook = new exceljs.Workbook();
     const [data2, setData2] = useState(userRows);
     const [columnVisible, setColumnVisible] = useState(outputColumnVisible);
     const [year, setYear] = useState(0);
     const [month, setMonth] = useState("");
     const componentRef = useRef();
-    const [single, setSingle] = useState({});
+    const [single, setSingle] = useState([]);
     const [yearOptions, setYearOptions] = useState([])
     const [excelPayroll, setExcelPayroll] = useState([])
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(true)
     const params = useParams()
 
-    // console.log("187",params.payrollId)
+    const {data, error, isError, isLoading } = useQuery('payrollsOutput', fetchPrintData)
+
+
     
     useEffect(() => {
-        // console.log("2", settings)
+      console.log("45",outputColumnVisible)
          if((Object.keys(settings).length) > 0)
           setColumnVisible(outputColumnVisible)
        
@@ -58,23 +66,15 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             let years = 0;
             const yearsArray = []
             const response = await api.get("payrolls")
-            // console.log("128", response.data)
-            // setmaumau(response.data)
 
             response.data.map(data => {
                 if (years !== +(data.year))
                     yearsArray.push(data.year)
                 years = +(data.year)
             })
-            // console.log(yearsArray)
             setYearOptions(yearsArray)
             setData2(response.data)
 
-            // console.log(response.data)
-            
-            // if (response.data)
-            // console.log(year)
-            // console.log(month)
         }
             fetchData()
         }, [year, month, userRows])
@@ -88,17 +88,17 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             fetchData()
         }, [single])
 
-    useEffect(() => {
-        // setLoading(true)
-          if (userRows.length > 0)
-            setLoading(false)
-          if (userRows.length <= 0)
-          setTimeout(() => {
-            setLoading(false)
-          }, 5000)
+    // useEffect(() => {
+    //     // setLoading(true)
+    //       if (userRows.length > 0)
+    //         setLoading(false)
+    //       if (userRows.length <= 0)
+    //       setTimeout(() => {
+    //         setLoading(false)
+    //       }, 5000)
           
 
-        }, [userRows])
+    //     }, [userRows])
 
     useEffect(() => {
       setLoading(true)
@@ -403,9 +403,11 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
         // onAfterPrint: () => alert('Print sucess')
     })
 
-      const handleSingle = (id) => {
+      const handleSinglePrint = (id) => {
         api.get(`payrolls/${id}`)
          .then(response => {setSingle(response.data)})
+        // api.get(`payrolls`)
+        //  .then(response => {printPayslipBucket(response.data)})
     
         // console.log(single)
         
@@ -578,7 +580,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 return (
                     <div className="cellAction">
                         {/* <Link to={`/${listPath}/${params.row.id}`} style={{textDecoration: "none"}}> */}
-                            <div className="printButton" onClick={() => handleSingle(params.row.id)}>
+                            <div className="printButton" onClick={() => handleSinglePrint(params.row.id)}>
                               <PrintIcon />  Imprimir
                             </div>
                         {/* </Link> */}
@@ -628,16 +630,13 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                             <option >Dezembro</option>
                         </select>
                 </div> 
-                {/* <Link to={`/${listPath}/new`} className="link">
-                    Add Nova Folha
-                </Link> */}
                 <Link to={`/${listPath}/list`} className="link">
-                   Lista de Folhas
+                  Lista de Folhas
                 </Link>
 
                 <PrintPayslip componentRef={componentRef} single={single} />
             </div>
-            <div  style={{ height: 540, width: '100%' }}>
+            <div style={{ height: 540, width: '100%' }}>
             <DataGrid
             sx={{
               fontFamily:"Plus Jakarta Sans, sans-serif", color:'black',
@@ -675,6 +674,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                     },
                     
              }}
+             
                 columnBuffer={columns.length}
                 rows={userRows}
                 columns={columns.concat(actionColumn)}
@@ -688,7 +688,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 // slots={{
                 //   loadingOverlay: LinearProgress,
                 // }}
-                loading={loading}
+                // loading={loading}
                 initialState={{
                     pinnedColumns: { left: ['id', 'name'] },
                     sorting: {
@@ -752,26 +752,6 @@ const columnsExcel = [
 
     ]
 
-    const payrollColumns = [
-        { field: 'employee_id', headerName: 'ID', width: 70, pinnable: true, headerAlign: 'center',},
-        { field: 'employee_name', headerName: 'Nome', width: 200, headerAlign: 'center',},
-        { field: "departament_name", headerName:"Departemento", width: 150,  align:'center', headerAlign: 'center', },
-        { field: "position_name", headerName:"Cargo", width: 180,  align:'center', headerAlign: 'center', },
-        { field: "salary_base", headerName: "Salario Base", width: 130, align:'center', headerAlign: 'center',},
-        { field: "subsidy",  headerName: "Subsidio", width: 130,  align:'center', headerAlign: 'center',},
-        { field: "bonus",  headerName: "Bonus", width: 130,  align:'center', headerAlign: 'center',},
-        { field: "total_overtime", headerName: "Total Horas Extras", width: 135,  align:'center', headerAlign: 'center',},
-        { field: "total_absences", headerName: "Total Desconto Faltas", width: 100, align:'center', headerAlign: 'center',},
-        { field: "cash_advances",  headerName: "Adiantamentos", width: 130,  align:'center', headerAlign: 'center',},
-        { field: "backpay",  headerName: "Retroativos", width: 130,  align:'center', headerAlign: 'center',},
-        { field: "total_income",  headerName: "Salario Bruto", width: 130,  align:'center', headerAlign: 'center',},
-        { field: "irps",  headerName: "IRPS", width: 130,  align:'center', headerAlign: 'center',},
-        { field: "inss_employee",  headerName: "INSS (3%)", width: 130, align:'center', headerAlign: 'center',},
-        { field: "salary_liquid",headerName: "Salario Liquido", width: 150, align:'center', headerAlign: 'center',},
-        { field: "inss_company",  headerName: "INSS (4%)", width: 130,  align:'center', headerAlign: 'center',},
-        { field: "total_inss",  headerName: "Total INSS", width: 130,  align:'center', headerAlign: 'center',},
-        // { field: "month",headerName: "MES", width: 50},
-        // { field: "year",headerName: "ANO", width: 70}
-    ]
+
 
 

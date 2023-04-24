@@ -1,7 +1,8 @@
 import "./datatableListPayrolls.scss";
 import { DataGrid} from '@mui/x-data-grid';
 import { Link } from "react-router-dom"
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
 import exceljs from 'exceljs';
 import { saveAs } from 'file-saver';
 import api from "../../services/api";
@@ -9,6 +10,10 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PrintIcon from '@mui/icons-material/Print';
 import DescriptionIcon from '@mui/icons-material/Description';
+import PrintPayroll from "../printPayroll/PrintPayroll";
+import { printPDF } from "../printPayroll/PrintPayroll";
+import {useQuery} from 'react-query'
+
 
 const formatSalary = () => {
     return new Intl.NumberFormat("en-US",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -18,22 +23,23 @@ const formatDate = new Intl.DateTimeFormat("pt-br", { dateStyle: 'short'})
 
 const payrollDate = formatDate.format(new Date())
 
-const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows }) => {
+async function fetchPrintData(){
+    const {data} = await api.get("payrolls")
+    return data
+}
+
+const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading }) => {
     const workbook = new exceljs.Workbook();
     const [rows, setRows] = useState([]);
-    const [excelPayroll, setExcelPayroll] = useState([])
     const [year, setYear] = useState(0);
+    const componentRef = useRef();
+    const [printPayroll, setPrintPayroll] = useState({});
+    const {data, error, isError, isLoading } = useQuery('payrolls', fetchPrintData)
 
-    useEffect(() => {
-        async function fetchData() {
-            const response = await api.get("payrolls")
-            if (response.data){
-                setExcelPayroll(response.data)
-            }
-        }
-            fetchData()
-        }, [])
-
+    const handleSinglePrint = (year, month) => {
+        let printData = data.filter(data => data.year === year && data.month === month)
+            printPDF(printData)
+      }
 
     useEffect(() => {
         async function fetchData() {
@@ -71,8 +77,8 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     
         }
             fetchData()
-        }, [])
-        
+    }, [])
+
 
     const submitByYear = async (e) => {
         setYear(e)
@@ -83,14 +89,16 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     const exportExcelFile = useCallback(async (year, month) => {
         // console.log("1z",year, month)
         // console.log("2z", excelPayroll)
-        const excelPayroll2 = excelPayroll.filter(row => (row.year === +year) && (row.month === month))
+        const response = await api.get("payrolls")
+
+        const excelPayroll2 = response.data.filter(row => (row.year === +year) && (row.month === month))
 
         const workSheetName = 'Worksheet-1';
         const workBookName = 'Elint-Systems-Payroll';
         try {
           // creating one worksheet in workbook
           const worksheet = workbook.addWorksheet(workSheetName);
-    
+
           // add worksheet columns
           // each columns contains header and its mapping key from data
           worksheet.columns = columnsExcel;
@@ -122,6 +130,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
             let inss_company = 0
             let total_inss = 0
             let total_cash_advances = 0
+            let total_syndicate_employee = 0
             let total_subsidy = 0
             let irps = 0
 
@@ -135,6 +144,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                 total_inss = total_inss + data.total_inss
                 total_cash_advances = total_cash_advances + data.cash_advances
                 total_subsidy = total_subsidy + data.subsidy
+                total_syndicate_employee += data.syndicate_employee
 
                 data.salary_base = formatSalary().format(data.salary_base)
                 data.salary_liquid = formatSalary().format(data.salary_liquid)
@@ -144,6 +154,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                 data.subsidy = formatSalary().format(data.subsidy)
                 data.bonus = formatSalary().format(data.bonus)
                 data.cash_advances = formatSalary().format(data.cash_advances)
+                data.syndicate_employee = formatSalary().format(data.syndicate_employee)
                 data.backpay = formatSalary().format(data.backpay)
                 data.total_absences = formatSalary().format(data.total_absences)
                 data.total_overtime = formatSalary().format(data.total_overtime)
@@ -152,6 +163,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                 data.nib = String(data.nib)
             })
             // loop through data and add each one to worksheet
+           
           excelPayroll2.forEach(singleData => {
             worksheet.addRow(singleData);
           });
@@ -180,6 +192,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
             absences: "", 
             total_absences: "", 
             cash_advances: formatSalary().format(total_cash_advances), 
+            syndicate_employee: formatSalary().format(total_syndicate_employee),
             subsidy: formatSalary().format(total_subsidy), 
             bonus: "", 
             backpay: "", 
@@ -231,7 +244,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
           workbook.removeWorksheet(workSheetName);
         //   setExcelPayroll([])
         }
-      }, [excelPayroll]);
+      }, []);
 
     const handleDelete = async (year, month, router) => {
         // console.log("aaa"+router)
@@ -275,7 +288,8 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                         <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month)}>
                             <DescriptionIcon className="edIcon"/> Exportar
                         </div>
-                        <div className="printButton" onClick={() => "handleSingle(params.row.id)"}>
+                        <div className="printButton" onClick={() => handleSinglePrint(params.row.year, params.row.month)}>
+                        {/* handleSinglePrint(params.row.year, params.row.month) */}
                               <PrintIcon />  Imprimir
                             </div>
                         <div className="deleteButton" onClick={() => handleDelete(params.row.year, params.row.month, listPath)}>
@@ -301,8 +315,8 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                             <option >2024</option>
                         </select>
                 */}
+                <PrintPayroll componentRef={componentRef} printData={printPayroll}/>
             </div>
-
             <DataGrid
             sx={{
                 fontFamily:"Plus Jakarta Sans, sans-serif", color:'black',
@@ -326,7 +340,9 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                 rowsPerPageOptions={[9]}
                 // checkboxSelection
                 onCellEditCommit={onCellEditCommit}
-                autoHeight      
+                autoHeight    
+                loading={loading}
+  
                 // showCellRightBorder={true}  
            
                 />
@@ -341,7 +357,7 @@ export default DatatableListInput;
 const columnsExcel = [
     // {header: "id", key: "id", width: 25},
     // {header: "employee_uid", key: "employee_uid",  width: 25},
-    {header: "Id", key: "employee_id",  width: 25},
+    // {header: "Id", key: "employee_id",  width: 25},
     {header: "Nome", key: "employee_name",  width: 25},
     // {header: "Dependentes", key: "dependents", width: 25},
     // {header: "Cargo", key: "position_name", width: 25},
@@ -371,6 +387,7 @@ const columnsExcel = [
     {header: "INSS (4%)", key: "inss_company", width: 25},
     {header: "INSS Total", key: "total_inss", width: 25},
     {header: "Adiantamento", key: "cash_advances", width: 25},
+    {header: "Sindicato", key: "syndicate_employee", width: 25},
     {header: "Salario Liquido", key: "salary_liquid", width: 25},
 
     ]

@@ -1,4 +1,4 @@
-import "./newPosition.scss"
+import "./newPayroll.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import { useEffect, useState, useRef, useCallback } from "react"
@@ -30,7 +30,7 @@ const NewPayroll = ({ inputs, title }) => {
 
         try {
         const response = await api.post('payrolls', {
-            month: values.mouth,
+            month: values.month,
             year: values.year,
             month_total_workdays: 26,
             day_total_workhours: 8,
@@ -47,7 +47,7 @@ const NewPayroll = ({ inputs, title }) => {
             navigate("/payrolls/input")
         } catch (err) {
             if (err.response.status === 400)
-                errors.mouth = "Mes ja cadastrado!"
+                errors.month = "Mes ja cadastrado!"
             // Swal.fire({
             //     icon: 'error',
             //     title: 'Mes ja Cadastrado...',
@@ -60,13 +60,13 @@ const NewPayroll = ({ inputs, title }) => {
 
      const schema = Yup.object().shape({
         year: Yup.number().positive().min(2000).required('Ano Obrigatorio'),
-        mouth: Yup.string().required("Mes obrigatorio"),
+        month: Yup.string().required("Mes obrigatorio"),
 
     })
     const { values, errors, handleChange, touched, isSubmitting, setFieldValue, handleBlur, handleSubmit} = useFormik({
         initialValues: {
-            year: "",
-            mouth: "",
+            year: 2023,
+            month: "",
         },
         validationSchema: schema,
         onSubmit 
@@ -88,12 +88,18 @@ const NewPayroll = ({ inputs, title }) => {
                             <h2>Nova Folha de Salario</h2>
                             <div className="formInput1">
                                 <label>Ano:</label>
-                                    <input className="inputClass" type="number" id="year" 
-                                            value={values.year} onChange={handleChange} onBlur={handleBlur}/>
-                                    {errors.year && touched.year && <p>{errors.year}</p>}
+                                    {/* <input className="inputClass" type="text" id="year" 
+                                            value={2023 } onChange={handleChange} onBlur={handleBlur}/>
+                                    {errors.year && touched.year && <p>{errors.year}</p>} */}
+                                    <select id="year" name="year" className="yearClass"
+                                            onChange={e => setFieldValue("year", e.target.value)} onBlur={handleBlur}>
+                                        <option value="">Selecione Ano</option>
+                                        <option>2023</option>
+                                    </select>
+                                {errors.year && touched.year && <p>{errors.year}</p>} 
                                 <label>Mes</label>
-                                    <select id="mouth" name="mouth" 
-                                            onChange={e => setFieldValue("mouth", e.target.value)} onBlur={handleBlur}>
+                                    <select id="month" name="month" className="monthClass"
+                                            onChange={e => setFieldValue("month", e.target.value)} onBlur={handleBlur}>
                                         <option value="">Selecione Mes</option>
                                         <option>Janeiro</option>
                                         <option>Fevereiro</option>
@@ -108,7 +114,7 @@ const NewPayroll = ({ inputs, title }) => {
                                         <option>Novembro</option>
                                         <option>Dezembro</option>
                                     </select>
-                                    {errors.mouth && touched.mouth && <p>{errors.mouth}</p>} 
+                                    {errors.month && touched.month && <p>{errors.month}</p>} 
                                     {errorPayroll && <p>{"O mes ja esta pago"}</p>}
                                     {console.log(errorPayroll)}
                             </div>

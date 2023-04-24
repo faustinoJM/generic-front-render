@@ -13,10 +13,16 @@ const departmentColumn = [
 
 const ListDepartment = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
         async function fetchData() {
             const response = await api.get(`${listPath}`)
              console.log(listPath)
+
+             if (response.status === 200) {
+                setLoading(false)
+            }
             setUserRows(response.data)
 
         }
@@ -29,7 +35,9 @@ const ListDepartment = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <Datatable listName={listName} listPath={listPath} columns={departmentColumn} userRows={userRows} setUserRows={setUserRows} />
+                <Datatable listName={listName} listPath={listPath} columns={departmentColumn} 
+                userRows={userRows} setUserRows={setUserRows} 
+                loading={loading} setLoading={setLoading}/>
             </div>
         </div>
     )

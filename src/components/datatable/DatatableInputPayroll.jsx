@@ -26,8 +26,9 @@ export const visible = {
     overtime100: true,
 }
 
-const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings}) => {
+const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, loading, setLoading}) => {
     const [data2, setData2] = useState(userRows);
+    // const [loading, setLoading] = useState(true)
     const [columnsVisible, setColumnsVisible] = useState(payrollInputColumns);
     const [year, setYear] = useState(0);
     const [month, setMonth] = useState("");
@@ -39,6 +40,19 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
             setColumnsVisible(columns)
         
     }, [settings])
+
+    // useEffect(() => {
+    //     // setLoading(true)
+    //         if (userRows.length > 0)
+    //         setLoading(false)
+    //         if (userRows.length <= 0)
+    //         setTimeout(() => {
+    //         setLoading(false)
+    //         }, 5000)
+            
+
+    //     }, [userRows])
+
 
   useEffect(() => {
         let monthGreater = 0
@@ -227,6 +241,7 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
                 // columnVisibilityModel={columnVisible} 
                 showCellRightBorder={true}  
                 showColumnRightBorder={true}
+                loading={loading}
                 initialState={{
                     pinnedColumns: { left: ['id', 'name'] },
                     sorting: {

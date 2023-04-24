@@ -1,4 +1,4 @@
-import "./list.scss"
+import "./listInputPayroll.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import { useEffect, useState } from "react"
@@ -41,6 +41,8 @@ export const visible = {
 const ListInputPayroll = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [settings, setSettings] = useState({});
+    const [loading, setLoading] = useState(true)
+
 
     useEffect(() => {
         async function fetchData() {
@@ -86,7 +88,7 @@ const ListInputPayroll = ({ listName, listPath }) => {
             const response = await api.get("payrolls/input")
              console.log(listPath)
              console.log(response.data)
-             console.log(response.data.data)
+            //  console.log(response.data.data)
 
              response.data.map((data) => {
                 data.salary_base = formatSalary().format(data.salary_base)
@@ -95,6 +97,9 @@ const ListInputPayroll = ({ listName, listPath }) => {
                 data.cash_advances = formatSalary().format(data.cash_advances)
                 data.backpay = formatSalary().format(data.backpay)
             })
+            if (response.status === 200) {
+                setLoading(false)
+            }
             setUserRows(response.data)
         }
         fetchData()
@@ -106,7 +111,9 @@ const ListInputPayroll = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <DatatableInputPayroll listName={listName} listPath={listPath} columns={payrollInputColumns} userRows={userRows} setUserRows={setUserRows} settings={settings}/>
+                <DatatableInputPayroll listName={listName} listPath={listPath} columns={payrollInputColumns} 
+                userRows={userRows} setUserRows={setUserRows} settings={settings}
+                loading={loading} setLoading={setLoading}/>
             </div>
         </div>
     )

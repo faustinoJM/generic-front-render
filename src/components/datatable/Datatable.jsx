@@ -10,8 +10,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
-const Datatable = ({ listName, listPath, columns, userRows, setUserRows }) => {
-  const [loading, setLoading] = useState(false)
+const Datatable = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading }) => {
+//   const [loading, setLoading] = useState(false)
 
 
     const handleDelete = async (id, router) => {

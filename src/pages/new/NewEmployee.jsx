@@ -68,7 +68,8 @@ const NewEmployee = ({ inputs, title }) => {
         email: Yup.string().required("Email Obrigatorio").email("Insira endereco Email valido"),
         nuit: Yup.number().positive("NUIT deve ser numero positivo").integer("NUIT deve ser numero inteiro").required("NUIT obrigatorio"),
         dependents: Yup.number().integer("Deve ser numero inteiro").required("Numero de Dependentes obrigatorio"),
-        vacation: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro"),
+        vacation: Yup.number().min(0, "Deve ser numero maior ou igual a zero").integer("Deve ser numero inteiro"),
+        syndicate: Yup.string().required("Sindicato Obrigatorio"),
         salary: Yup.number().positive("Deve ser numero positivo").required("Salario base obrigatorio"),
         subsidy: Yup.number().min(0, "Subsidio deve ser maior ou igual a zero"),
         department_id: Yup.string().required("Endereco Obrigatorio"),
@@ -78,7 +79,8 @@ const NewEmployee = ({ inputs, title }) => {
         bank_name: Yup.string().required("Nome do banco Obrigatorio"),
         bank_account: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro").required("Numero da conta bancaria obrigatorio"),
         nib: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro").required("Numero de NIB obrigatorio"),
-        social_security: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro").required("Numero de INSS obrigatorio") 
+        social_security: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro").required("Numero de INSS obrigatorio"),
+        inss_status: Yup.string().required("Estado INSS Obrigatorio"),
 
     })
     const { values, errors, handleChange, touched, isSubmitting, handleBlur, handleSubmit, setFieldValue} = useFormik({
@@ -96,6 +98,7 @@ const NewEmployee = ({ inputs, title }) => {
             nuit: "",
             dependents: "",
             vacation: 0,
+            syndicate: "",
             salary: 0,
             subsidy: 0,
             department_id: "",
@@ -107,6 +110,7 @@ const NewEmployee = ({ inputs, title }) => {
             bank_account: "",
             nib: "",
             social_security: "",
+            inss_status: ""
         },
         validationSchema: schema,
         onSubmit 
@@ -202,6 +206,14 @@ const NewEmployee = ({ inputs, title }) => {
                                             <input className="inputClass" type="number" id="vacation"
                                                  value={values.vacation} onChange={handleChange} onBlur={handleBlur}/>
                                                   {errors.vacation && touched.vacation && <p>{errors.vacation}</p>}
+                                        <label>Sindicato</label>
+                                        <select id="syndicate" name="syndicate" 
+                                                    onChange={e => setFieldValue("syndicate", e.target.value)} onBlur={handleBlur}>
+                                            <option value="">Selecione Sindicato</option>
+                                                <option value="true">Paga</option>
+                                                <option value="false">Nao Paga</option>
+                                        </select>
+                                        {errors.syndicate && touched.syndicate && <p>{errors.syndicate}</p>}
                                     </div>
                                     <div className="formInput3">
                                         <img 
@@ -301,7 +313,15 @@ const NewEmployee = ({ inputs, title }) => {
                                 <label>Numero de Seg. Social</label>   
                                 <input className="inputClass" type="number" id="social_security"
                                                  value={values.social_security} onChange={handleChange} onBlur={handleBlur}/>
-                                                  {errors.social_security && touched.social_security && <p>{errors.social_security}</p>}                       
+                                                  {errors.social_security && touched.social_security && <p>{errors.social_security}</p>}  
+                                <label>Estado INSS</label>
+                                    <select id="inss_status" name="inss_status" 
+                                                onChange={e => setFieldValue("inss_status", e.target.value)} onBlur={handleBlur}>
+                                        <option value="">Selecione INSS</option>
+                                            <option value="true">Paga</option>
+                                            <option value="false">Nao Paga</option>
+                                    </select>            
+                                    {errors.inss_status && touched.inss_status && <p>{errors.inss_status}</p>}
                             </div>
                         </div>
                     </div>

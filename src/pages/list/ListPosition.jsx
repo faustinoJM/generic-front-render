@@ -15,11 +15,17 @@ const positionColumns = [
 
 const ListPosition = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
         async function fetchData() {
             const response = await api.get(`${listPath}`)
             console.log(listPath)
             setUserRows(response.data)
+
+            if (response.status === 200) {
+                setLoading(false)
+            }
 
         }
         fetchData()
@@ -31,7 +37,9 @@ const ListPosition = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <Datatable listName={listName} listPath={listPath} columns={positionColumns} userRows={userRows} setUserRows={setUserRows} />
+                <Datatable listName={listName} listPath={listPath} columns={positionColumns} 
+                userRows={userRows} setUserRows={setUserRows} 
+                loading={loading} setLoading={setLoading}/>
             </div>
         </div>
     )

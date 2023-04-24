@@ -95,6 +95,11 @@
                                 color: crimson;
                                 font-size: 13px;
                             }
+
+                            select {
+                                border-radius: 10px;
+                                width: 35%;
+                            }
                         }
                         .formInput3 {
                             flex: 1;
@@ -221,6 +226,11 @@
                         p {
                             color: crimson;
                             font-size: 13px;
+                        }
+
+                        select {
+                            border-radius: 10px;
+                            width: 35%;
                         }
                 }
       

@@ -36,6 +36,8 @@ const Sidebar = (d, f) => {
     const [companyName, setCompanyName] = useState("")
 
     const {data, error, isError, isLoading } = useQuery('settings', fetchSettings)
+
+    console.log("sidebar", data)
     // console.log(data)
     // useEffect(() => {
     //     async function fetch() {
@@ -109,7 +111,7 @@ const Sidebar = (d, f) => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/payrolls/output" className="navLink" style={{textDecoration: "none"}}>
+                        <NavLink to="/payrolls/list" className="navLink" style={{textDecoration: "none"}}>
                             <PaymentOutlinedIcon className="icon" />
                             <span>Folha</span>
                         </NavLink>
@@ -140,12 +142,12 @@ const Sidebar = (d, f) => {
                         </li>
                         */}
                     <p className="title">USUARIO</p>
-                    {/* <li>
+                    <li>
                         <NavLink to="/profile" className="navLink" style={{textDecoration: "none"}}>
                             <AccountBoxOutlinedIcon className="icon" />
                             <span>Perfil</span>
                         </NavLink>
-                    </li> */}
+                    </li>
                     <li>
                         <NavLink to="/settings" className="navLink" style={{textDecoration: "none"}}>
                             <SettingsApplicationsIcon className="icon" />

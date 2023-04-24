@@ -64,7 +64,8 @@ const SettingPayroll = () => {
             cash_advances: setting.cash_advances,
             bonus: setting.bonus,
             subsidy: setting.subsidy,
-            backpay: setting.backpay  
+            backpay: setting.backpay,
+            syndicate_status: setting.syndicate_status
         },
         // validationSchema: schema,
         enableReinitialize: true,
@@ -171,6 +172,18 @@ const SettingPayroll = () => {
                                     <option value="true">Activo</option> 
                                     }
                                      {setting.backpay === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label>Sindicato</label>
+                                <select id="syndicate_status" name="syndicate_status"
+                                        onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
+                                    {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
                                     <option value="false">Inactivo</option> 
                                     }
                                 </select>

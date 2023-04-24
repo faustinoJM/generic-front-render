@@ -34,13 +34,14 @@ const formatDate = new Intl.DateTimeFormat("pt-br", { dateStyle: 'short'})
 
 const ListEmployee = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
+    const [loading, setLoading] = useState(true)
  
     useEffect(() => {
         async function fetchData() {
             const response = await api.get(listPath)
              console.log(listPath)
              console.log(response.data)
-             console.log(response.data.data)
+            //  console.log(response.data.data)
 
             response.data.map(user => {
                 user.salary = formatSalary.format(user.salary)
@@ -53,6 +54,9 @@ const ListEmployee = ({ listName, listPath }) => {
                 // console.log(user.birth_date)
 
             })
+            if (response.status === 200) {
+                setLoading(false)
+            }
             setUserRows(response.data)
 
     
@@ -67,7 +71,9 @@ const ListEmployee = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <DatatableEmployee listName={listName} listPath={listPath} columns={employeeColumns} userRows={userRows} setUserRows={setUserRows}/>
+                <DatatableEmployee listName={listName} listPath={listPath} 
+                columns={employeeColumns} userRows={userRows} setUserRows={setUserRows}
+                loading={loading} setLoading={setLoading}/>
             </div>
         </div>
     )

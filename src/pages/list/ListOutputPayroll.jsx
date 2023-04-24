@@ -20,6 +20,7 @@ const payrollColumns = [
     { field: "total_income",  headerName: "Salario Bruto", width: 130,  align:'center', headerAlign: 'center',},
     { field: "irps",  headerName: "IRPS", width: 130,  align:'center', headerAlign: 'center',},
     { field: "inss_employee",  headerName: "INSS (3%)", width: 130, align:'center', headerAlign: 'center',},
+    { field: "syndicate_employee",  headerName: "Sindicato", width: 130, align:'center', headerAlign: 'center',},
     { field: "salary_liquid",headerName: "Salario Liquido", width: 150, align:'center', headerAlign: 'center',},
     { field: "inss_company",  headerName: "INSS (4%)", width: 130,  align:'center', headerAlign: 'center',},
     { field: "total_inss",  headerName: "Total INSS", width: 130,  align:'center', headerAlign: 'center',},
@@ -34,7 +35,8 @@ export const outputColumnVisible= {
     cash_advances: true,
     bonus: true,
     subsidy: true,
-    backpay: true
+    backpay: true,
+    syndicate_employee: true,
   };
   
 const ListOutputPayroll = ({ listName, listPath }) => {
@@ -42,44 +44,22 @@ const ListOutputPayroll = ({ listName, listPath }) => {
     const [settings, setSettings] = useState({});
     const [month2, setMonth2] = useState()
     const [year2, setYear2] = useState()
+    const [loading, setLoading] = useState(true)
+
 
     useEffect(() => {
         async function fetchData() {
             const response = await api.get("settings")
             if (response.data) {
-                // response.data.absences === "true" ? visible.absences = true : visible.absences = false
-                // response.data.overtime === "true" ? visible.bonus = true : visible.overtime50 = false
-                // response.data.overtime === "true" ? visible.overtime100 = true : visible.overtime100 = false
-    
-                // payrollColumns.map(data => {
-                //     // if (data.field === "employee_name")
-                //     // data.hide = true
-                //     // if (data.field === "departament_name")
-                //     // data.hide = true
-                //     // if (data.field === "position_name")
-                //     // data.hide = true
-                //     if (data.field === "total_absences")
-                //     response.data.absences === "true" ? data.hide = false : data.hide = true
-                //     if (data.field === "total_overtime")
-                //     response.data.overtime === "true" ? data.hide = false : data.hide = true
-                //     if (data.field === "backpay")
-                //     response.data.backpay === "true" ? data.hide = false : data.hide = true
-                //     if (data.field === "cash_advances")
-                //     response.data.cash_advances === "true" ? data.hide = false : data.hide = true
-                //     if (data.field === "bonus")
-                //     response.data.bonus === "true" ? data.hide = false : data.hide = true
-                //     if (data.field === "subsidy")
-                //     response.data.subsidy === "true" ? data.hide = false : data.hide = true
-                //     // if (data.field === "overtime100")
-                //     // response.data.overtime === "true" ? data.hide = false : data.hide = true
-                //     })
+                
                 response.data.absences === "true" ? outputColumnVisible.total_absences = true : outputColumnVisible.total_absences = false
                 response.data.overtime === "true" ? outputColumnVisible.total_overtime = true : outputColumnVisible.total_overtime = false
                 response.data.backpay === "true" ? outputColumnVisible.backpay = true : outputColumnVisible.backpay = false
                 response.data.cash_advances === "true" ? outputColumnVisible.cash_advances = true : outputColumnVisible.cash_advances = false
                 response.data.bonus === "true" ? outputColumnVisible.bonus = true : outputColumnVisible.bonus = false
                 response.data.subsidy === "true" ? outputColumnVisible.subsidy = true : outputColumnVisible.subsidy = false
-                    // console.log("Input", payrollColumns)
+                response.data.syndicate_status === "true" ? outputColumnVisible.syndicate_status = true : outputColumnVisible.syndicate_status = false
+
                 setSettings(response.data)
                 
             }
@@ -90,9 +70,6 @@ const ListOutputPayroll = ({ listName, listPath }) => {
     useEffect(() => {
         async function fetchData() {
             const response = await api.get(`${listPath}`)
-            //  console.log(listPath)
-            //  console.log(response.data)
-            //  console.log(response.data.data)
 
             let totalLiquid = 0
             let totalBase = 0
@@ -174,9 +151,12 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                     total_inss: formatSalary().format(totalInss), 
                 }
             ]
+            if (response.status === 200) {
+                setLoading(false)
+            }
             setUserRows(response.data.concat(totalRow))
             setYear2(yearGreater)
-             setMonth2(monthGreater)
+            setMonth2(monthGreater)
         }
         fetchData()
       
@@ -192,6 +172,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                     columns={payrollColumns} userRows={userRows} setUserRows={setUserRows} 
                     settings={settings} outputColumnVisible={outputColumnVisible}
                     year2={year2} month2={month2} setMonth2={setMonth2} setYear2={setYear2}
+                    loading={loading} setLoading={setLoading}
                     />
             </div>
         </div>
