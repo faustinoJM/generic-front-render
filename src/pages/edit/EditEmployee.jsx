@@ -71,7 +71,7 @@ const EditEmployee = ({ inputs, title }) => {
         nuit: Yup.number().positive("NUIT deve ser numero positivo").integer("NUIT deve ser numero inteiro").required("NUIT obrigatorio"),
         dependents: Yup.number().min(0, "Deve ser numero maior ou igual a zero").integer("Deve ser numero inteiro").required("Numero de Dependentes obrigatorio"),
         vacation: Yup.number().min(0, "Deve ser numero maior ou igual a zero").integer("Deve ser numero inteiro"),
-        syndicate: Yup.string().required("Sindicato Obrigatorio"),
+        syndicate_status: Yup.string().required("Sindicato Obrigatorio"),
         salary: Yup.number().positive("Deve ser numero positivo").required("Salario base obrigatorio"),
         subsidy: Yup.number().min(0, "Subsidio deve ser maior ou igual a zero"),
         department_id: Yup.string().required("Endereco Obrigatorio"),
@@ -100,7 +100,7 @@ const EditEmployee = ({ inputs, title }) => {
             email: data.email,
             nuit: data.nuit,
             vacation: data.vacation,
-            syndicate: data.syndicate,
+            syndicate_status: data.syndicate_status,
             dependents: data.dependents,
             salary: data.salary,
             subsidy: data.subsidy,
@@ -220,13 +220,16 @@ const EditEmployee = ({ inputs, title }) => {
                                                  value={values.vacation} onChange={handleChange} onBlur={handleBlur}/>
                                                   {errors.vacation && touched.vacation && <p>{errors.vacation}</p>}
                                         <label>Sindicato</label>
-                                            <select id="syndicate" name="syndicate"
-                                                    onChange={e => setFieldValue("syndicate", e.target.value)} onBlur={handleBlur}>
+                                            <select id="syndicate_status" name="syndicate_status"
+                                                    onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
                                             <option value="">Selecione Sindicato</option>
-                                                <option value="true">Paga</option>
-                                                <option value="false">Nao Paga</option>
+                                                {data.syndicate_status === "true" ? <option value="true" selected>Paga</option>
+                                                : <option value="true" selected>Paga</option>}
+                                                {data.syndicate_status === "false" ? <option value="false" selected>Nao Paga</option>
+                                                : <option value="false" >Nao Paga</option>}
+                                                
                                         </select>
-                                        {errors.syndicate && touched.syndicate && <p>{errors.syndicate}</p>}
+                                        {errors.syndicate_status && touched.syndicate_status && <p>{errors.syndicate_status}</p>}
                                     </div>
                                     <div className="formInput3">
                                         <img 
@@ -335,8 +338,10 @@ const EditEmployee = ({ inputs, title }) => {
                                 <select id="inss_status" name="inss_status" 
                                             onChange={e => setFieldValue("inss_status", e.target.value)} onBlur={handleBlur}>
                                     <option value="">Selecione INSS</option>
-                                        <option value="true">Paga</option>
-                                        <option value="false">Nao Paga</option>
+                                        {data.inss_status === "true" ? <option value="true" selected>Paga</option>
+                                        : <option value="true">Paga</option>}
+                                        {data.inss_status === "false" ? <option value="false" selected>Nao Paga</option>
+                                        : <option value="false">Nao Paga</option>}
                                 </select>            
                                 {errors.inss_status && touched.inss_status && <p>{errors.inss_status}</p>}
                             </div>

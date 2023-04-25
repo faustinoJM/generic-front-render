@@ -581,6 +581,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                     <div className="cellAction">
                         {/* <Link to={`/${listPath}/${params.row.id}`} style={{textDecoration: "none"}}> */}
                             <div className="printButton" onClick={() => handleSinglePrint(params.row.id)}>
+                            {/* handleSinglePrint(params.row.id) */}
                               <PrintIcon />  Imprimir
                             </div>
                         {/* </Link> */}

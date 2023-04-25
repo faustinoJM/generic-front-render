@@ -14,6 +14,9 @@ import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import CreditCardOffOutlinedIcon from '@mui/icons-material/CreditCardOffOutlined';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import ElderlyIcon from '@mui/icons-material/Elderly';
+
 import { Link, NavLink } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
@@ -114,6 +117,19 @@ const Sidebar = (d, f) => {
                         <NavLink to="/payrolls/list" className="navLink" style={{textDecoration: "none"}}>
                             <PaymentOutlinedIcon className="icon" />
                             <span>Folha</span>
+                        </NavLink>
+                    </li>
+                    <p className="title">RECURSOS</p>
+                    <li>
+                        <NavLink to="/departments" className="navLink" style={{textDecoration: "none"}}>
+                            <AccountBalanceIcon className="icon" />
+                            <span>Banco</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/departments" className="navLink" style={{textDecoration: "none"}}>
+                            <ElderlyIcon className="icon" />
+                            <span>INSS</span>
                         </NavLink>
                     </li>
                     {/* <li>

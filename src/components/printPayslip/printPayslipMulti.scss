@@ -1,15 +1,118 @@
-.header-space51,
-.footer-space4 {
-    height: 100px;
-    border: 1px solid red;
+.page-header, .page-header-space  {
+  height: 10px;
+  // border: 1px solid red;
 }
-.header51 {
-    height: 100px;
-  position: fixed;
-  top: 0;
+
+.page-footer, .page-footer-space {
+  height: 50px;
 }
-.footer51 {
-    height: 100px;
+
+.page-footer {
   position: fixed;
   bottom: 0;
+  width: 100%;
+  // border-top: 1px solid black; /* for demo */
+  // background: yellow; /* for demo */
 }
+
+.page-header {
+  position: fixed;
+  top: 0mm;
+  // background: yellow; /* for demo */
+}
+
+.page-body {
+  width: 100%;
+  // border-bottom: 1px solid black; 
+}
+
+.page {
+  page-break-after: always;
+  width: 100%;
+
+  .nameAdress {
+    display: flex;
+    flex-direction: column;
+    // background: red; /* for demo */
+    margin-bottom: 10px;
+  }
+
+  .employeeData {
+    display: flex;
+    flex-direction: column;
+    // background: green; /* for demo */
+
+    .idRecibo{
+        display: flex;
+        justify-content: space-between;
+        // background: green; /* for demo */
+
+        .id{
+            align-self: center;
+            // margin-top: 25px;
+            margin-right: 10px;
+
+            span {
+                margin-right: 5px;
+            }
+        }
+        .recibo {
+            display: flex;
+            flex-direction: column;
+
+            .title {
+                text-align: center;
+                font-size: 24px;
+            }
+
+            .mes{
+                display: flex;
+                flex-direction: row;
+
+                span{
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+    .tableEmployeeData {
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th {
+        width: 200px; 
+        background:	silver;
+      }
+      td {
+        width: 200px; 
+        text-align: center;
+      }
+    }
+  }
+  
+  .employePayment {
+    th{
+      width: 200px;
+    }td{
+      width: 200px;
+      text-align: center;
+    }
+  }
+}
+
+@page {
+  margin: 20px
+}
+// @page {
+//   margin: 20mm
+// }
+
+// @media print {
+//    thead {display: table-header-group;} 
+//    tfoot {display: table-footer-group;}
+   
+//    button {display: none;}
+   
+//    body {margin: 0;}
+// }
