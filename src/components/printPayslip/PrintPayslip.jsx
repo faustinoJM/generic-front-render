@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useReactToPrint } from "react-to-print";
 import api from "../../services/api";
-import './printPayslipMulti.scss'
+import './printPayslip.scss'
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts"
 

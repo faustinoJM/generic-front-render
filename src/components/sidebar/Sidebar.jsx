@@ -119,7 +119,7 @@ const Sidebar = (d, f) => {
                             <span>Folha</span>
                         </NavLink>
                     </li>
-                    <p className="title">RECURSOS</p>
+                    {/* <p className="title">RECURSOS</p>
                     <li>
                         <NavLink to="/departments" className="navLink" style={{textDecoration: "none"}}>
                             <AccountBalanceIcon className="icon" />
@@ -131,7 +131,7 @@ const Sidebar = (d, f) => {
                             <ElderlyIcon className="icon" />
                             <span>INSS</span>
                         </NavLink>
-                    </li>
+                    </li> */}
                     {/* <li>
                         <NavLink to="/attendace" className="navLink" style={{textDecoration: "none"}}>
                             <FactCheckOutlinedIcon className="icon" />
