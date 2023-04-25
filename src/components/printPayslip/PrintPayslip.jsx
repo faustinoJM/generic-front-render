@@ -374,8 +374,8 @@ const PrintPayslip = ({componentRef, single}) => {
                     <div className="nameAdress">
                         <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
                         <span>{setting?.company_address ?? "Av. Kruss Gomes"}</span>
-                        {/* <span>{setting?.company_address ?? "Porto da Beira"}</span> */}
                         <span>{setting?.company_city ?? "Beira"}</span>
+                        <span>{setting?.company_province ?? "Sofala"}</span>
                     </div>
                     <div className="employeeData">
                         <div className="idRecibo">
