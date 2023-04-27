@@ -218,6 +218,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             let total_backpay = 0
             let total_total_absences = 0
             let total_total_overtime = 0
+            let total_syndicate_employee = 0
 
             totalLength = filteredRows.map((data, index) => {
                 totalLiquid += (+data.salary_liquid)
@@ -233,6 +234,8 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 total_backpay += (+data.backpay)
                 total_total_absences += (+data.total_absences)
                 total_total_overtime += (+data.total_overtime)
+                total_syndicate_employee += (+data.syndicate_employee)
+
                 // console.log(data.created_at.getTime() > (new Date()).getTime()
              })
 
@@ -256,6 +259,9 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               salary_liquid: formatSalary().format(totalLiquid), 
               inss_company: formatSalary().format(totalInssCompany), 
               total_inss: formatSalary().format(totalInss), 
+              syndicate_employee: formatSalary().format(total_syndicate_employee)
+
+              
           }
       ]
 
@@ -275,6 +281,8 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             data.total_overtime = formatSalary().format(data.total_overtime)
             data.inss_company = formatSalary().format(data.inss_company)
             data.total_inss = formatSalary().format(data.total_inss)
+            data.syndicate_employee = formatSalary().format(data.syndicate_employee)
+
         })
         // console.log(data3.filter(row => (row.year === "2023")))
         setUserRows(filteredRows.concat(totalRow))
@@ -306,6 +314,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             let total_backpay = 0
             let total_total_absences = 0
             let total_total_overtime = 0
+            let total_syndicate_employee = 0
 
             totalLength = filteredRows.map((data, index) => {
                 totalLiquid += (+data.salary_liquid)
@@ -321,6 +330,8 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 total_backpay += (+data.backpay)
                 total_total_absences += (+data.total_absences)
                 total_total_overtime += (+data.total_overtime)
+                total_syndicate_employee += (+data.syndicate_employee)
+
              })
 
              const totalRow = [
@@ -343,6 +354,8 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               salary_liquid: formatSalary().format(totalLiquid), 
               inss_company: formatSalary().format(totalInssCompany), 
               total_inss: formatSalary().format(totalInss), 
+              syndicate_employee: formatSalary().format(total_syndicate_employee)
+
               // total_subsidy
 
 
@@ -366,6 +379,8 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             data.total_overtime = formatSalary().format(data.total_overtime)
             data.inss_company = formatSalary().format(data.inss_company)
             data.total_inss = formatSalary().format(data.total_inss)
+            data.syndicate_employee = formatSalary().format(data.syndicate_employee)
+
         })
         let kkk = data2.filter(row => (row.month === e) && (row.year === +year) )
         setUserRows(filteredRows.concat(totalRow))

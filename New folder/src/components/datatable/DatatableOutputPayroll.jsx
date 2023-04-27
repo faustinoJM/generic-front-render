@@ -59,7 +59,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
           }
         }
             fetchData()
-        }, [year, month])
+    }, [year, month])
 
     useEffect(() => {
         async function fetchData() {
@@ -77,7 +77,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
 
         }
             fetchData()
-        }, [year, month, userRows])
+    }, [year, month, userRows])
 
     useEffect(() => {
         async function fetchData() {
@@ -86,7 +86,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
              handlePrint()
         }
             fetchData()
-        }, [single])
+    }, [single])
 
     // useEffect(() => {
     //     // setLoading(true)
@@ -408,9 +408,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
          .then(response => {setSingle(response.data)})
         // api.get(`payrolls`)
         //  .then(response => {printPayslipBucket(response.data)})
-    
         // console.log(single)
-        
       }
 
     const exportExcelFile = useCallback(async () => {

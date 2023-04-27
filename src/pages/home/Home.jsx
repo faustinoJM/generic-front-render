@@ -28,22 +28,63 @@ const Home = () => {
     const [department, setDepartment] = useState(null);
     const [payroll, setPayroll] = useState(null);
 
-    useEffect(() => {
-        async function fetch() {
-            const responseEmp = await api.get("employees")
-            // console.log(response.data)
-            const responseDep = await api.get("departments")
-            const responsePos = await api.get("positions")
-            const responsePay = await api.get("payrolls")
+    //Fetch api in serie and wait
+    // useEffect(() => {
+    //     async function fetch() {
+    //         const responseEmp = await api.get("employees")
 
-            setEmployee(responseEmp.data)
-            setDepartment(responseDep.data)
-            setPosition(responsePos.data)
-            setPayroll(responsePay.data)
+    //         const responsePos = await api.get("positions")
+
+    //         const responseDep = await api.get("departments")
+
+    //         const responsePay = await api.get("payrolls")
+
+    //         setEmployee(responseEmp.data)
+
+    //         setPosition(responsePos.data)
+
+    //         setDepartment(responseDep.data)
+
+    //         setPayroll(responsePay.data)
             
+    //     }
+    //     fetch()
+    // }, [])
+
+    // Fetch Api Pararel resolve all
+    useEffect(() => {
+        async function fetchData() {
+          try {
+            const [responseEmp, responseDep, responsePos, responsePay] = await Promise.all([
+              api.get("employees"),
+              api.get("departments"),
+              api.get("positions"),
+              api.get("payrolls")
+            ]);
+      
+            setEmployee(responseEmp.data);
+            setDepartment(responseDep.data);
+            setPosition(responsePos.data);
+            setPayroll(responsePay.data);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+            // Optionally, you can set an error state variable or display an error message
+          }
         }
-        fetch()
-    }, [])
+      
+        fetchData();
+      }, []);
+
+    //Fetch Api pararel individual not wait
+    // useEffect(() => {
+    //     async function fetch() {
+    //         const response = await api.get("employees")
+    //         // console.log(response.data)
+            
+    //         setEmployee(response.data)
+    //     }
+    //     fetch()
+    // }, [])
 
     // useEffect(() => {
     //     async function fetch() {

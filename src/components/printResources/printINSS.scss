@@ -1,0 +1,86 @@
+.page-header, .page-header-space  {
+    height: 20px;
+    // border: 1px solid red;
+  }
+  
+  .page-footer, .page-footer-space {
+    height: 50px;
+  }
+  
+  .page-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    // border-top: 1px solid black; /* for demo */
+    // background: yellow; /* for demo */
+  }
+  
+  .page-header {
+    position: fixed;
+    top: 0mm;
+    // background: yellow; /* for demo */
+  }
+  
+  .page-body {
+    width: 90%;
+    margin: 0 auto;
+    // border-bottom: 1px solid black; 
+  }
+  
+  .pageINSS {
+    page-break-after: auto;
+    width: 100%;
+  
+    .title {
+      display: flex;
+      flex-direction: column;
+      // background: red; /* for demo */
+      margin-bottom: 10px;
+    }
+  
+    .employeeINSSData {
+      display: flex;
+      flex-direction: column;
+      // background: green; /* for demo */
+  
+     
+      .tableEmployeeINSSData {
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+          font-size: 7;
+        }
+        // th {
+        //   text-align: center;
+
+        // }
+        // td {
+        //     text-align: center;
+        // }
+        // th {
+        //     margin: 0;
+        //     padding: 0;
+        //   font-size: 7;
+        //   width: 100px; 
+        //   background:	silver;
+        // }
+        // td {
+        //     margin: 0;
+        //     padding: 0;
+        //   font-size: 7;
+        //   width: 100px; 
+        //   text-align: center;
+        // }
+       
+      }
+    }
+
+  }
+  
+  @page {
+    margin: 20px
+  }
+
+@media print {
+    @page { size: landscape; }
+  }

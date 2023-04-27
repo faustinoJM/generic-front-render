@@ -487,6 +487,12 @@ const PrintPayslip = ({componentRef, single}) => {
                                     <td>{formatSalary().format(single.cash_advances)}</td>
                                 </tr>
                                 <tr>
+                                    <th>Sindicato</th>
+                                    <td></td>
+                                    <td style={{border: "none"}}></td>
+                                    <td>{formatSalary().format(single.syndicate_employee)}</td>
+                                </tr>
+                                <tr>
                                     <th>Salario Liquido</th>
                                     <td style={{borderRight: "1px solid #FFF"}}></td>
                                     <td style={{borderLeft: "1px solid #FFF", borderRight: "1px solid #FFF"}}>{formatSalary().format(single.salary_liquid)}</td>

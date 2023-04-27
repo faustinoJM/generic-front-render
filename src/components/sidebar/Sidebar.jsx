@@ -16,6 +16,9 @@ import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import CreditCardOffOutlinedIcon from '@mui/icons-material/CreditCardOffOutlined';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ElderlyIcon from '@mui/icons-material/Elderly';
+import DescriptionIcon from '@mui/icons-material/Description';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+
 
 import { Link, NavLink } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext";
@@ -108,6 +111,12 @@ const Sidebar = (d, f) => {
                     </li>
                     <p className="title">FOLHA DE SALARIO</p>
                     <li>
+                        <NavLink to="/payrolls/new" className="navLink" style={{textDecoration: "none"}}>
+                            <InsertDriveFileIcon className="icon" />
+                            <span>Nova Folha</span>
+                        </NavLink>
+                    </li>
+                    <li>
                         <NavLink to="/payrolls/input" className="navLink" style={{textDecoration: "none"}}>
                             <PointOfSaleOutlinedIcon className="icon" />
                             <span>Processamento</span>
@@ -119,26 +128,32 @@ const Sidebar = (d, f) => {
                             <span>Folha</span>
                         </NavLink>
                     </li>
-                    {/* <p className="title">RECURSOS</p>
+                    <p className="title">RECURSOS</p>
                     <li>
-                        <NavLink to="/departments" className="navLink" style={{textDecoration: "none"}}>
+                        <NavLink to="/resources/banks" className="navLink" style={{textDecoration: "none"}}>
                             <AccountBalanceIcon className="icon" />
                             <span>Banco</span>
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/departments" className="navLink" style={{textDecoration: "none"}}>
+                        <NavLink to="/resources/social-security" className="navLink" style={{textDecoration: "none"}}>
                             <ElderlyIcon className="icon" />
                             <span>INSS</span>
                         </NavLink>
-                    </li> */}
-                    {/* <li>
-                        <NavLink to="/attendace" className="navLink" style={{textDecoration: "none"}}>
+                    </li>
+                    <li>
+                        <NavLink to="/resources/absences" className="navLink" style={{textDecoration: "none"}}>
                             <FactCheckOutlinedIcon className="icon" />
-                            <span>Presencas</span>
+                            <span>Faltas</span>
                         </NavLink>
-                        </li>
-                        <li>   
+                    </li>
+                    <li>
+                        <NavLink to="/resources/report" className="navLink" style={{textDecoration: "none"}}>
+                            <DescriptionIcon className="icon" />
+                            <span>Relatorio</span>
+                        </NavLink>
+                    </li>
+                    {/* <li>   
                         <NavLink to="/cashadvances" className="navLink" style={{textDecoration: "none"}}>
                             <PointOfSaleOutlinedIcon className="icon" />
                             <span>Adiantamento</span>

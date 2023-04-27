@@ -1,4 +1,4 @@
-import "./datatableListPayrolls.scss";
+import "./datatableResource.scss";
 import { DataGrid} from '@mui/x-data-grid';
 import { Link } from "react-router-dom"
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -12,7 +12,8 @@ import PrintIcon from '@mui/icons-material/Print';
 import DescriptionIcon from '@mui/icons-material/Description';
 import PrintPayroll from "../printPayroll/PrintPayroll";
 import { printPDF } from "../printPayroll/PrintPayroll";
-import {useQuery} from 'react-query'
+import { useQuery } from 'react-query'
+import PrintINSS from "../printResources/PrintINSS";
 
 
 const formatSalary = () => {
@@ -28,18 +29,22 @@ async function fetchPrintData(){
     return data
 }
 
-const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading }) => {
+const DatatableResource = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading }) => {
     const workbook = new exceljs.Workbook();
     const [rows, setRows] = useState([]);
     const [year, setYear] = useState(0);
     const componentRef = useRef();
-    const [printPayroll, setPrintPayroll] = useState({});
+    const [single, setSingle] = useState([]);
     const {data, error, isError, isLoading } = useQuery('payrolls', fetchPrintData)
 
-    const handleSinglePrint = (year, month) => {
-        let printData = data.filter(data => data.year === year && data.month === month)
-            printPDF(printData)
-      }
+    useEffect(() => {
+        async function fetchData() {
+            console.log(single)
+            if(!(Object.keys(single).length === 0))
+                handlePrint()
+        }
+        fetchData()
+    }, [single])
 
     useEffect(() => {
         async function fetchData() {
@@ -84,8 +89,22 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         setYear(e)
         // setUserRows(data2.filter(row => (row.year === +e) && (row.month === month)))
         // console.log(data.filter(row => row.year === +e))
-        
     }
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        documentTitle: 'INSS-data',
+        // onAfterPrint: () => alert('Print sucess')
+    })
+
+    const handleSinglePrint = (id) => {
+        api.get(`payrolls`)
+         .then(response => {setSingle(response.data)})
+        // api.get(`payrolls`)
+        //  .then(response => {printPayslipBucket(response.data)})
+        // console.log(single)
+    }
+
     const exportExcelFile = useCallback(async (year, month) => {
         // console.log("1z",year, month)
         // console.log("2z", excelPayroll)
@@ -246,12 +265,6 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         }
       }, []);
 
-    const handleDelete = async (year, month, router) => {
-        // console.log("aaa"+router)
-        await api.delete('payrolls', { data: { year, month }})
-        setRows(rows.filter(item => !(month === item.month && +year === +item.year)))
-    } 
-
     const onCellEditCommit = ({ id, field, value }) => {
         api.put(`payrolls/${id}`, {[field]: value}).then(response => console.log(response))
 
@@ -288,13 +301,13 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                         <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month)}>
                             <DescriptionIcon className="edIcon"/> Exportar
                         </div>
-                        <div className="printButton" onClick={() => handleSinglePrint(params.row.year, params.row.month)}>
+                        <div className="printButton" onClick={() => handleSinglePrint(params.row.id)}>
                         {/* handleSinglePrint(params.row.year, params.row.month) */}
                               <PrintIcon />  Imprimir
                             </div>
-                        <div className="deleteButton" onClick={() => handleDelete(params.row.year, params.row.month, listPath)}>
+                        {/* <div className="deleteButton" onClick={() => handleDelete(params.row.year, params.row.month, listPath)}>
                             <DeleteForeverIcon /> Remover
-                        </div>
+                        </div> */}
                     </div>
                 )
             }
@@ -304,17 +317,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         <div className="datatable">
             <div className="datatableTitle">
                 {listName}
-                {/* {listPath === "payrolls" ? 
-                <div className="anoMes">
-                    <label>Ano: </label>
-                        <select id="year" name="year" onChange={e => submitByYear(e.target.value)}>
-                            <option value="">Selecione Ano</option>
-                            <option >2022</option>
-                            <option >2023</option>
-                            <option >2024</option>
-                        </select>
-                */}
-                <PrintPayroll componentRef={componentRef} printData={printPayroll}/>
+                <PrintINSS componentRef={componentRef} single={single}/>
             </div>
             <DataGrid
             sx={{
@@ -350,7 +353,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     )
 }
 
-export default DatatableListInput;
+export default DatatableResource;
 
 
 const columnsExcel = [

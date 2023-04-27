@@ -37,7 +37,7 @@ const Sidebar = (d, f) => {
 
     const {data, error, isError, isLoading } = useQuery('settings', fetchSettings)
 
-    console.log("sidebar", data)
+    // console.log("sidebar", data)
     // console.log(data)
     // useEffect(() => {
     //     async function fetch() {

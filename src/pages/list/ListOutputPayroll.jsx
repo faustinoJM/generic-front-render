@@ -85,6 +85,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
             let total_backpay = 0
             let total_total_absences = 0
             let total_total_overtime = 0
+            let total_syndicate_employee = 0
             let monthGreater = 0
             let yearGreater = 0
             let dateAux = new Date("2000/12/31")
@@ -103,6 +104,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                 total_backpay += (+data.backpay)
                 total_total_absences += (+data.total_absences)
                 total_total_overtime += (+data.total_overtime)
+                total_syndicate_employee += (+data.syndicate_employee)
                 
                 if (dateAux.getTime() < new Date(data.created_at).getTime()) {
                     monthGreater = data.month
@@ -128,6 +130,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
             data.total_overtime = formatSalary().format(data.total_overtime)
             data.inss_company = formatSalary().format(data.inss_company)
             data.total_inss = formatSalary().format(data.total_inss)
+            data.syndicate_employee = formatSalary().format(data.syndicate_employee)
             })
             const totalRow = [
                 {
@@ -149,6 +152,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                     salary_liquid: formatSalary().format(totalLiquid), 
                     inss_company: formatSalary().format(totalInssCompany), 
                     total_inss: formatSalary().format(totalInss), 
+                    syndicate_employee: formatSalary().format(total_syndicate_employee)
                 }
             ]
             if (response.status === 200) {

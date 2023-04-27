@@ -25,6 +25,10 @@ import Single from '../pages/single/Single';
 import SingleEmployee from '../pages/single/SingleEmployee';
 import RouteAuth from './RouteAuth';
 import ListPayrolls from '../pages/list/ListPayrolls';
+import ListSocialSecurity from '../pages/resource/ListSocialSecurity';
+import ListBanks from '../pages/resource/ListBanks';
+import ListAbsences from '../pages/resource/ListAbsences';
+import ListReport from '../pages/resource/ListReport';
 
 export default function Routers() {
 
@@ -52,9 +56,15 @@ export default function Routers() {
       <Route path="payrolls">
         <Route path="output" element={<RouteAuth isPrivate={true}><ListOutputPayroll listName={"Folha Salario"} listPath={"payrolls"}/> </RouteAuth>} />
         <Route path="input" element={<RouteAuth isPrivate={true}><ListInputPayroll listName={"Processamento Salario"} listPath={"payrolls"}/></RouteAuth>} />
-        <Route path="list" element={<RouteAuth isPrivate={true}><ListPayrolls title="Lista de Folhas Pagamento" listPath={"payrolls"}/></RouteAuth>} />
+        <Route path="list" element={<RouteAuth isPrivate={true}><ListPayrolls listName={"Lista de folhas de Salarios"} listPath={"payrolls"}/></RouteAuth>} />
         <Route path="output/:payrollId" element={<RouteAuth isPrivate={true}><ListOutputPayroll listName={"Folha Salario"} listPath={"payrolls"}/></RouteAuth>} />
-        <Route path="new" element={<RouteAuth isPrivate={true}><NewPayroll title="Adicionar novo Pagamento" /></RouteAuth>} />
+        <Route path="new" element={<RouteAuth isPrivate={true}><NewPayroll title="Adicionar nova Folha" /></RouteAuth>} />
+      </Route>
+      <Route path="resources">
+        <Route path="social-security" element={<RouteAuth isPrivate={true}><ListSocialSecurity listName={"Lista Folhas Para INSS"} listPath={"payrolls"}/> </RouteAuth>} />
+        <Route path="banks" element={<RouteAuth isPrivate={true}><ListBanks listName={"Lista Folhas Para  Bancos"} listPath={"payrolls"}/></RouteAuth>} />
+        <Route path="absences" element={<RouteAuth isPrivate={true}><ListAbsences listName={"Lista de Faltas"} listPath={"payrolls"}/></RouteAuth>} />
+        <Route path="report" element={<RouteAuth isPrivate={true}><ListReport listName={"Lista de Relatorios"} listPath={"payrolls"}/></RouteAuth>} />
       </Route>
       <Route path="profile">
         <Route index element={<RouteAuth isPrivate={true}><Profile listName={"Perfil"} listPath={"profile"}/></RouteAuth>} />
