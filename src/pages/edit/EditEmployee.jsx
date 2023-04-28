@@ -72,8 +72,8 @@ const EditEmployee = ({ inputs, title }) => {
         dependents: Yup.number().min(0, "Deve ser numero maior ou igual a zero").integer("Deve ser numero inteiro").required("Numero de Dependentes obrigatorio"),
         vacation: Yup.number().min(0, "Deve ser numero maior ou igual a zero").integer("Deve ser numero inteiro"),
         syndicate_status: Yup.string().required("Sindicato Obrigatorio"),
-        salary: Yup.number().positive("Deve ser numero positivo").required("Salario base obrigatorio"),
-        subsidy: Yup.number().min(0, "Subsidio deve ser maior ou igual a zero"),
+        salary: Yup.number().typeError("Salario deve ser um numero").min(1, "Salario deve ser maior que zero").required("Salario base obrigatorio"),
+        subsidy: Yup.number().typeError("Subsidio deve ser um numero").min(0, "Subsidio deve ser maior ou igual a zero"),
         department_id: Yup.string().required("Endereco Obrigatorio"),
         position_id: Yup.string().required("Endereco Obrigatorio"),
         start_date: Yup.date().required("selecione data de Inicio"),
@@ -305,11 +305,11 @@ const EditEmployee = ({ inputs, title }) => {
                                 </div>
                                 <div className="formInput2">
                                     <label>Salario Base</label>
-                                        <input className="inputClass" type="number" id="salary"
+                                        <input className="inputClass" type="text" id="salary"
                                                  defaultValue={data.salary} onChange={handleChange} onBlur={handleBlur}/>
                                                   {errors.salary && touched.salary && <p>{errors.salary}</p>}   
                                     <label>Subsidio</label>
-                                        <input className="inputClass" type="number"  id="subsidy"
+                                        <input className="inputClass" type="text"  id="subsidy"
                                                  defaultValue={data.subsidy} onChange={handleChange} onBlur={handleBlur}/>
                                                   {errors.subsidy && touched.subsidy && <p>{errors.subsidy}</p>}
                                 </div>                            

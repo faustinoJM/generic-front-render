@@ -1,11 +1,11 @@
 .sidebar {
     flex: 1;
     border-right: 0.5px solid rgb(230, 227, 227);
-    //  min-height: 100vh; 
+     min-height: 100vh; 
     background-color: #1e293b;
 
-    // position: sticky;
-    // top: 0;
+    position: sticky;
+    top: 0;
     height: 100%;
 
     .top {
