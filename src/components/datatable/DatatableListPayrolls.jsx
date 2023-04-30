@@ -86,165 +86,375 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         // console.log(data.filter(row => row.year === +e))
         
     }
+
     const exportExcelFile = useCallback(async (year, month) => {
-        // console.log("1z",year, month)
-        // console.log("2z", excelPayroll)
-        const response = await api.get("payrolls")
+      // console.log("1z",year, month)
+      // console.log("2z", excelPayroll)
+      const response = await api.get("payrolls")
 
-        const excelPayroll2 = response.data.filter(row => (row.year === +year) && (row.month === month))
+      const excelPayroll2 = response.data.filter(row => (row.year === +year) && (row.month === month))
 
-        const workSheetName = 'Worksheet-1';
-        const workBookName = 'Elint-Systems-Payroll';
-        try {
-          // creating one worksheet in workbook
-          const worksheet = workbook.addWorksheet(workSheetName);
+      const workSheetName = 'Worksheet-1';
+      const workBookName = 'Elint-Systems-Payroll';
+      try {
+        // creating one worksheet in workbook
+        const worksheet = workbook.addWorksheet(workSheetName);
 
-          // add worksheet columns
-          // each columns contains header and its mapping key from data
-          worksheet.columns = columnsExcel;
+        //add 1st Header 
+        const header1 = [""]
+
+        // const header2 = ["Year", "Month", "Make", "Model", "Gender"];
+
+        worksheet.addRow(header1);
+        // merge by start row, start column, end row, end column (equivalent to K10:M12)
+        worksheet.mergeCells(1,1,1,header3.length);
+        // worksheet.mergeCells('A1', 'J2');
+        worksheet.getCell('A1').value = 'Client List'
+        worksheet.addRow(header2);
+        worksheet.mergeCells(2,12,2,24);
+        worksheet.mergeCells(2,26,2,31);
+        worksheet.mergeCells(2,1,3,1);
+        worksheet.mergeCells(2,2,3,2);
+        worksheet.mergeCells(2,3,3,3);
+        worksheet.mergeCells(2,4,3,4);
+        worksheet.getCell('Z3', 'AE3').value = "Subsidio de Alimentacao"
+        worksheet.getCell('AE3').value = "Subsidio de Alimentacao"
+
+        // worksheet.addRow(header3);
+
+        worksheet.columns = keycolumns
+
+          
+        // const subHeader = [];
+        // subHeader[5] = "Male";
+        // subHeader[6] = "Female";
+        // subHeader[7] = "Other";
+        // worksheet.addRow(subHeader);
+        // worksheet.mergeCells("E2:G2");
+        // worksheet.addRow(["2020", "March", "Abc", "xyz", "", "Y"]);
+        // worksheet.addRow(["2020", "March", "Abc", "xyz", "Y", ""]);
+        // worksheet.addRow(["2020", "March", "Abc", "xyz", "", "", "Y"]);
+
+        // add worksheet columns
+        // each columns contains header and its mapping key from data
+        // worksheet.columns = columnsExcel;
+  
+        // updated the font for first row.
+        worksheet.getRow(1).font = { bold: true };
+        worksheet.getRow(2).font = { bold: true };
+
+      
+        // loop through all of the columns and set the alignment with width.
+        // worksheet.columns.forEach(column => {
+        //   column.width = column.header.length + 15;
+        //   // column.width = column.eachCell.length + 20;
+        //   column.alignment = { horizontal: 'left' };
+        // });
+
+        worksheet.getRow(1).alignment = { horizontal: 'center' };
+        worksheet.getRow(2).alignment = { horizontal: 'center' };
+        worksheet.getColumn(3).alignment = { horizontal: 'center' };
+        worksheet.getColumn(4).alignment = { horizontal: 'center' };
+
+      //   // loop through data and add each one to worksheet
+        // excelPayroll.forEach(singleData => {
+        //   worksheet.addRow(singleData);
+        // });
+        // console.log(excelPayroll)
+         //add row 
+          let salary_liquid = 0
+          let salary_base = 0 
+          let total_income = 0
+          let inss_employee = 0
+          let inss_company = 0
+          let total_inss = 0
+          let total_cash_advances = 0
+          let total_syndicate_employee = 0
+          let total_subsidy = 0
+          let irps = 0
+
+          excelPayroll2.map(data => {
+              salary_liquid = salary_liquid + data.salary_liquid
+              salary_base = salary_base + data.salary_base
+              total_income = total_income + data.total_income
+              inss_employee = inss_employee + data.inss_employee
+              inss_company = inss_company + data.inss_company
+              irps = irps + data.irps
+              total_inss = total_inss + data.total_inss
+              total_cash_advances = total_cash_advances + data.cash_advances
+              total_subsidy = total_subsidy + data.subsidy
+              total_syndicate_employee += data.syndicate_employee
+
+              data.salary_base = formatSalary().format(data.salary_base)
+              data.salary_liquid = formatSalary().format(data.salary_liquid)
+              data.total_income = formatSalary().format(data.total_income)
+              data.irps = formatSalary().format(data.irps)
+              data.inss_employee = formatSalary().format(data.inss_employee)
+              data.subsidy = formatSalary().format(data.subsidy)
+              data.bonus = formatSalary().format(data.bonus)
+              data.cash_advances = formatSalary().format(data.cash_advances)
+              data.syndicate_employee = formatSalary().format(data.syndicate_employee)
+              data.backpay = formatSalary().format(data.backpay)
+              data.total_absences = formatSalary().format(data.total_absences)
+              data.total_overtime = formatSalary().format(data.total_overtime)
+              data.inss_company = formatSalary().format(data.inss_company)
+              data.total_inss = formatSalary().format(data.total_inss)
+              data.nib = String(data.nib)
+              data.base_day = formatSalary().format(data.base_day)
+              data.base_hour =  formatSalary().format(data.base_hour)
+          })
+          // loop through data and add each one to worksheet
+         
+        excelPayroll2.forEach(singleData => {
+          console.log(singleData)
+          worksheet.addRow(singleData);
+        });
+          
+         worksheet.addRow({
+          salary_liquid:  formatSalary().format(salary_liquid), 
+          salary_base:  formatSalary().format(salary_base), 
+          total_income: formatSalary().format(total_income),
+          inss_employee: formatSalary().format(inss_employee),
+          inss_company: formatSalary().format(inss_company),
+          total_inss: formatSalary().format(total_inss),
+          irps: formatSalary().format(irps),
+          total_inss: formatSalary().format(total_inss), 
+          employee_id: "",
+          employee_name: "TOTAL",
+          dependents: "",
+          position_name: "", 
+          departament_name: "",  
+          month: "", 
+          year: "", 
+          nib: "",
+          social_security: "",
+          overtime50: "", 
+          overtime100: "", 
+          total_overtime: "", 
+          absences: "", 
+          total_absences: "", 
+          cash_advances: formatSalary().format(total_cash_advances), 
+          syndicate_employee: formatSalary().format(total_syndicate_employee),
+          subsidy: formatSalary().format(total_subsidy), 
+          bonus: "", 
+          backpay: "", 
+          month_total_workdays: "",
+          day_total_workhours: "",
+          base_day: "",
+          base_hour: "",
+          subsidy_food: "",
+          subsidy_residence: "",
+          subsidy_medical: "",
+          subsidy_vacation: "",
+          salary_thirteenth: "",
+      });
+     
+      worksheet.lastRow.font = { bold: true };
+
+        // loop through all of the rows and set the outline style.
+        worksheet.eachRow({ includeEmpty: false }, row => {
+          // store each cell to currentCell
+          const currentCell = row._cells;
+  
+          // loop through currentCell to apply border only for the non-empty cell of excel
+          currentCell.forEach(singleCell => {
+            // store the cell address i.e. A1, A2, A3, B1, B2, B3, ...
+            const cellAddress = singleCell._address;
+  
+            // apply border
+            worksheet.getCell(cellAddress).border = {
+              top: { style: 'thin' },
+              left: { style: 'thin' },
+              bottom: { style: 'thin' },
+              right: { style: 'thin' }
+            };
+          });
+        });
+
+        worksheet.columns.forEach(function (column, i) {
+          var maxLength = 0;
+          column["eachCell"]({ includeEmpty: true }, function (cell) {
+              var columnLength = cell.value ? cell.value.toString().length : 15;
+              if (columnLength > maxLength ) {
+                  maxLength = columnLength;
+              }
+          });
+          column.width = maxLength < 10 ? 10 : maxLength;
+      });
+
+        // write the content using writeBuffer
+        const buf = await workbook.xlsx.writeBuffer();
+  
+        // download the processed file
+        saveAs(new Blob([buf]), `${workBookName}(${payrollDate}).xlsx`);
+      } catch (error) {
+        console.error('<<<ERRROR>>>', error);
+        console.error('Something Went Wrong', error.message);
+      } finally {
+        // removing worksheet's instance to create new one
+        workbook.removeWorksheet(workSheetName);
+      //   setExcelPayroll([])
+      }
+    }, []);
+    // const exportExcelFile = useCallback(async (year, month) => {
+    //     // console.log("1z",year, month)
+    //     // console.log("2z", excelPayroll)
+    //     const response = await api.get("payrolls")
+
+    //     const excelPayroll2 = response.data.filter(row => (row.year === +year) && (row.month === month))
+
+    //     const workSheetName = 'Worksheet-1';
+    //     const workBookName = 'Elint-Systems-Payroll';
+    //     try {
+    //       // creating one worksheet in workbook
+    //       const worksheet = workbook.addWorksheet(workSheetName);
+
+    //       // add worksheet columns
+    //       // each columns contains header and its mapping key from data
+    //       worksheet.columns = columnsExcel;
     
-          // updated the font for first row.
-          worksheet.getRow(1).font = { bold: true };
+    //       // updated the font for first row.
+    //       worksheet.getRow(1).font = { bold: true };
         
-          // loop through all of the columns and set the alignment with width.
-          worksheet.columns.forEach(column => {
-            column.width = column.header.length + 15;
-            // column.width = column.eachCell.length + 20;
-            column.alignment = { horizontal: 'left' };
-          });
+    //       // loop through all of the columns and set the alignment with width.
+    //       worksheet.columns.forEach(column => {
+    //         column.width = column.header.length + 15;
+    //         // column.width = column.eachCell.length + 20;
+    //         column.alignment = { horizontal: 'left' };
+    //       });
 
-          worksheet.getRow(1).alignment = { horizontal: 'center' };
-          worksheet.getColumn(3).alignment = { horizontal: 'center' };
-          worksheet.getColumn(4).alignment = { horizontal: 'center' };
+    //       worksheet.getRow(1).alignment = { horizontal: 'center' };
+    //       worksheet.getColumn(3).alignment = { horizontal: 'center' };
+    //       worksheet.getColumn(4).alignment = { horizontal: 'center' };
 
-        //   // loop through data and add each one to worksheet
-        //   excelPayroll.forEach(singleData => {
-        //     worksheet.addRow(singleData);
-        //   });
-          // console.log(excelPayroll)
-           //add row 
-            let salary_liquid = 0
-            let salary_base = 0 
-            let total_income = 0
-            let inss_employee = 0
-            let inss_company = 0
-            let total_inss = 0
-            let total_cash_advances = 0
-            let total_syndicate_employee = 0
-            let total_subsidy = 0
-            let irps = 0
+    //     //   // loop through data and add each one to worksheet
+    //     //   excelPayroll.forEach(singleData => {
+    //     //     worksheet.addRow(singleData);
+    //     //   });
+    //       // console.log(excelPayroll)
+    //        //add row 
+    //         let salary_liquid = 0
+    //         let salary_base = 0 
+    //         let total_income = 0
+    //         let inss_employee = 0
+    //         let inss_company = 0
+    //         let total_inss = 0
+    //         let total_cash_advances = 0
+    //         let total_syndicate_employee = 0
+    //         let total_subsidy = 0
+    //         let irps = 0
 
-            excelPayroll2.map(data => {
-                salary_liquid = salary_liquid + data.salary_liquid
-                salary_base = salary_base + data.salary_base
-                total_income = total_income + data.total_income
-                inss_employee = inss_employee + data.inss_employee
-                inss_company = inss_company + data.inss_company
-                irps = irps + data.irps
-                total_inss = total_inss + data.total_inss
-                total_cash_advances = total_cash_advances + data.cash_advances
-                total_subsidy = total_subsidy + data.subsidy
-                total_syndicate_employee += data.syndicate_employee
+    //         excelPayroll2.map(data => {
+    //             salary_liquid = salary_liquid + data.salary_liquid
+    //             salary_base = salary_base + data.salary_base
+    //             total_income = total_income + data.total_income
+    //             inss_employee = inss_employee + data.inss_employee
+    //             inss_company = inss_company + data.inss_company
+    //             irps = irps + data.irps
+    //             total_inss = total_inss + data.total_inss
+    //             total_cash_advances = total_cash_advances + data.cash_advances
+    //             total_subsidy = total_subsidy + data.subsidy
+    //             total_syndicate_employee += data.syndicate_employee
 
-                data.salary_base = formatSalary().format(data.salary_base)
-                data.salary_liquid = formatSalary().format(data.salary_liquid)
-                data.total_income = formatSalary().format(data.total_income)
-                data.irps = formatSalary().format(data.irps)
-                data.inss_employee = formatSalary().format(data.inss_employee)
-                data.subsidy = formatSalary().format(data.subsidy)
-                data.bonus = formatSalary().format(data.bonus)
-                data.cash_advances = formatSalary().format(data.cash_advances)
-                data.syndicate_employee = formatSalary().format(data.syndicate_employee)
-                data.backpay = formatSalary().format(data.backpay)
-                data.total_absences = formatSalary().format(data.total_absences)
-                data.total_overtime = formatSalary().format(data.total_overtime)
-                data.inss_company = formatSalary().format(data.inss_company)
-                data.total_inss = formatSalary().format(data.total_inss)
-                data.nib = String(data.nib)
-            })
-            // loop through data and add each one to worksheet
+    //             data.salary_base = formatSalary().format(data.salary_base)
+    //             data.salary_liquid = formatSalary().format(data.salary_liquid)
+    //             data.total_income = formatSalary().format(data.total_income)
+    //             data.irps = formatSalary().format(data.irps)
+    //             data.inss_employee = formatSalary().format(data.inss_employee)
+    //             data.subsidy = formatSalary().format(data.subsidy)
+    //             data.bonus = formatSalary().format(data.bonus)
+    //             data.cash_advances = formatSalary().format(data.cash_advances)
+    //             data.syndicate_employee = formatSalary().format(data.syndicate_employee)
+    //             data.backpay = formatSalary().format(data.backpay)
+    //             data.total_absences = formatSalary().format(data.total_absences)
+    //             data.total_overtime = formatSalary().format(data.total_overtime)
+    //             data.inss_company = formatSalary().format(data.inss_company)
+    //             data.total_inss = formatSalary().format(data.total_inss)
+    //             data.nib = String(data.nib)
+    //         })
+    //         // loop through data and add each one to worksheet
            
-          excelPayroll2.forEach(singleData => {
-            worksheet.addRow(singleData);
-          });
+    //       excelPayroll2.forEach(singleData => {
+    //         worksheet.addRow(singleData);
+    //       });
             
-           worksheet.addRow({
-            salary_liquid:  formatSalary().format(salary_liquid), 
-            salary_base:  formatSalary().format(salary_base), 
-            total_income: formatSalary().format(total_income),
-            inss_employee: formatSalary().format(inss_employee),
-            inss_company: formatSalary().format(inss_company),
-            total_inss: formatSalary().format(total_inss),
-            irps: formatSalary().format(irps),
-            total_inss: formatSalary().format(total_inss), 
-            employee_id: "",
-            employee_name: "TOTAL",
-            dependents: "",
-            position_name: "", 
-            departament_name: "",  
-            month: "", 
-            year: "", 
-            nib: "",
-            social_security: "",
-            overtime50: "", 
-            overtime100: "", 
-            total_overtime: "", 
-            absences: "", 
-            total_absences: "", 
-            cash_advances: formatSalary().format(total_cash_advances), 
-            syndicate_employee: formatSalary().format(total_syndicate_employee),
-            subsidy: formatSalary().format(total_subsidy), 
-            bonus: "", 
-            backpay: "", 
-        });
+    //        worksheet.addRow({
+    //         salary_liquid:  formatSalary().format(salary_liquid), 
+    //         salary_base:  formatSalary().format(salary_base), 
+    //         total_income: formatSalary().format(total_income),
+    //         inss_employee: formatSalary().format(inss_employee),
+    //         inss_company: formatSalary().format(inss_company),
+    //         total_inss: formatSalary().format(total_inss),
+    //         irps: formatSalary().format(irps),
+    //         total_inss: formatSalary().format(total_inss), 
+    //         employee_id: "",
+    //         employee_name: "TOTAL",
+    //         dependents: "",
+    //         position_name: "", 
+    //         departament_name: "",  
+    //         month: "", 
+    //         year: "", 
+    //         nib: "",
+    //         social_security: "",
+    //         overtime50: "", 
+    //         overtime100: "", 
+    //         total_overtime: "", 
+    //         absences: "", 
+    //         total_absences: "", 
+    //         cash_advances: formatSalary().format(total_cash_advances), 
+    //         syndicate_employee: formatSalary().format(total_syndicate_employee),
+    //         subsidy: formatSalary().format(total_subsidy), 
+    //         bonus: "", 
+    //         backpay: "", 
+    //     });
        
-        worksheet.lastRow.font = { bold: true };
+    //     worksheet.lastRow.font = { bold: true };
 
-          // loop through all of the rows and set the outline style.
-          worksheet.eachRow({ includeEmpty: false }, row => {
-            // store each cell to currentCell
-            const currentCell = row._cells;
+    //       // loop through all of the rows and set the outline style.
+    //       worksheet.eachRow({ includeEmpty: false }, row => {
+    //         // store each cell to currentCell
+    //         const currentCell = row._cells;
     
-            // loop through currentCell to apply border only for the non-empty cell of excel
-            currentCell.forEach(singleCell => {
-              // store the cell address i.e. A1, A2, A3, B1, B2, B3, ...
-              const cellAddress = singleCell._address;
+    //         // loop through currentCell to apply border only for the non-empty cell of excel
+    //         currentCell.forEach(singleCell => {
+    //           // store the cell address i.e. A1, A2, A3, B1, B2, B3, ...
+    //           const cellAddress = singleCell._address;
     
-              // apply border
-              worksheet.getCell(cellAddress).border = {
-                top: { style: 'thin' },
-                left: { style: 'thin' },
-                bottom: { style: 'thin' },
-                right: { style: 'thin' }
-              };
-            });
-          });
+    //           // apply border
+    //           worksheet.getCell(cellAddress).border = {
+    //             top: { style: 'thin' },
+    //             left: { style: 'thin' },
+    //             bottom: { style: 'thin' },
+    //             right: { style: 'thin' }
+    //           };
+    //         });
+    //       });
 
-          worksheet.columns.forEach(function (column, i) {
-            var maxLength = 0;
-            column["eachCell"]({ includeEmpty: true }, function (cell) {
-                var columnLength = cell.value ? cell.value.toString().length : 15;
-                if (columnLength > maxLength ) {
-                    maxLength = columnLength;
-                }
-            });
-            column.width = maxLength < 10 ? 10 : maxLength;
-        });
+    //       worksheet.columns.forEach(function (column, i) {
+    //         var maxLength = 0;
+    //         column["eachCell"]({ includeEmpty: true }, function (cell) {
+    //             var columnLength = cell.value ? cell.value.toString().length : 15;
+    //             if (columnLength > maxLength ) {
+    //                 maxLength = columnLength;
+    //             }
+    //         });
+    //         column.width = maxLength < 10 ? 10 : maxLength;
+    //     });
 
-          // write the content using writeBuffer
-          const buf = await workbook.xlsx.writeBuffer();
+    //       // write the content using writeBuffer
+    //       const buf = await workbook.xlsx.writeBuffer();
     
-          // download the processed file
-          saveAs(new Blob([buf]), `${workBookName}(${payrollDate}).xlsx`);
-        } catch (error) {
-          console.error('<<<ERRROR>>>', error);
-          console.error('Something Went Wrong', error.message);
-        } finally {
-          // removing worksheet's instance to create new one
-          workbook.removeWorksheet(workSheetName);
-        //   setExcelPayroll([])
-        }
-      }, []);
+    //       // download the processed file
+    //       saveAs(new Blob([buf]), `${workBookName}(${payrollDate}).xlsx`);
+    //     } catch (error) {
+    //       console.error('<<<ERRROR>>>', error);
+    //       console.error('Something Went Wrong', error.message);
+    //     } finally {
+    //       // removing worksheet's instance to create new one
+    //       workbook.removeWorksheet(workSheetName);
+    //     //   setExcelPayroll([])
+    //     }
+    //   }, []);
 
     const handleDelete = async (year, month, router) => {
         // console.log("aaa"+router)
@@ -390,3 +600,118 @@ const columnsExcel = [
     {header: "Salario Liquido", key: "salary_liquid", width: 25},
 
     ]
+
+
+const header2 = [
+  // "Id",
+  "Nome",
+  "Dependentes",
+  "Cargo",
+  "Departamento",
+  "Mes",
+  "Ano",
+  "Total dias de Trabalho",
+  "total horas de Trabalho",
+  "Salario Base", 
+  "Base diaria", 
+  "Base Hora", 
+  "Remuneracaoes",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "Salario Bruto", 
+  "Descontos", 
+  "", 
+  "", 
+  "",
+  "",
+  "",
+  "Salario Liquido", 
+  "NIB",
+  "Num. Seg",
+]
+
+const header3 = [
+  // "Id",
+  "Nome",
+  "Dependentes",
+  "Cargo",
+  "Departamento",
+  "Mes",
+  "Ano",
+  "Total dias de Trabalho",
+  "total horas de Trabalho",
+  "Salario Base", 
+  "Base diaria", 
+  "Base Hora", 
+  "Subsidio de Alimentacao",
+  "Subsidio de Residencia",
+  "Subsidio Medico",
+  "Subsidio de Ferias",
+  "Outros Subsidio",
+  "Bonus",
+  "Horas Extras 50",
+  "Horas Extras 100",
+  "Total Horas Extras",
+  "Faltas",
+  "Total desconto por Faltas",
+  "Retroativos",
+  "Decimo terceiro Sal.",
+  "Salario Bruto", 
+  "INSS (3%)", 
+  "INSS (4%)", 
+  "INSS Total", 
+  "IRPS",
+  "Sindicato",
+  "Adiantamento",
+  "Salario Liquido", 
+  "NIB",
+  "Num. Seg",
+]
+
+const keycolumns = [
+  // {key: "employee_id"},
+  {key: "employee_name"},
+  {key: "dependents"},
+  {key: "position_name"},
+  {key: "departament_name"},
+  {key: "month"},
+  {key: "year"},
+  {key: "month_total_workdays"},
+  {key: "day_total_workhours"}, 
+  {key: "salary_base"},
+  {key: "base_day"},
+  {key: "base_hour"},
+  {key: "subsidy_food"},
+  {key: "subsidy_residence"},
+  {key: "subsidy_medical"},
+  {key: "subsidy_vacation"},
+  {key: "subsidy"},
+  {key: "bonus"},
+  {key: "overtime50"}, 
+  {key: "overtime100"}, 
+  {key: "total_overtime"}, 
+  {key: "absences"},
+  {key: "total_absences"}, 
+  {key: "backpay"},
+  {key: "salary_thirteenth"},
+  {key: "total_income"},
+  {key: "inss_employee"},
+  {key: "inss_company"},
+  {key: "total_inss"},
+  {key: "irps"},
+  {key: "syndicate_employee"}, 
+  {key: "cash_advances"},   
+  {key: "salary_liquid"},   
+  {key: "nib"},   
+  {key: "social_security"},  
+]

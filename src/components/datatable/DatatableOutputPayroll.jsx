@@ -497,6 +497,8 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 data.total_overtime = formatSalary().format(data.total_overtime)
                 data.inss_company = formatSalary().format(data.inss_company)
                 data.total_inss = formatSalary().format(data.total_inss)
+                data.base_day = formatSalary().format(data.base_day)
+                data.base_hour =  formatSalary().format(data.base_hour)
                 data.nib = String(data.nib)
             })
             // loop through data and add each one to worksheet

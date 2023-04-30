@@ -1,11 +1,23 @@
 div{
-    .container {
+    
+    .containerPrintSlip {
         display: flex;
         flex-direction: column;
-        // border: 1px solid red;
+        // background-color: GREEN;
+        // height: 950px;
+        padding: 10px;
+        margin-bottom: 30px;
 
-        padding: 20px;
-    
+        .printSlip1 {
+            font-size: 10px;
+        //     height: 50%;
+        //     background-color: red;
+        }
+
+        .printSlip2 {
+            font-size: 10px;
+        }
+
         .nameAdress{
             display: flex;
             flex-direction: column;
@@ -81,8 +93,12 @@ div{
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 10px;
             
+            .signature {
+                display: flex;
+                justify-content: space-between;
+            }
 
             // div {
             //     .linha{
@@ -94,4 +110,8 @@ div{
        
     }
 }
+
+@media print {
+    @page { size: portrait !important;  }
+  }
 
