@@ -4,7 +4,6 @@ import Navbar from "../../components/navbar/Navbar"
 import Datatable from "../../components/datatable/Datatable"
 import { useEffect, useState } from "react"
 import api from "../../services/api"
-import DatatableResource from "../../components/datatableResources/DatatableResource"
 
 const payrollColumns = [
     { field: 'id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center',},
@@ -39,9 +38,9 @@ const ListReport = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <DatatableResource listName={listName} listPath={listPath} columns={payrollColumns} 
+                {/* <DatatableResource listName={listName} listPath={listPath} columns={payrollColumns} 
                 userRows={userRows} setUserRows={setUserRows} 
-                loading={loading} setLoading={setLoading}/>
+                loading={loading} setLoading={setLoading}/> */}
             </div>
         </div>
     )

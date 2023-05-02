@@ -105,26 +105,63 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
 
         // const header2 = ["Year", "Month", "Make", "Model", "Gender"];
 
+        //add title and date 
         worksheet.addRow(header1);
         // merge by start row, start column, end row, end column (equivalent to K10:M12)
-        worksheet.mergeCells(1,1,1,header3.length);
+        worksheet.mergeCells(1,1,2,header3.length);
         // worksheet.mergeCells('A1', 'J2');
-        worksheet.getCell('A1').value = 'Client List'
+        worksheet.getCell('A1').value = 'Elint Payroll'
+
+        //add header
         worksheet.addRow(header2);
-        worksheet.mergeCells(2,12,2,24);
-        worksheet.mergeCells(2,26,2,31);
-        worksheet.mergeCells(2,1,3,1);
-        worksheet.mergeCells(2,2,3,2);
-        worksheet.mergeCells(2,3,3,3);
-        worksheet.mergeCells(2,4,3,4);
-        worksheet.getCell('Z3', 'AE3').value = "Subsidio de Alimentacao"
-        worksheet.getCell('AE3').value = "Subsidio de Alimentacao"
+
+        //merge header with subheader row
+        worksheet.mergeCells(3,12,3,24);
+        worksheet.mergeCells(3,26,3,31);
+        worksheet.mergeCells(3,1,4,1);
+        worksheet.mergeCells(3,2,4,2);
+        worksheet.mergeCells(3,3,4,3);
+        worksheet.mergeCells(3,4,4,4);
+        worksheet.mergeCells(3,5,4,5);
+        worksheet.mergeCells(3,6,4,6);
+        worksheet.mergeCells(3,7,4,7);
+        worksheet.mergeCells(3,8,4,8);
+        worksheet.mergeCells(3,9,4,9);
+        worksheet.mergeCells(3,10,4,10);
+        worksheet.mergeCells(3,11,4,11);
+        worksheet.mergeCells(3,32,4,32);
+        worksheet.mergeCells(3,33,4,33);
+        worksheet.mergeCells(3,34,4,34);
+        worksheet.mergeCells('Y3', 'Y4');
+
+        //add subheader values(remuneracoes header)
+        worksheet.getCell('L4').value = "Subsidio de Alimentacao"
+        worksheet.getCell('M4').value = "Subsidio de Residencia"
+        worksheet.getCell('N4').value = "Subsidio Medico"
+        worksheet.getCell('O4').value = "Subsidio de Ferias"
+        worksheet.getCell('P4').value = "Outros Subsidio"
+        worksheet.getCell('Q4').value = "Bonus"
+        worksheet.getCell('R4').value = "Horas Extras 50"
+        worksheet.getCell('S4').value = "Horas Extras 100"
+        worksheet.getCell('T4').value = "Total Horas Extras"
+        worksheet.getCell('U4').value = "Faltas"
+        worksheet.getCell('V4').value = "Total desconto por Faltas"
+        worksheet.getCell('W4').value = "Retroativos"
+        worksheet.getCell('X4').value = "Decimo terceiro Sal."
+
+        //add subheader values(descontos header)
+        worksheet.getCell('Z4').value = "INSS (3%)"
+        worksheet.getCell('AA4').value = "INSS (4%)"
+        worksheet.getCell('AB4').value = "INSS Total"
+        worksheet.getCell('AC4').value = "IRPS"
+        worksheet.getCell('AD4').value = "Sindicato"
+        worksheet.getCell('AE4').value = "Emprestimo"
 
         // worksheet.addRow(header3);
 
+        //add key column
         worksheet.columns = keycolumns
 
-          
         // const subHeader = [];
         // subHeader[5] = "Male";
         // subHeader[6] = "Female";
@@ -142,7 +179,8 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         // updated the font for first row.
         worksheet.getRow(1).font = { bold: true };
         worksheet.getRow(2).font = { bold: true };
-
+        worksheet.getRow(3).font = { bold: true };
+        worksheet.getRow(4).font = { bold: true };
       
         // loop through all of the columns and set the alignment with width.
         // worksheet.columns.forEach(column => {
@@ -152,9 +190,9 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         // });
 
         worksheet.getRow(1).alignment = { horizontal: 'center' };
-        worksheet.getRow(2).alignment = { horizontal: 'center' };
-        worksheet.getColumn(3).alignment = { horizontal: 'center' };
-        worksheet.getColumn(4).alignment = { horizontal: 'center' };
+        worksheet.getRow(2).alignment = { horizontal: 'center', vertical: 'middle' };
+        // worksheet.getColumn(3).alignment = { horizontal: 'center' };
+        // worksheet.getColumn(4).alignment = { horizontal: 'center' };
 
       //   // loop through data and add each one to worksheet
         // excelPayroll.forEach(singleData => {
@@ -203,8 +241,8 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
               data.base_day = formatSalary().format(data.base_day)
               data.base_hour =  formatSalary().format(data.base_hour)
           })
+
           // loop through data and add each one to worksheet
-         
         excelPayroll2.forEach(singleData => {
           console.log(singleData)
           worksheet.addRow(singleData);
@@ -268,8 +306,20 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
               bottom: { style: 'thin' },
               right: { style: 'thin' }
             };
+
+            worksheet.getCell(cellAddress).alignment = {
+              horizontal: "center",
+              vertical: "middle"
+            };
           });
         });
+
+        worksheet.getColumn(1).alignment = { horizontal: 'left' };
+        worksheet.getRow(1).alignment = { horizontal: 'center', vertical: 'middle' };
+        // worksheet.getColumn("nib").hidden = false ? false : true
+        // worksheet.getColumn(header2.length).hidden = false ? false : true
+        // worksheet.getRow(2).alignment = { horizontal: 'center', vertical: 'middle' };
+
 
         worksheet.columns.forEach(function (column, i) {
           var maxLength = 0;
@@ -672,7 +722,7 @@ const header3 = [
   "INSS Total", 
   "IRPS",
   "Sindicato",
-  "Adiantamento",
+  "Emprestimo",
   "Salario Liquido", 
   "NIB",
   "Num. Seg",

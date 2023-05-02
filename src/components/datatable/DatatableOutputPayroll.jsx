@@ -428,26 +428,86 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
         
       }
 
-    const exportExcelFile = useCallback(async () => {
+      const exportExcelFile = useCallback(async () => {
         const workSheetName = 'Worksheet-1';
         const workBookName = 'Elint-Systems-Payroll';
         try {
           // creating one worksheet in workbook
           const worksheet = workbook.addWorksheet(workSheetName);
+
+          //add 1st Header 
+          const header1 = [""]
+
+
+          worksheet.addRow(header1);
+          // merge by start row, start column, end row, end column (equivalent to K10:M12)
+          worksheet.mergeCells(1,1,2,keycolumns.length);
+          // worksheet.mergeCells('A1', 'J2');
+          worksheet.getCell('A1').value = 'Elint Payroll'
+
+          //add header
+          worksheet.addRow(header2);
+
+          //merge header with subheader row
+          worksheet.mergeCells(3,13,3,25);
+          worksheet.mergeCells(3,27,3,32);
+          worksheet.mergeCells(3,1,4,1);
+          worksheet.mergeCells(3,2,4,2);
+          worksheet.mergeCells(3,3,4,3);
+          worksheet.mergeCells(3,4,4,4);
+          worksheet.mergeCells(3,5,4,5);
+          worksheet.mergeCells(3,6,4,6);
+          worksheet.mergeCells(3,7,4,7);
+          worksheet.mergeCells(3,8,4,8);
+          worksheet.mergeCells(3,9,4,9);
+          worksheet.mergeCells(3,10,4,10);
+          worksheet.mergeCells(3,11,4,11);
+          worksheet.mergeCells(3,12,4,12);
+          worksheet.mergeCells(3,33,4,33);
+          worksheet.mergeCells(3,34,4,34);
+          worksheet.mergeCells(3,35,4,35);
+          worksheet.mergeCells('Z3', 'Z4');
+
+          //add subheader values(remuneracoes header)
+          worksheet.getCell('M4').value = "Subsidio de Alimentacao"
+          worksheet.getCell('N4').value = "Subsidio de Residencia"
+          worksheet.getCell('O4').value = "Subsidio Medico"
+          worksheet.getCell('P4').value = "Subsidio de Ferias"
+          worksheet.getCell('Q4').value = "Outros Subsidio"
+          worksheet.getCell('R4').value = "Bonus"
+          worksheet.getCell('S4').value = "Horas Extras 50"
+          worksheet.getCell('T4').value = "Horas Extras 100"
+          worksheet.getCell('U4').value = "Total Horas Extras"
+          worksheet.getCell('V4').value = "Faltas"
+          worksheet.getCell('W4').value = "Total desconto por Faltas"
+          worksheet.getCell('X4').value = "Retroativos"
+          worksheet.getCell('Y4').value = "Decimo terceiro Sal."
+
+          //add subheader values(descontos header)
+          worksheet.getCell('AA4').value = "INSS (3%)"
+          worksheet.getCell('AB4').value = "INSS (4%)"
+          worksheet.getCell('AC4').value = "INSS Total"
+          worksheet.getCell('AD4').value = "IRPS"
+          worksheet.getCell('AE4').value = "Sindicato"
+          worksheet.getCell('AF4').value = "Emprestimo"
+
     
           // add worksheet columns
           // each columns contains header and its mapping key from data
-          worksheet.columns = columnsExcel;
+          worksheet.columns = keycolumns;
     
           // updated the font for first row.
           worksheet.getRow(1).font = { bold: true };
+          worksheet.getRow(2).font = { bold: true };
+          worksheet.getRow(3).font = { bold: true };
+          worksheet.getRow(4).font = { bold: true };
     
           // loop through all of the columns and set the alignment with width.
-          worksheet.columns.forEach(column => {
-            column.width = column.header.length + 15;
-            // column.width = column.eachCell.length + 20;
-            column.alignment = { horizontal: 'center' };
-          });
+          // worksheet.columns.forEach(column => {
+          //   column.width = column.header.length + 15;
+          //   // column.width = column.eachCell.length + 20;
+          //   column.alignment = { horizontal: 'center' };
+          // });
     
         //   // loop through data and add each one to worksheet
         //   excelPayroll.forEach(singleData => {
@@ -468,6 +528,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             let total_backpay = 0
             let total_total_absences = 0
             let total_total_overtime = 0
+            let total_syndicate_employee = 0
 
             excelPayroll.map(data => {
                 salary_liquid = salary_liquid + data.salary_liquid
@@ -483,6 +544,8 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 total_backpay += data.backpay
                 total_total_absences += data.total_absences
                 total_total_overtime += data.total_overtime
+                total_syndicate_employee += data.syndicate_employee
+
 
                 data.salary_base = formatSalary().format(data.salary_base)
                 data.salary_liquid = formatSalary().format(data.salary_liquid)
@@ -497,9 +560,17 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 data.total_overtime = formatSalary().format(data.total_overtime)
                 data.inss_company = formatSalary().format(data.inss_company)
                 data.total_inss = formatSalary().format(data.total_inss)
+                data.overtime50 = formatSalary().format(data.overtime50)
+                data.overtime100 = formatSalary().format(data.overtime100)
                 data.base_day = formatSalary().format(data.base_day)
                 data.base_hour =  formatSalary().format(data.base_hour)
+                data.subsidy_food = formatSalary().format(data.subsidy_food)
+                data.subsidy_residence = formatSalary().format(data.subsidy_residence)
+                data.subsidy_medical = formatSalary().format(data.subsidy_medical)
+                data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
+                data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
                 data.nib = String(data.nib)
+                data.days = 30
             })
             // loop through data and add each one to worksheet
           excelPayroll.forEach(singleData => {
@@ -530,14 +601,22 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             absences: "", 
             total_absences: formatSalary().format(total_total_absences), 
             cash_advances: formatSalary().format(total_cash_advances), 
+            syndicate_employee: formatSalary().format(total_syndicate_employee),
             subsidy: formatSalary().format(total_subsidy), 
             bonus: "", 
             backpay: formatSalary().format(total_backpay), 
+            month_total_workdays: "",
+            day_total_workhours: "",
+            base_day: "",
+            base_hour: "",
+            subsidy_food: "",
+            subsidy_residence: "",
+            subsidy_medical: "",
+            subsidy_vacation: "",
+            salary_thirteenth: "",
+            days: "",
 
-            total_bonus
-
-
-
+            // total_bonus
         });
        
           // loop through all of the rows and set the outline style.
@@ -557,8 +636,19 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 bottom: { style: 'thin' },
                 right: { style: 'thin' }
               };
+              worksheet.getCell(cellAddress).alignment = {
+                horizontal: "center",
+                vertical: "middle"
+              };
             });
           });
+
+          worksheet.getColumn(1).alignment = { horizontal: 'left' };
+          worksheet.getCell("A3").alignment = { horizontal: 'center', vertical: 'middle' }
+          worksheet.getRow(1).alignment = { horizontal: 'center', vertical: 'middle' };
+          worksheet.getColumn("salary_thirteenth").hidden = true
+          worksheet.getColumn("days").hidden = true
+          // worksheet.getColumn("nib").hidden = false ? false : true
 
           worksheet.columns.forEach(function (column, i) {
             var maxLength = 0;
@@ -585,6 +675,164 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
           setExcelPayroll([])
         }
       }, [excelPayroll]);
+
+    // const exportExcelFile = useCallback(async () => {
+    //     const workSheetName = 'Worksheet-1';
+    //     const workBookName = 'Elint-Systems-Payroll';
+    //     try {
+    //       // creating one worksheet in workbook
+    //       const worksheet = workbook.addWorksheet(workSheetName);
+    
+    //       // add worksheet columns
+    //       // each columns contains header and its mapping key from data
+    //       worksheet.columns = columnsExcel;
+    
+    //       // updated the font for first row.
+    //       worksheet.getRow(1).font = { bold: true };
+    
+    //       // loop through all of the columns and set the alignment with width.
+    //       worksheet.columns.forEach(column => {
+    //         column.width = column.header.length + 15;
+    //         // column.width = column.eachCell.length + 20;
+    //         column.alignment = { horizontal: 'center' };
+    //       });
+    
+    //     //   // loop through data and add each one to worksheet
+    //     //   excelPayroll.forEach(singleData => {
+    //     //     worksheet.addRow(singleData);
+    //     //   });
+    //       // console.log(excelPayroll)
+    //        //add row 
+    //         let salary_liquid = 0
+    //         let salary_base = 0 
+    //         let total_income = 0
+    //         let inss_employee = 0
+    //         let inss_company = 0
+    //         let total_inss = 0
+    //         let total_cash_advances = 0
+    //         let total_subsidy = 0
+    //         let irps = 0
+    //         let total_bonus = 0
+    //         let total_backpay = 0
+    //         let total_total_absences = 0
+    //         let total_total_overtime = 0
+
+    //         excelPayroll.map(data => {
+    //             salary_liquid = salary_liquid + data.salary_liquid
+    //             salary_base = salary_base + data.salary_base
+    //             total_income = total_income + data.total_income
+    //             inss_employee = inss_employee + data.inss_employee
+    //             inss_company = inss_company + data.inss_company
+    //             irps = irps + data.irps
+    //             total_inss = total_inss + data.total_inss
+    //             total_cash_advances = total_cash_advances + data.cash_advances
+    //             total_subsidy = total_subsidy + data.subsidy
+    //             total_bonus +=  data.bonus
+    //             total_backpay += data.backpay
+    //             total_total_absences += data.total_absences
+    //             total_total_overtime += data.total_overtime
+
+    //             data.salary_base = formatSalary().format(data.salary_base)
+    //             data.salary_liquid = formatSalary().format(data.salary_liquid)
+    //             data.total_income = formatSalary().format(data.total_income)
+    //             data.irps = formatSalary().format(data.irps)
+    //             data.inss_employee = formatSalary().format(data.inss_employee)
+    //             data.subsidy = formatSalary().format(data.subsidy)
+    //             data.bonus = formatSalary().format(data.bonus)
+    //             data.cash_advances = formatSalary().format(data.cash_advances)
+    //             data.backpay = formatSalary().format(data.backpay)
+    //             data.total_absences = formatSalary().format(data.total_absences)
+    //             data.total_overtime = formatSalary().format(data.total_overtime)
+    //             data.inss_company = formatSalary().format(data.inss_company)
+    //             data.total_inss = formatSalary().format(data.total_inss)
+    //             data.base_day = formatSalary().format(data.base_day)
+    //             data.base_hour =  formatSalary().format(data.base_hour)
+    //             data.nib = String(data.nib)
+    //         })
+    //         // loop through data and add each one to worksheet
+    //       excelPayroll.forEach(singleData => {
+    //         worksheet.addRow(singleData);
+    //       });
+            
+    //        worksheet.addRow({
+    //         salary_liquid:  formatSalary().format(salary_liquid), 
+    //         salary_base:  formatSalary().format(salary_base), 
+    //         total_income: formatSalary().format(total_income),
+    //         inss_employee: formatSalary().format(inss_employee),
+    //         inss_company: formatSalary().format(inss_company),
+    //         total_inss: formatSalary().format(total_inss),
+    //         irps: formatSalary().format(irps),
+    //         total_inss: formatSalary().format(total_inss), 
+    //         employee_id: "",
+    //         employee_name: "TOTAL",
+    //         dependents: "",
+    //         position_name: "", 
+    //         departament_name: "",  
+    //         month: "", 
+    //         year: "", 
+    //         nib: "",
+    //         social_security: "",
+    //         overtime50: "", 
+    //         overtime100: "", 
+    //         total_overtime: formatSalary().format(total_total_overtime), 
+    //         absences: "", 
+    //         total_absences: formatSalary().format(total_total_absences), 
+    //         cash_advances: formatSalary().format(total_cash_advances), 
+    //         subsidy: formatSalary().format(total_subsidy), 
+    //         bonus: "", 
+    //         backpay: formatSalary().format(total_backpay), 
+
+    //         total_bonus
+
+
+
+    //     });
+       
+    //       // loop through all of the rows and set the outline style.
+    //       worksheet.eachRow({ includeEmpty: false }, row => {
+    //         // store each cell to currentCell
+    //         const currentCell = row._cells;
+    
+    //         // loop through currentCell to apply border only for the non-empty cell of excel
+    //         currentCell.forEach(singleCell => {
+    //           // store the cell address i.e. A1, A2, A3, B1, B2, B3, ...
+    //           const cellAddress = singleCell._address;
+    
+    //           // apply border
+    //           worksheet.getCell(cellAddress).border = {
+    //             top: { style: 'thin' },
+    //             left: { style: 'thin' },
+    //             bottom: { style: 'thin' },
+    //             right: { style: 'thin' }
+    //           };
+    //         });
+    //       });
+
+    //       worksheet.columns.forEach(function (column, i) {
+    //         var maxLength = 0;
+    //         column["eachCell"]({ includeEmpty: true }, function (cell) {
+    //             var columnLength = cell.value ? cell.value.toString().length : 15;
+    //             if (columnLength > maxLength ) {
+    //                 maxLength = columnLength;
+    //             }
+    //         });
+    //         column.width = maxLength < 10 ? 10 : maxLength;
+    //     });
+
+    //       // write the content using writeBuffer
+    //       const buf = await workbook.xlsx.writeBuffer();
+    
+    //       // download the processed file
+    //       saveAs(new Blob([buf]), `${workBookName}(${payrollDate}).xlsx`);
+    //     } catch (error) {
+    //       console.error('<<<ERRROR>>>', error);
+    //       console.error('Something Went Wrong', error.message);
+    //     } finally {
+    //       // removing worksheet's instance to create new one
+    //       workbook.removeWorksheet(workSheetName);
+    //       setExcelPayroll([])
+    //     }
+    //   }, [excelPayroll]);
      
 
     const actionColumn = [
@@ -770,6 +1018,80 @@ const columnsExcel = [
 
     ]
 
+    const header2 = [
+      // "Id",
+      "Nome",
+      "Dependentes",
+      "Cargo",
+      "Departamento",
+      "Mes",
+      "Ano",
+      "Total dias de Trabalho",
+      "total horas de Trabalho",
+      "Salario Base", 
+      "Dias",
+      "Base diaria", 
+      "Base Hora", 
+      "Remuneracaoes",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Salario Bruto", 
+      "Descontos", 
+      "", 
+      "", 
+      "",
+      "",
+      "",
+      "Salario Liquido", 
+      "NIB",
+      "Num. Seg",
+    ]
 
-
-
+    const keycolumns = [
+      // {key: "employee_id"},
+      {key: "employee_name"},
+      {key: "dependents"},
+      {key: "position_name"},
+      {key: "departament_name"},
+      {key: "month"},
+      {key: "year"},
+      {key: "month_total_workdays"},
+      {key: "day_total_workhours"}, 
+      {key: "salary_base"},
+      {key: "days"},
+      {key: "base_day"},
+      {key: "base_hour"},
+      {key: "subsidy_food"},
+      {key: "subsidy_residence"},
+      {key: "subsidy_medical"},
+      {key: "subsidy_vacation"},
+      {key: "subsidy"},
+      {key: "bonus"},
+      {key: "overtime50"}, 
+      {key: "overtime100"}, 
+      {key: "total_overtime"}, 
+      {key: "absences"},
+      {key: "total_absences"}, 
+      {key: "backpay"},
+      {key: "salary_thirteenth"},
+      {key: "total_income"},
+      {key: "inss_employee"},
+      {key: "inss_company"},
+      {key: "total_inss"},
+      {key: "irps"},
+      {key: "syndicate_employee"}, 
+      {key: "cash_advances"},   
+      {key: "salary_liquid"},   
+      {key: "nib"},   
+      {key: "social_security"},  
+    ]
