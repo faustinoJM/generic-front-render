@@ -137,6 +137,12 @@ const ListOutputPayroll = ({ listName, listPath }) => {
             data.inss_company = formatSalary().format(data.inss_company)
             data.total_inss = formatSalary().format(data.total_inss)
             data.syndicate_employee = formatSalary().format(data.syndicate_employee)
+            data.subsidy_food = formatSalary().format(data.subsidy_food)
+            data.subsidy_transport = formatSalary().format(data.subsidy_transport)
+            data.subsidy_residence = formatSalary().format(data.subsidy_residence)
+            data.subsidy_medical = formatSalary().format(data.subsidy_medical)
+            data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
+            data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
             })
             const totalRow = [
                 {

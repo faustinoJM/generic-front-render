@@ -28,7 +28,7 @@ const SettingPayroll = () => {
                 setday(response.data.payroll_total_workdays_month)
                 sethour(response.data.payroll_total_workhours_day)
             } else {
-                setday(26)
+                setday(30)
                 sethour(8)
             }
    
@@ -176,6 +176,18 @@ const SettingPayroll = () => {
                                     }
                                 </select>
                             </div>
+                            {/* <div>
+                                <label>Sindicato</label>
+                                <select id="syndicate_status" name="syndicate_status"
+                                        onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
+                                    {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div>
                             <div>
                                 <label>Sindicato</label>
                                 <select id="syndicate_status" name="syndicate_status"
@@ -188,6 +200,42 @@ const SettingPayroll = () => {
                                     }
                                 </select>
                             </div>
+                            <div>
+                                <label>Sindicato</label>
+                                <select id="syndicate_status" name="syndicate_status"
+                                        onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
+                                    {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label>Sindicato</label>
+                                <select id="syndicate_status" name="syndicate_status"
+                                        onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
+                                    {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label>Sindicato</label>
+                                <select id="syndicate_status" name="syndicate_status"
+                                        onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
+                                    {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div> */}
                         </div>
                     </div>
                     <div className="buttonDiv">

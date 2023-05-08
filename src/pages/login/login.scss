@@ -82,6 +82,21 @@
             color: white;
         }
 
+        .register {
+            margin: 4px 32px;
+            font-size: 14px;
+
+            .newAccount {
+                display: flex;
+                justify-content: end;
+
+                a {
+                    margin-left: 4px;
+                    text-decoration: none;
+                }
+            }
+        }
+
         
     }
 }

@@ -2,7 +2,6 @@ import "./singleEmployee.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import Chart from "../../components/chart/Chart"
-import Table from "../../components/table/Table"
 import api from "../../services/api"
 import { useParams, useLocation} from 'react-router-dom';
 import { useEffect, useState } from "react"

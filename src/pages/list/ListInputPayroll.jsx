@@ -98,10 +98,18 @@ const ListInputPayroll = ({ listName, listPath }) => {
 
              response.data.map((data) => {
                 data.salary_base = formatSalary().format(data.salary_base)
+                data.overtime50 = formatSalary().format(data.overtime50)
+                data.overtime100 = formatSalary().format(data.overtime100)
                 data.subsidy = formatSalary().format(data.subsidy)
                 data.bonus = formatSalary().format(data.bonus)
                 data.cash_advances = formatSalary().format(data.cash_advances)
                 data.backpay = formatSalary().format(data.backpay)
+                data.subsidy_food = formatSalary().format(data.subsidy_food)
+                data.subsidy_transport = formatSalary().format(data.subsidy_transport)
+                data.subsidy_residence = formatSalary().format(data.subsidy_residence)
+                data.subsidy_medical = formatSalary().format(data.subsidy_medical)
+                data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
+                data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
             })
             if (response.status === 200) {
                 setLoading(false)

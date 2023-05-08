@@ -207,7 +207,7 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
               data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
               data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
               data.nib = String(data.nib)
-              data.days = 30
+              data.days = 30 - (+data.absences)
               data.birth_date = ""
               data.event = ""
               data.event_date = ""
@@ -217,48 +217,47 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
             worksheet.addRow(singleData);
           });
           
-        //  worksheet.addRow({
-        //   salary_liquid:  formatSalary().format(salary_liquid), 
-        //   salary_base:  formatSalary().format(salary_base), 
-        //   total_income: formatSalary().format(total_income),
-        //   inss_employee: formatSalary().format(inss_employee),
-        //   inss_company: formatSalary().format(inss_company),
-        //   total_inss: formatSalary().format(total_inss),
-        //   irps: formatSalary().format(irps),
-        //   total_inss: formatSalary().format(total_inss), 
-        //   employee_id: "",
-        //   employee_name: "TOTAL",
-        //   dependents: "",
-        //   position_name: "", 
-        //   departament_name: "",  
-        //   month: "", 
-        //   year: "", 
-        //   nib: "",
-        //   social_security: "",
-        //   overtime50: "", 
-        //   overtime100: "", 
-        //   total_overtime: formatSalary().format(total_total_overtime), 
-        //   absences: "", 
-        //   total_absences: formatSalary().format(total_total_absences), 
-        //   cash_advances: formatSalary().format(total_cash_advances), 
-        //   syndicate_employee: formatSalary().format(total_syndicate_employee),
-        //   subsidy: formatSalary().format(total_subsidy), 
-        //   bonus: "", 
-        //   backpay: formatSalary().format(total_backpay), 
-        //   month_total_workdays: "",
-        //   day_total_workhours: "",
-        //   base_day: "",
-        //   base_hour: "",
-        //   subsidy_food: "",
-        //   subsidy_residence: "",
-        //   subsidy_medical: "",
-        //   subsidy_vacation: "",
-        //   salary_thirteenth: "",
-        //   days: "",
+         worksheet.addRow({
+          employee_id: "",
+          employee_name: "TOTAL",
+          dependents: "",
+          position_name: "", 
+          departament_name: "",  
+          month: "", 
+          year: "", 
+          nib: "",
+          social_security: "",
+          overtime50: "", 
+          overtime100: "", 
+          total_overtime: formatSalary().format(total_total_overtime), 
+          absences: "", 
+          total_absences: formatSalary().format(total_total_absences), 
+          cash_advances: formatSalary().format(total_cash_advances), 
+          syndicate_employee: formatSalary().format(total_syndicate_employee),
+          subsidy: formatSalary().format(total_subsidy), 
+          bonus: "", 
+          backpay: formatSalary().format(total_backpay), 
+          salary_liquid:  formatSalary().format(salary_liquid), 
 
-        //   // total_bonus
-        // });
-     
+          social_security: "TOTAL",  
+          employee_name: "",
+          days: "",
+          birth_date: "",
+          salary_base:  formatSalary().format(salary_base), 
+          subsidy: formatSalary().format(total_subsidy),
+          bonus: formatSalary().format(total_bonus),
+          total_income: formatSalary().format(total_income),
+          event: "",
+          event_date: "",
+          inss_company: formatSalary().format(inss_company),
+          inss_employee: formatSalary().format(inss_employee),
+          total_inss: formatSalary().format(total_inss),
+
+
+          // total_bonus
+        });
+        worksheet.lastRow.font = { bold: true };
+
         // loop through all of the rows and set the outline style.
         worksheet.eachRow({ includeEmpty: false }, row => {
           // store each cell to currentCell
@@ -287,9 +286,9 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
         worksheet.getCell("B3").alignment = { horizontal: 'center', vertical: 'middle' }
         worksheet.getRow(1).alignment = { horizontal: 'center', vertical: 'middle' };
         worksheet.getCell("A30", "B30").outlineLevel = 1;
-worksheet.getColumn(25).outlineLevel = 1;
+        worksheet.getColumn(25).outlineLevel = 1;
         // worksheet.getColumn("salary_thirteenth").hidden = true
-        // worksheet.getColumn("days").hidden = true
+        worksheet.getColumn("birth_date").hidden = true
         // worksheet.getColumn("nib").hidden = false ? false : true
 
         worksheet.columns.forEach(function (column, i) {
@@ -343,23 +342,18 @@ worksheet.getColumn(25).outlineLevel = 1;
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        <Link to={`/${listPath}/output/${params.row.month}-${params.row.year}`} style={{textDecoration: "none"}}>
-                        {/* to={`/${listPath}/${params.row.id}`} */}
-                        {/* {console.log(params.row.month+""+listPath)} */}
+                        {/* <Link to={`/${listPath}/output/${params.row.month}-${params.row.year}`} style={{textDecoration: "none"}}>
                                 <div className="viewButton">
                                     <VisibilityIcon /> Ver
                                 </div>
-                        </Link>
+                        </Link> */}
                         <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month)}>
                             <DescriptionIcon className="edIcon"/> Exportar
                         </div>
-                        <div className="printButton" onClick={() => handleSinglePrint(params.row.id)}>
-                        {/* handleSinglePrint(params.row.year, params.row.month) */}
-                              <PrintIcon />  Imprimir
-                            </div>
-                        {/* <div className="deleteButton" onClick={() => handleDelete(params.row.year, params.row.month, listPath)}>
-                            <DeleteForeverIcon /> Remover
+                        {/* <div className="printButton" onClick={() => handleSinglePrint(params.row.id)}>
+                            <PrintIcon />  Imprimir
                         </div> */}
+                        
                     </div>
                 )
             }
@@ -418,6 +412,9 @@ export default DatatableResourceINSS;
       "Total",
       "Evento", 
       "Data Evento",
+      "INSS Funcionario",
+      "INSS Empresa",
+      "Total INSS",
     ]
 
     const keycolumns = [
@@ -430,5 +427,8 @@ export default DatatableResourceINSS;
       {key: "bonus"},
       {key: "total_income"},
       {key: "event"},
-      {key: "event_date"}
+      {key: "event_date"},
+      {key: "inss_employee"},
+      {key: "inss_company"},
+      {key: "total_inss"},
     ]

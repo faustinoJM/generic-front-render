@@ -29,14 +29,27 @@ import ListSocialSecurity from '../pages/resource/ListSocialSecurity';
 import ListBanks from '../pages/resource/ListBanks';
 import ListAbsences from '../pages/resource/ListAbsences';
 import ListReport from '../pages/resource/ListReport';
+import Register from '../pages/register/Register';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
 export default function Routers() {
+
+  const theme = extendTheme({
+    colors: {
+      sidebar_color: {
+        50: "#44337A",
+        100: "#B794F4",
+        500: "#1e293b", // you need this
+      }
+    },
+  })
 
   return(
     <Routes>
     <Route path="/" >
       <Route index element={<RouteAuth isPrivate={true}><Home/></RouteAuth>} />
       <Route path="login" element={<Login/>} />
+      <Route path="register" element={<ChakraProvider theme={theme}><Register/></ChakraProvider>} />
       <Route path="employees">
         <Route index element={<RouteAuth isPrivate={true}><ListEmployee listName={"Funcionarios"} listPath={'employees'} /></RouteAuth>} />
         <Route path=":employeeId" element={<RouteAuth isPrivate={true}><SingleEmployee/></RouteAuth>} />

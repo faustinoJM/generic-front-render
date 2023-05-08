@@ -2,7 +2,7 @@ import "./single.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import Chart from "../../components/chart/Chart"
-import Table from "../../components/table/Table"
+// import Table from "../../components/table/Table"
 import api from "../../services/api"
 import { useParams, useLocation} from 'react-router-dom';
 import { useEffect, useState } from "react"
@@ -72,7 +72,7 @@ const Single = () => {
                 </div>
                 <div className="bottom">
                     <h1 className="title">Last Transactions</h1>
-                    <Table />
+                    {/* <Table /> */}
                 </div>
             </div>
         </div>        

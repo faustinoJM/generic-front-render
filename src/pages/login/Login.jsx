@@ -80,6 +80,10 @@ const Login = () => {
                     {loginError && (<div className="error">Email ou Senha incorrecta</div>)}
                 </div>
                 <button type="submnit">Login</button>
+                <div className="register">
+                  {/* <span>Esqueci senha <a href="home">Criar</a></span> */}
+                  <span className="newAccount"><Link to="/register">Criar nova conta?</Link></span>
+                </div>
             </Form>
         </div>
     )
