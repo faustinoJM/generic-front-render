@@ -147,7 +147,7 @@ const PrintPayslip = ({componentRef, single}) => {
     // const componentRef = useRef();
     const [companyName, setCompanyName] = useState("")
     const [setting, setSetting] = useState("")
-    const [maumau, setmaumau] = useState([])
+    const [urlLogo, setUrlLogo] = useState(null);
 
     useEffect(() => {
         async function fetch() {
@@ -157,6 +157,7 @@ const PrintPayslip = ({componentRef, single}) => {
             if (response.data){
                 setSetting(response.data)
                 setCompanyName(response.data.company_name)
+                setUrlLogo(response.data.companyLogoURL)
             } else {
                 setCompanyName("Elint Payroll")
             }
@@ -270,7 +271,7 @@ const PrintPayslip = ({componentRef, single}) => {
     //                                                 <td>{formatSalary().format(single.totalOvertime100)}</td>
     //                                             </tr>
     //                                             <tr>
-    //                                                 <th>Subsidio</th>
+    //                                                 <th>Subsidios</th>
     //                                                 <td></td>
     //                                                 <td>{formatSalary().format(single.subsidy)}</td>
     //                                             </tr>
@@ -308,7 +309,7 @@ const PrintPayslip = ({componentRef, single}) => {
     //                                                 <td>{formatSalary().format(single.inss_employee)}</td>
     //                                             </tr>
     //                                             <tr>
-    //                                                 <th>Adiantamento</th>
+    //                                                 <th>Emprestimo</th>
     //                                                 <td></td>
     //                                                 <td style={{border: "none"}}></td>
     //                                                 <td>{formatSalary().format(single.cash_advances)}</td>
@@ -373,12 +374,22 @@ const PrintPayslip = ({componentRef, single}) => {
                 <div className="containerPrintSlip">
                     
                     <div className="printSlip1">
-                        <div className="nameAdress">
-                            <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
-                            <span>{setting?.company_address ?? "Av. Kruss Gomes"}</span>
-                            <span>{setting?.company_city ?? "Beira"}</span>
-                            <span>{setting?.company_province ?? "Sofala"}</span>
+                        <div className="logo_and_adress">
+                            <div className="nameAdress">
+                                <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
+                                <span>{setting?.company_address ?? "Av. Kruss Gomes"}</span>
+                                <span>{setting?.company_city ?? "Beira"}</span>
+                                <span>{setting?.company_province ?? "Sofala"}</span>
+                            </div>
+                            <div className="logo_print">
+                                <img 
+                                    src={
+                                    urlLogo ? urlLogo : ""
+                                    } 
+                                    alt="" />
+                            </div>
                         </div>
+                        
                         <div className="employeeData">
                             <div className="idRecibo">
                                 <div className="id">
@@ -416,9 +427,10 @@ const PrintPayslip = ({componentRef, single}) => {
                                 </table>
                             </div> 
                         </div>
-                        <br/>
-                        <hr />
+                        {/* <br/> 
+                            <hr/>*/}
                         <div className="employePayment">
+                        <hr/>
                             <table>
                                 <thead>
                                     <tr>
@@ -445,7 +457,7 @@ const PrintPayslip = ({componentRef, single}) => {
                                         <td>{formatSalary().format(single.totalOvertime100)}</td>
                                     </tr>
                                     <tr>
-                                        <th>Subsidio</th>
+                                        <th>Subsidios</th>
                                         <td></td>
                                         <td>{formatSalary().format(single.subsidy)}</td>
                                     </tr>
@@ -483,7 +495,7 @@ const PrintPayslip = ({componentRef, single}) => {
                                         <td>{formatSalary().format(single.inss_employee)}</td>
                                     </tr>
                                     <tr>
-                                        <th>Adiantamento</th>
+                                        <th>Emprestimo</th>
                                         <td></td>
                                         <td style={{border: "none"}}></td>
                                         <td>{formatSalary().format(single.cash_advances)}</td>
@@ -531,11 +543,20 @@ const PrintPayslip = ({componentRef, single}) => {
                     </div>
 
                     <div className="printSlip2">
-                        <div className="nameAdress">
-                            <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
-                            <span>{setting?.company_address ?? "Av. Kruss Gomes"}</span>
-                            <span>{setting?.company_city ?? "Beira"}</span>
-                            <span>{setting?.company_province ?? "Sofala"}</span>
+                        <div className="logo_and_adress">
+                            <div className="nameAdress">
+                                <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
+                                <span>{setting?.company_address ?? "Av. Kruss Gomes"}</span>
+                                <span>{setting?.company_city ?? "Beira"}</span>
+                                <span>{setting?.company_province ?? "Sofala"}</span>
+                            </div>
+                            <div className="logo_print">
+                                <img 
+                                    src={
+                                    urlLogo ? urlLogo : ""
+                                    } 
+                                    alt="" />
+                            </div>
                         </div>
                         <div className="employeeData">
                             <div className="idRecibo">
@@ -574,9 +595,10 @@ const PrintPayslip = ({componentRef, single}) => {
                                 </table>
                             </div> 
                         </div>
-                        <br/>
-                        <hr />
+                        {/* <br/> 
+                            <hr/>*/}
                         <div className="employePayment">
+                        <hr/>
                             <table>
                                 <thead>
                                     <tr>
@@ -603,7 +625,7 @@ const PrintPayslip = ({componentRef, single}) => {
                                         <td>{formatSalary().format(single.totalOvertime100)}</td>
                                     </tr>
                                     <tr>
-                                        <th>Subsidio</th>
+                                        <th>Subsidios</th>
                                         <td></td>
                                         <td>{formatSalary().format(single.subsidy)}</td>
                                     </tr>
@@ -636,7 +658,7 @@ const PrintPayslip = ({componentRef, single}) => {
                                         <td>{formatSalary().format(single.inss_employee)}</td>
                                     </tr>
                                     <tr>
-                                        <th>Adiantamento</th>
+                                        <th>Emprestimo</th>
                                         <td></td>
                                         <td style={{border: "none"}}></td>
                                         <td>{formatSalary().format(single.cash_advances)}</td>

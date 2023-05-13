@@ -13,40 +13,78 @@ import Swal from "sweetalert2";
 
 const SettingLogo = () => {
     const [file, setFile] = useState("");
+    const [urlLogo, setUrlLogo] = useState("");
     const [setting, setSetting] = useState("")
 
     useEffect(() => {
         async function fetch() {
-            const respose = await api.get("settings")
-            if (respose.data)
-                setSetting(respose.data)
+            const response = await api.get("settings")
+            if (response.data){
+                setSetting(response.data)
+                response.data.companyLogoURL ? setUrlLogo(response.data.companyLogoURL)
+                : setUrlLogo("https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg")
+            }
         }
         fetch()
     }, [])
 
     const onSubmit = async (values, actions) => {  
         console.log("submit")
-        actions.resetForm()   
-        const response = await api.post("settings", values)
+        // values.logo = values.file
+        // console.log(file)
+        console.log(values.logo.name)
+        // console.log(values)
+
+
+        // actions.resetForm()   
+        const formData = new FormData()
+        formData.append("logo", values.logo)
+        formData.append("company_name", values.company_name)
+
+        // const response = await api.post("settings", values)
+        let response = ""
+        if (values.logo.name && values.company_name) {
+            response = await api.post("settings", formData, {
+                headers: {
+                'Content-Type': 'multipart/form-data'
+                }
+        })} 
+        else {
+            response = await api.post("settings", { company_name: values.company_name})
+        }
         if (response.status === 201)
         Swal.fire(
             'Sucesso!',
             'Dados salvos com sucesso!',
             'success'
           )
-        actions.resetForm()
+        // actions.resetForm()
      }
 
-    //  const schema = Yup.object().shape({
-    //     name: Yup.string().required('Nome Obrigatorio'),
-    //     description: Yup.string().required("Descricao obrigatorio"),
+     const schema = Yup.object().shape({
+        company_name: Yup.string().required('Nome Obrigatorio'),
+        logo: Yup.mixed()
+                // .required("You need to provide a file")
+                // .test("fileSize", "The file is too large", (value) => {
+                //     return value && value.sienter <= 2000000;
+                // })
+                .test("type", "Formato invalido somente: .jpeg, .jpg, .png", (value) => {
+                    console.log(value)
+                    if (!value) return true
+                    return value && (
+                        value.type === "image/jpeg" ||
+                        value.type === "image/bmp" ||
+                        value.type === "image/png" 
+                    );
+                }),
 
-    // })
-    const { values, errors, handleChange, touched, isSubmitting, handleBlur, handleSubmit} = useFormik({
+    })
+    const { values, errors, handleChange, touched, isSubmitting, handleBlur, handleSubmit, setFieldValue} = useFormik({
         initialValues: {
             company_name: setting.company_name,
+            logo: ""
         },
-        // validationSchema: schema,
+        validationSchema: schema,
         enableReinitialize: true,
         onSubmit 
     })
@@ -70,21 +108,25 @@ const SettingLogo = () => {
                             <label>Titulo/Nome da Empresa</label>
                             <input type="text" id="company_name"
                                 defaultValue={setting.company_name} onChange={handleChange} onBlur={handleBlur}/>
+                                {errors.company_name && touched.company_name && <p style={{color: "crimson"}}>{errors.company_name}</p>} 
                         </div>
                         <div className="upload">
                             <div className="labelIcon">
                                 <label htmlFor="file">Logo da Empresa: <DriveFolderUploadOutlinedIcon className="icon" /></label>
-                                <input   type="file" id="file" style={{ display: 'none' }}/>
+                                <input  type="file" id="file" name="logo" style={{ display: 'none' }} onChange={(e) => {
+                                    setFieldValue("logo", e.target.files[0])
+                                    setFile(e.target.files[0])
+                                }}/>
                             </div> 
                             <div className="imgDiv">
                                 <img 
                                     src={
-                                    file ? URL.createObjectURL(file) : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                                    file ? URL.createObjectURL(file) : urlLogo
                                     } 
                                     alt="" />
                             </div>
-                            
                         </div>
+                        {errors.logo && touched.logo && <p style={{color: "crimson"}}>{errors.logo}</p>} 
                     </div>
                     <div className="buttonDiv">
                         <button type="submit">Salvar</button>

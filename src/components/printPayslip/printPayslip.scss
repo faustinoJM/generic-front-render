@@ -7,26 +7,69 @@ div{
         // height: 950px;
         padding: 10px;
         margin-bottom: 30px;
+        // border: 1px solid green;
 
         .printSlip1 {
             font-size: 10px;
         //     height: 50%;
         //     background-color: red;
+            .logo_and_adress {
+                display: flex;
+                flex-direction:  row;
+                justify-content: space-between;
+                .nameAdress{
+                    display: flex;
+                    flex-direction: column;
+                    // border: 1px solid yellow;
+                }
+
+                .logo_print {
+                    // border: 1px solid red;
+
+                    img {
+                        width: 100px;
+                        height: 100px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        justify-self: center;
+                    }
+                }
+            }
         }
 
         .printSlip2 {
             font-size: 10px;
+
+            .logo_and_adress {
+                display: flex;
+                flex-direction:  row;
+                justify-content: space-between;
+                .nameAdress{
+                    display: flex;
+                    flex-direction: column;
+                    // border: 1px solid yellow;
+                }
+
+                .logo_print {
+                    // border: 1px solid red;
+
+                    img {
+                        width: 100px;
+                        height: 100px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        justify-self: center;
+                    }
+                }
+            }
         }
 
-        .nameAdress{
-            display: flex;
-            flex-direction: column;
-            
-        }
+        
 
         .employeeData {
             display: flex;
             flex-direction: column;
+            // border: 1px solid red;
 
             .idRecibo{
                 display: flex;
@@ -68,7 +111,7 @@ div{
 
             .tableEmployeeData {
                 th {
-                    width: 150px; 
+                    width: 200px; 
                     background:	silver;
                 }
                 td {
@@ -79,7 +122,9 @@ div{
         }
 
         .employePayment {
-            
+            margin-top: 8px;
+            // border: 1px solid yellow;
+
               th{
                 width: 200px;
               }td{
@@ -93,7 +138,7 @@ div{
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 4px;
             
             .signature {
                 display: flex;

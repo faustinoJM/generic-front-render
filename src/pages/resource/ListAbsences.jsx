@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import api from "../../services/api"
 import Register from "../register/Register"
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import DatatableResourceAbsences from "../../components/datatableResources/DatatableResourceAbsences"
 
 
 const payrollColumns = [
@@ -41,13 +42,13 @@ const ListAbsences = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <ChakraProvider>
+                {/* <ChakraProvider>
                     <Register />
-                </ChakraProvider>
+                </ChakraProvider> */}
 
-                {/* <DatatableResource listName={listName} listPath={listPath} columns={payrollColumns} 
+                <DatatableResourceAbsences listName={listName} listPath={listPath} columns={payrollColumns} 
                 userRows={userRows} setUserRows={setUserRows} 
-                loading={loading} setLoading={setLoading}/> */}
+                loading={loading} setLoading={setLoading}/>
             </div>
         </div>
     )

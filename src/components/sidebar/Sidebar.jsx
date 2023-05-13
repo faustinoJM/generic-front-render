@@ -40,10 +40,17 @@ const Sidebar = (d, f) => {
     const { signOut } = useAuth();
     const [setting, setSetting] = useState(null)
     const [companyName, setCompanyName] = useState("")
+    const [urlLogo, setUrlLogo] = useState(null);
 
     const {data, error, isError, isLoading } = useQuery('settings', fetchSettings)
 
-    console.log("sidebar", data)
+    useEffect(() => {
+        if (!isLoading) {
+            setUrlLogo(data.companyLogoURL)
+        }
+    }, [data])
+    
+    // console.log("sidebar", data)
     // console.log(data)
     // useEffect(() => {
     //     async function fetch() {
@@ -68,8 +75,15 @@ const Sidebar = (d, f) => {
     return (
         <div className="sidebar">
             <div className="top">
-                <Link to="/" style={{textDecoration: "none"}}>
+                <Link to="/" style={{textDecoration: "none"}} className="linkTop">
                     <span className="logo">{data?.company_name ?? 'Elint Payroll'}</span>
+                    <div className="logoImg">
+                                <img 
+                                    src={
+                                    urlLogo ? urlLogo : ""
+                                    } 
+                                    alt="" />
+                    </div>
                 </Link>
             </div>
             <hr />
@@ -141,12 +155,12 @@ const Sidebar = (d, f) => {
                             <span>INSS</span>
                         </NavLink>
                     </li>
-                    {/* <li>
+                    <li>
                         <NavLink to="/resources/absences" className="navLink" style={{textDecoration: "none"}}>
                             <FactCheckOutlinedIcon className="icon" />
                             <span>Faltas</span>
                         </NavLink>
-                    </li> */}
+                    </li>
                     {/* 
                     <li>
                         <NavLink to="/resources/report" className="navLink" style={{textDecoration: "none"}}>
