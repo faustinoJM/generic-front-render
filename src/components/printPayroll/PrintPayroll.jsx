@@ -1,8 +1,9 @@
 import { useState } from "react"
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts"
-
-import './printPayroll.scss'
+import './printPayrollMulti.scss'
+import api from "../../services/api";
+import { useEffect } from "react";
 
 const formatSalary = () => {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -11,8 +12,8 @@ const formatDate = () => {
     return new Intl.DateTimeFormat("pt-br", { dateStyle: 'long'})
   }
 
-export function printPDF(printData) {
-    console.log(printData)
+export function printPDF(printData, settingData, urlLogo) {
+  
     const montYear = printData.length > 0 ? `${printData[0].month}/${printData[0].year}` : ""
     let totalRow = []
     if (printData.length > 0) {
@@ -125,6 +126,14 @@ export function printPDF(printData) {
         
         {text: '\nAssinatura \n________________________', alignment: "left"},
         {text: `\nData: ${formatDate().format(new Date())}`, alignment: "left"},
+        
+        
+        // {
+        //     // if you specify both width and height - image will be stretched
+        //     image: await urlToBase64(url),
+        //     width: 150,
+        //     height: 150
+        // },
 
         // {text: 'Column/row spans', style: 'subheader', alignment: "right", margin: [50, 150, 400, 0]},
               
@@ -212,96 +221,180 @@ export function printPDF(printData) {
 }
 
 const PrintPayroll = ({componentRef, printData}) => {
-    console.log(printData)
-    const [companyName, setCompanyName] = useState("")
+    console.log("helo",printData)
+    const date  = new Date()
+    const [urlLogo, setUrlLogo] = useState("");
+    const [setting, setSetting] = useState({})
 
-    let date  = new Date()
+    useEffect(() => {
+        async function fetch() {
+            const response = await api.get("settings")
+            if (response.data){
+                setSetting(response.data)
+                response.data.companyLogoURL ? setUrlLogo(response.data.companyLogoURL)
+                : setUrlLogo("https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg")
+            }
+        }
+        fetch()
+    }, [])
 
     return (
         <div style={{display: "none"}}>
-            <div ref={componentRef} style={{width: '100%', height: window.innerHeight, marginTop: 'auto', marginBottom: 'auto'}}>
-                <div className="container">
-                    <div className="nameAdress">
-                        <h1>{"Elint Payroll"}</h1>
-                        <span>{"Av. Kruss Gomes"}</span>
-                        <span>{"Porto da Beira"}</span>
-                        <span>{"Beira"}</span>
-                    </div>
-                    <div className="tableEmployeeData">
-                       
-                        <table>
-                            <caption>{printData.length > 0 ? `${printData[0].month}/${printData[0].year}` : ""}</caption>
-                            <thead>
-                                <tr  style={{marginTop: "80px"}}>
-                                    <th rowSpan={2}>Num:</th>
-                                    <th rowSpan={2}>Nome:</th>
-                                    <th rowSpan={2}>Departamento:</th>
-                                    <th rowSpan={2}>Cargo:</th>
-                                    <th rowSpan={2}>Salario Base:</th>
-                                    <th colSpan={4}>Remuneracoes</th>
-                                    <th rowSpan={2}>Salario Bruto</th>
-                                    <th colSpan={5}>Descontos</th>
-                                    <th rowSpan={2}>Salario Liquido</th>
-
-                                </tr>
-                                <tr>
-                                    <th>Subsidio</th>
-                                    <th>Bonus:</th>
-                                    <th>Horas Extras:</th>
-                                    <th>Faltas:</th>
-                                    <th>INSS 3%</th>
-                                    <th>INSS 4$:</th>
-                                    <th>Total INSS</th>
-                                    <th>IRPS:</th>
-                                    <th>Adiantamentos</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {printData.length > 0 ? printData.map(data => 
-                                <tr>
-                                    <td>1</td>
-                                    <td>{data.employee_name}</td>
-                                    <td>{data.departament_name}</td>
-                                    <td>{data.position_name}</td>
-                                    <td>{formatSalary().format(data.salary_base)}</td>
-                                    <td>{formatSalary().format(data.subsidy)}</td>
-                                    <td>{formatSalary().format(data.total_overtime)}</td>
-                                    <td>{formatSalary().format(data.bonus)}</td>
-                                    <td>{formatSalary().format(data.total_absences)}</td>
-                                    <td>{formatSalary().format(data.total_income)}</td>
-                                    <td>{formatSalary().format(data.inss_employee)}</td>
-                                    <td>{formatSalary().format(data.inss_company)}</td>
-                                    <td>{formatSalary().format(data.total_inss)}</td>
-                                    <td>{formatSalary().format(data.irps)}</td>
-                                    <td>{formatSalary().format(data.cash_advances)}</td>
-                                    <td>{formatSalary().format(data.salary_liquid)}</td>
-                                </tr>
-                                ) : ""}
-                            </tbody>
-                        </table>
-                    </div> 
-                    <br/>
-                    <hr />
-                    <div className="footer">
-                        <div>
-                            <span>Assinatura:</span>
-                            <span className="linha">___________________________</span>
-                        </div>
-                        <div>
-                            <span>Data: </span>
-                            <span>{formatDate().format(date)}</span>
-                        </div>
-                        <div>
-                            <span>Local: </span>
-                            <span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-               
+        <div  ref={componentRef} style={{width: '100%', height: window.innerHeight}}>
+            {/* text-align: center */}
+            <div className="page-header">
+                    {/* I'm The Header
+                    <br/> */}
             </div>
+
+            <div className="page-footer">
+                {/* I'm The Footer */}
+            </div>
+            
+            <table className="page-body">
+                <thead>
+                <tr>
+                    <td>
+                    <div className="page-header-space"></div>
+                    </td>
+                </tr>
+                </thead>
+
+                <tbody>
+                
+                    <tr>
+                        <td>
+                            <div className="page">
+                                <div className="addressLogo">
+                                    <div className="nameAddress">
+                                        <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
+                                        <span>{setting?.company_address ?? "Av. Kruss Gomes"}</span>
+                                        <span>{setting?.company_city ?? "Beira"}</span>
+                                        {/* <span>{setting?.company_province ?? "Sofala"}</span> */}
+                                    </div>
+                                    <div className="monthYear">
+                                        <span>{printData.length > 0 ? 
+                                            `${printData[0].month}/${printData[0].year}` : ""}
+                                        </span>
+                                    </div>
+                                    <div className="logo">
+                                        <img 
+                                        src={
+                                            urlLogo ? urlLogo : ""
+                                        } 
+                                        alt="" />
+                                    </div>
+                                </div>
+                                <br/>
+                                <div className="employePayment">
+                                    <table>
+                                            <thead>
+                                                <tr>
+                                                    <th rowSpan={2}>Num</th>
+                                                    <th style={{width: 200}} rowSpan={2}>Nome</th>
+                                                    {/* <th rowSpan={2}>Departamento:</th> */}
+                                                    {/* <th rowSpan={2}>Cargo:</th> */}
+                                                    <th rowSpan={2}>Salario Base:</th>
+                                                    <th colSpan={4}>Remuneracoes</th>
+                                                    <th rowSpan={2}>Salario Bruto</th>
+                                                    <th colSpan={6}>Descontos</th>
+                                                    <th rowSpan={2}>Salario Liquido</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Subsidios</th>
+                                                    <th>Bonus</th>
+                                                    <th>Horas Extras</th>
+                                                    <th>Faltas</th>
+                                                    <th>INSS 3%</th>
+                                                    <th>INSS 4$</th>
+                                                    <th>Total INSS</th>
+                                                    <th>IRPS</th>
+                                                    <th>Sindicato</th>
+                                                    <th>Emprestimos</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {printData.concat(returnTotalRow(printData)).map((data, i)=> 
+                                            <tr>
+                                                <td>{i + 1}</td>
+                                                <td style={{width: 200, textAlign: i + 1 === printData.length + 1 ? "center" : "left"}}>{data.employee_name}</td>
+                                                {/* <td>{data.departament_name}</td> */}
+                                                {/* <td>{data.position_name}</td> */}
+                                                <td>{formatSalary().format(data.salary_base)}</td>
+                                                <td>{formatSalary().format(data.subsidy)}</td>
+                                                <td>{formatSalary().format(data.bonus)}</td>
+                                                <td>{formatSalary().format(data.total_overtime)}</td>
+                                                <td>{formatSalary().format(data.total_absences)}</td>
+                                                <td>{formatSalary().format(data.total_income)}</td>
+                                                <td>{formatSalary().format(data.inss_employee)}</td>
+                                                <td>{formatSalary().format(data.inss_company)}</td>
+                                                <td>{formatSalary().format(data.total_inss)}</td>
+                                                <td>{formatSalary().format(data.irps)}</td>
+                                                <td>{formatSalary().format(data.syndicate_employee)}</td>
+                                                <td>{formatSalary().format(data.cash_advances)}</td>
+                                                <td>{formatSalary().format(data.salary_liquid)}</td>
+                                            </tr>
+                                            )}
+                                            {/* <tr>
+                                                <td>{printData.length + 1}</td>
+                                                <td style={{width: 200}}>Total</td>
+                                                <td>{formatSalary().format(printData.concat(returnTotalRow(printData)))[printData]}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                <td>{formatSalary().format(0)}</td>
+                                                
+                                            </tr> */}
+                                            
+                                            </tbody>          
+                                    </table>
+                                </div>
+                                <br/>
+                                <div className="footer">
+                                    <div>
+                                        <span>Assinatura:</span>
+                                        <span className="linha">___________________________</span>
+                                    </div>
+                                    <div>
+                                        <span>Data: </span>
+                                        <span>{formatDate().format(date)}</span>
+                                    </div>
+                                    <div>
+                                        <span>Local: </span>
+                                        <span>{
+                                            "_______________________"
+                                        }
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                
+                </tbody>
+
+                <tfoot>
+                <tr>
+                    <td>
+                    <div className="page-footer-space"></div>
+                    </td>
+                </tr>
+                </tfoot>
+
+            </table>
+
+        </div>
         </div>
     )
+
 }
 
 
@@ -325,7 +418,7 @@ const totalPrint = (printData) => {
     let total_backpay = 0
     let total_total_absences = 0
     let total_total_overtime = 0
-
+    
     totalLength = printData.map((data, index) => {
         totalLiquid += (+data.salary_liquid)
         totalBase += (+data.salary_base)
@@ -341,9 +434,9 @@ const totalPrint = (printData) => {
         total_backpay += (+data.backpay)
         total_total_absences += (+data.total_absences)
         total_total_overtime += (+data.total_overtime)
-     })
-
-     const totalRow = [[
+    })
+    
+    const totalRow = [[
         {text: totalLength.length + 1, fontSize: 10, margin: [0, 2, 0, 2]},
         {text: "Total", fontSize: 10, margin: [0, 2, 0, 2], alignment: "center", colSpan: 3},
         {},
@@ -365,3 +458,146 @@ const totalPrint = (printData) => {
 
     return totalRow
 }
+
+
+const returnTotalRow = (printData) => {
+    
+    let total_liquid = 0
+    let total_base = 0
+    let total_Irps = 0
+    let total_gross = 0
+    let total_Inss = 0
+    let total_InssCompany = 0
+    let total_InssEmployee = 0
+    let totalLength = 0
+    let total_cash_advances = 0
+    let total_syndicate_employee = 0
+    let total_subsidy = 0
+    let total_bonus = 0
+    let total_backpay = 0
+    let total_total_absences = 0
+    let total_total_overtime = 0
+    
+    totalLength = printData.map((data, index) => {
+        total_liquid += (+data.salary_liquid)
+        total_base += (+data.salary_base)
+        total_gross += (+data.total_income)
+        total_Irps += (+data.irps)
+        total_Inss += (+data.inss_company) + (+data.inss_employee)
+        total_InssCompany += (+data.inss_company)
+        total_InssEmployee += (+data.inss_employee)
+        total_cash_advances += (+data.cash_advances)
+        total_syndicate_employee += (+data.syndicate_employee)
+        total_subsidy += (+data.subsidy)
+        total_bonus += (+data.bonus)
+        total_backpay += (+data.backpay)
+        total_total_absences += (+data.total_absences)
+        total_total_overtime += (+data.total_overtime)
+    })
+    
+    const totalRow = [{
+            "salary_liquid":  total_liquid, 
+            "salary_base":  total_base, 
+            "total_income": total_gross,
+            "inss_employee": total_InssEmployee,
+            "inss_company": total_InssCompany,
+            "irps": total_Irps,
+            "total_inss": total_Inss, 
+            "employee_id": "",
+            "employee_name": "TOTAL",
+            "total_overtime": total_total_overtime, 
+            "total_absences": total_total_absences, 
+            "cash_advances": total_cash_advances, 
+            "syndicate_employee": total_syndicate_employee,
+            "subsidy": total_subsidy, 
+            "bonus": total_bonus, 
+            "backpay": total_backpay, 
+            }]
+        
+        return totalRow
+    }
+    // return (
+        //     <div style={{display: "none"}}>
+        //         <div ref={componentRef} style={{width: '100%', height: window.innerHeight, marginTop: 'auto', marginBottom: 'auto'}}>
+         //             <div className="container">
+         //                 <div className="nameAdress">
+         //                     <h1>{"Elint Payroll"}</h1>
+         //                     <span>{"Av. Kruss Gomes"}</span>
+         //                     <span>{"Porto da Beira"}</span>
+         //                     <span>{"Beira"}</span>
+         //                 </div>
+         //                 <div className="tableEmployeeData">
+                            
+         //                     <table>
+         //                         <caption>{printData.length > 0 ? `${printData[0].month}/${printData[0].year}` : ""}</caption>
+         //                         <thead>
+         //                             <tr  style={{marginTop: "80px"}}>
+         //                                 <th rowSpan={2}>Num:</th>
+         //                                 <th rowSpan={2}>Nome:</th>
+         //                                 <th rowSpan={2}>Departamento:</th>
+         //                                 <th rowSpan={2}>Cargo:</th>
+         //                                 <th rowSpan={2}>Salario Base:</th>
+         //                                 <th colSpan={4}>Remuneracoes</th>
+         //                                 <th rowSpan={2}>Salario Bruto</th>
+         //                                 <th colSpan={5}>Descontos</th>
+         //                                 <th rowSpan={2}>Salario Liquido</th>
+         
+         //                             </tr>
+         //                             <tr>
+         //                                 <th>Subsidio</th>
+         //                                 <th>Bonus:</th>
+         //                                 <th>Horas Extras:</th>
+         //                                 <th>Faltas:</th>
+         //                                 <th>INSS 3%</th>
+         //                                 <th>INSS 4$:</th>
+         //                                 <th>Total INSS</th>
+         //                                 <th>IRPS:</th>
+         //                                 <th>Adiantamentos</th>
+         //                             </tr>
+         //                         </thead>
+         //                         <tbody>
+         //                         {printData.length > 0 ? printData.map(data => 
+         //                             <tr>
+         //                                 <td>1</td>
+         //                                 <td>{data.employee_name}</td>
+         //                                 <td>{data.departament_name}</td>
+         //                                 <td>{data.position_name}</td>
+         //                                 <td>{formatSalary().format(data.salary_base)}</td>
+         //                                 <td>{formatSalary().format(data.subsidy)}</td>
+         //                                 <td>{formatSalary().format(data.total_overtime)}</td>
+         //                                 <td>{formatSalary().format(data.bonus)}</td>
+         //                                 <td>{formatSalary().format(data.total_absences)}</td>
+         //                                 <td>{formatSalary().format(data.total_income)}</td>
+         //                                 <td>{formatSalary().format(data.inss_employee)}</td>
+         //                                 <td>{formatSalary().format(data.inss_company)}</td>
+         //                                 <td>{formatSalary().format(data.total_inss)}</td>
+         //                                 <td>{formatSalary().format(data.irps)}</td>
+         //                                 <td>{formatSalary().format(data.cash_advances)}</td>
+         //                                 <td>{formatSalary().format(data.salary_liquid)}</td>
+         //                             </tr>
+         //                             ) : ""}
+         //                         </tbody>
+         //                     </table>
+         //                 </div> 
+         //                 <br/>
+         //                 <hr />
+         //                 <div className="footer">
+         //                     <div>
+         //                         <span>Assinatura:</span>
+         //                         <span className="linha">___________________________</span>
+         //                     </div>
+         //                     <div>
+         //                         <span>Data: </span>
+         //                         <span>{formatDate().format(date)}</span>
+         //                     </div>
+         //                     <div>
+         //                         <span>Local: </span>
+         //                         <span>
+         //                         </span>
+         //                     </div>
+         //                 </div>
+         //             </div>
+                    
+         //         </div>
+         //     </div>
+         // )

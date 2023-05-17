@@ -13,6 +13,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import PrintPayroll from "../printPayroll/PrintPayroll";
 import { printPDF } from "../printPayroll/PrintPayroll";
 import {useQuery} from 'react-query'
+import axios from "axios";
 
 
 const formatSalary = () => {
@@ -33,12 +34,45 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     const [rows, setRows] = useState([]);
     const [year, setYear] = useState(0);
     const componentRef = useRef();
-    const [printPayroll, setPrintPayroll] = useState({});
+    const [printPayroll, setPrintPayroll] = useState([]);
     const {data, error, isError, isLoading } = useQuery('payrolls', fetchPrintData)
+    const [urlLogo, setUrlLogo] = useState(null);
 
-    const handleSinglePrint = (year, month) => {
-        let printData = data.filter(data => data.year === year && data.month === month)
-            printPDF(printData)
+
+    // const handleSinglePrint = (year, month) => {
+    //   const fetch = async () => {
+        
+    //     const response = await api.get("settings")
+       
+    //     let printData = data.filter(data => data.year === year && data.month === month)
+    //         printPDF(printData, response.data, urlLogo)
+    //   }
+    //   fetch()
+    //   }
+
+      useEffect(() => {
+        async function fetchData() {
+            console.log(printPayroll)
+            if(!(Object.keys(printPayroll).length === 0))
+             handlePrint()
+        }
+            fetchData()
+        }, [printPayroll])
+
+      const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        documentTitle: 'emp-data',
+        // onAfterPrint: () => alert('Print sucess')
+    })
+
+      const handleSinglePrint = (year, month) => {
+        api.get(`payrolls`)
+         .then(response => {setPrintPayroll(response.data.filter(data => data.year === year && data.month === month))})
+        // api.get(`payrolls`)
+        //  .then(response => {printPayslipBucket(response.data)})
+    
+        // console.log(single)
+        
       }
 
     useEffect(() => {
@@ -104,7 +138,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         const header1 = [""]
 
         // const header2 = ["Year", "Month", "Make", "Model", "Gender"];
-
+        
         //add title and date 
         worksheet.addRow(header1);
         // merge by start row, start column, end row, end column (equivalent to K10:M12)
@@ -765,3 +799,60 @@ const keycolumns = [
   {key: "nib"},   
   {key: "social_security"},  
 ]
+
+const returnTotalRow = (printData) => {
+    
+  let total_liquid = 0
+  let total_base = 0
+  let total_Irps = 0
+  let total_gross = 0
+  let total_Inss = 0
+  let total_InssCompany = 0
+  let total_InssEmployee = 0
+  let totalLength = 0
+  let total_cash_advances = 0
+  let total_syndicate_employee = 0
+  let total_subsidy = 0
+  let total_bonus = 0
+  let total_backpay = 0
+  let total_total_absences = 0
+  let total_total_overtime = 0
+  
+  totalLength = printData.map((data, index) => {
+      total_liquid += (+data.salary_liquid)
+      total_base += (+data.salary_base)
+      total_gross += (+data.total_income)
+      total_Irps += (+data.irps)
+      total_Inss += (+data.inss_company) + (+data.inss_employee)
+      total_InssCompany += (+data.inss_company)
+      total_InssEmployee += (+data.inss_employee)
+      total_cash_advances += (+data.cash_advances)
+      total_syndicate_employee += (+data.syndicate_employee)
+      total_subsidy += (+data.subsidy)
+      total_bonus += (+data.bonus)
+      total_backpay += (+data.backpay)
+      total_total_absences += (+data.total_absences)
+      total_total_overtime += (+data.total_overtime)
+  })
+  
+  const totalRow = [{
+          "salary_liquid":  total_liquid, 
+          "salary_base":  total_base, 
+          "total_income": total_gross,
+          "inss_employee": total_InssEmployee,
+          "inss_company": total_InssCompany,
+          "irps": total_Irps,
+          "total_inss": total_Inss, 
+          "employee_id": "",
+          "employee_name": "TOTAL",
+          "total_overtime": total_total_overtime, 
+          "total_absences": total_total_absences, 
+          "cash_advances": total_cash_advances, 
+          "syndicate_employee": total_syndicate_employee,
+          "subsidy": total_subsidy, 
+          "bonus": total_bonus, 
+          "backpay": total_backpay, 
+          }]
+      
+      return totalRow
+  }

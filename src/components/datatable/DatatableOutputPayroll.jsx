@@ -33,6 +33,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
     const [single, setSingle] = useState([]);
     const [yearOptions, setYearOptions] = useState([])
     const [excelPayroll, setExcelPayroll] = useState([])
+    const [urlLogo, setUrlLogo] = useState(null);
     // const [loading, setLoading] = useState(true)
     const params = useParams()
 
@@ -51,6 +52,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
     useEffect(() => {
         async function fetchData() {
             const response = await api.get("payrolls")
+
             if (response.data){
               // setExcelPayroll(response.data)
             // console.log(response.data)
@@ -437,7 +439,6 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
 
           //add 1st Header 
           const header1 = [""]
-
 
           worksheet.addRow(header1);
           // merge by start row, start column, end row, end column (equivalent to K10:M12)

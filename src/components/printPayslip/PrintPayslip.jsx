@@ -364,9 +364,6 @@ const PrintPayslip = ({componentRef, single}) => {
     //     </div>
     // )
 
-
-
-
     return (
         <div style={{display: "none"}}>
             {/* <div ref={componentRef} style={{width: '80%', height: window.innerHeight, marginRight: 'auto', marginLeft: 'auto'}}> */}
