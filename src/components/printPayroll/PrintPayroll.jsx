@@ -4,6 +4,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts"
 import './printPayrollMulti.scss'
 import api from "../../services/api";
 import { useEffect } from "react";
+import htmlToPdfmake from "html-to-pdfmake";
 
 const formatSalary = () => {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -12,8 +13,10 @@ const formatDate = () => {
     return new Intl.DateTimeFormat("pt-br", { dateStyle: 'long'})
   }
 
-export function printPDF(printData, settingData, urlLogo) {
-  
+export function printPDF(printData, settingData, urlLogo) {  
+    var ret = htmlToPdfmake(`<img src="http://localhost:3333/companyy-logo/a4df5c8f488f42edb31bb7396393bb13-1534421123621.jpeg">`, {
+        imagesByReference:true
+      });
     const montYear = printData.length > 0 ? `${printData[0].month}/${printData[0].year}` : ""
     let totalRow = []
     if (printData.length > 0) {
@@ -39,12 +42,70 @@ export function printPDF(printData, settingData, urlLogo) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs
 
     const reportTitle = [
+        // {
+        //     // text: printData.length > 0 ? `${printData[0].month}/${printData[0].year}` : "Clientes",
+        //     // fontSize: 15,
+        //     // bold: true,
+        //     // margin: [15, 20, 0, 45],
+        //     nodeName:"IMG",
+        //     image:"img_ref_0",
+        //     style:["html-img"],
+        //     width: 150,
+        //     height: 150,
+        //         // alignment: 'right'
+        // },
+
+        // {
+        //     margin: 10,
+        //     columns: [
+        //         {
+        //             // usually you would use a dataUri instead of the name for client-side printing
+        //             // sampleImage.jpg however works inside playground so you can play with it
+        //             text: "blala",
+        //             width: 40,
+        //             alignment: 'right'
+        //         },
+                
+        //         {
+        //             "nodeName":"IMG",
+        //             "image":"img_ref_0",
+        //             "style":["html-img"],
+        //             width: 40,
+        //             height: 40,
+        //             alignment: 'right'
+        //            },
+        //     ]
+        // },
         {
-            text: printData.length > 0 ? `${printData[0].month}/${printData[0].year}` : "Clientes",
-            fontSize: 15,
-            bold: true,
-            margin: [15, 20, 0, 45]
-        },
+            margin: 8,
+            columns: [{
+              table: {
+                widths: ['50%', '50%'],
+                body: [
+                  [
+                 {
+                    // text: 'sampleImage.jpg',
+                    width: 80,
+                    height: 80,
+                    text: printData.length > 0 ? `${printData[0].month}/${printData[0].year}` : "Clientes",
+                    fontSize: 15,
+                    bold: true,
+                    margin: [40, 40, 0, 45],
+                  }, 
+                  {
+                    nodeName: "IMG",
+                    image: "img_ref_0",
+                    style: ["html-img"],
+                    width: 150,
+                    height: 120,
+                    alignment: 'right',
+                    margin: [0, 0, 10, 0],
+                  }]
+                ]
+              },
+              layout: 'noBorders'
+            }]
+          },
     ]
     
     const dados = printData.map((data, index) => {
@@ -74,6 +135,14 @@ export function printPDF(printData, settingData, urlLogo) {
     const details = [
         // {text: 'Column/row spans', style: 'subheader'},
         // 'Each cell-element can set a rowSpan or colSpan',
+        // {
+        //     "nodeName":"IMG",
+        //     "image":"img_ref_0",
+        //     "style":["html-img"],
+        //     width: 150,
+        //     height: 150,
+        //     alignment: 'right'
+        //    },
         {
             table: {
                 // widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
@@ -121,12 +190,16 @@ export function printPDF(printData, settingData, urlLogo) {
                 ]
 
             },
-          
         },
         
         {text: '\nAssinatura \n________________________', alignment: "left"},
         {text: `\nData: ${formatDate().format(new Date())}`, alignment: "left"},
-        
+
+        // {
+        //  "nodeName":"IMG",
+        //  "image":"img_ref_0",
+        //  "style":["html-img"]
+        // }
         
         // {
         //     // if you specify both width and height - image will be stretched
@@ -199,24 +272,70 @@ export function printPDF(printData, settingData, urlLogo) {
     }
 
     const docDefinitions =  {
+        pageSize: 'LEGAL',
         pageSize: 'A3',
         // by default we use portrait, you can change it to landscape if you wish
         pageOrientation: 'landscape',
         // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
-        pageMargins: [ 40, 60, 40, 60 ],
+        // pageMargins: [ 40, 60, 40, 60 ],
+        pageMargins: [40, 160, 40, 60],
         header: [reportTitle],
+        // header: {
+        //     margin: 10,
+        //     columns: [
+        //         {
+        //             // usually you would use a dataUri instead of the name for client-side printing
+        //             // sampleImage.jpg however works inside playground so you can play with it
+        //             text: "blala",
+        //             width: 40,
+        //             alignment: 'right'
+        //         },
+        //         {
+        //             margin: [10, 0, 0, 0],
+        //             text: 'Here goes the rest',
+        //             alignment: 'left'
+        //         }
+        //     ]
+        // },
         content: [details],
+        images: ret.images,
+        "images":{
+            "img_ref_0": settingData.companyLogoURL//"http://localhost:3333/companyy-logo/a4df5c8f488f42edb31bb7396393bb13-1534421123621.jpeg"
+        },
         footer: rodape,
         info: {
             title: `Elint-Systems-Payroll PDF ${montYear}`,
             author: 'elint systems',
             subject: 'subject of document',
             keywords: 'keywords for document',
-            },
+        },
     }
-
+    console.log("515",ret.content)
     pdfMake.createPdf(docDefinitions).open()
     // pdfMake.createPdf(docDefinitions).download('optionalName.pdf');
+    
+    // var dd = {
+    //   content:ret.content,
+    //   images:ret.images
+    // }
+    // pdfMake.createPdf(dd).open();
+  
+// 'ret' contains:
+//  {
+//    "content":[
+//      [
+//        {
+//          "nodeName":"IMG",
+//          "image":"img_ref_0",
+//          "style":["html-img"]
+//        }
+//      ]
+//    ],
+//    "images":{
+//      "img_ref_0":"https://picsum.photos/seed/picsum/200"
+//    }
+//  }
+
 
 }
 
@@ -239,8 +358,8 @@ const PrintPayroll = ({componentRef, printData}) => {
     }, [])
 
     return (
-        <div style={{display: "none"}}>
-        <div  ref={componentRef} style={{width: '100%', height: window.innerHeight}}>
+        <div style={{display: "none"}} className="noneDiv2">
+        <div  ref={componentRef} style={{width: '100%', height: window.innerHeight}} className="componentRef">
             {/* text-align: center */}
             <div className="page-header">
                     {/* I'm The Header

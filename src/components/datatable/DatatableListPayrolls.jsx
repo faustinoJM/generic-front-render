@@ -39,25 +39,25 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     const [urlLogo, setUrlLogo] = useState(null);
 
 
-    // const handleSinglePrint = (year, month) => {
-    //   const fetch = async () => {
+    const handleSinglePrint = (year, month) => {
+      const fetch = async () => {
         
-    //     const response = await api.get("settings")
+        const response = await api.get("settings")
        
-    //     let printData = data.filter(data => data.year === year && data.month === month)
-    //         printPDF(printData, response.data, urlLogo)
-    //   }
-    //   fetch()
-    //   }
+        let printData = data.filter(data => data.year === year && data.month === month)
+            printPDF(printData, response.data, urlLogo)
+      }
+      fetch()
+      }
 
-      useEffect(() => {
-        async function fetchData() {
-            console.log(printPayroll)
-            if(!(Object.keys(printPayroll).length === 0))
-             handlePrint()
-        }
-            fetchData()
-        }, [printPayroll])
+      // useEffect(() => {
+      //   async function fetchData() {
+      //       console.log(printPayroll)
+      //       if(!(Object.keys(printPayroll).length === 0))
+      //        handlePrint()
+      //   }
+      //       fetchData()
+      //   }, [printPayroll])
 
       const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -65,15 +65,10 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         // onAfterPrint: () => alert('Print sucess')
     })
 
-      const handleSinglePrint = (year, month) => {
-        api.get(`payrolls`)
-         .then(response => {setPrintPayroll(response.data.filter(data => data.year === year && data.month === month))})
-        // api.get(`payrolls`)
-        //  .then(response => {printPayslipBucket(response.data)})
-    
-        // console.log(single)
-        
-      }
+      // const handleSinglePrint = (year, month) => {
+      //   api.get(`payrolls`)
+      //    .then(response => {setPrintPayroll(response.data.filter(data => data.year === year && data.month === month))})
+      // }
 
     useEffect(() => {
         async function fetchData() {

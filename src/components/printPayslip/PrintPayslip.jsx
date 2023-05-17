@@ -365,9 +365,9 @@ const PrintPayslip = ({componentRef, single}) => {
     // )
 
     return (
-        <div style={{display: "none"}}>
+        <div style={{display: "none"}} className="noneDiv">
             {/* <div ref={componentRef} style={{width: '80%', height: window.innerHeight, marginRight: 'auto', marginLeft: 'auto'}}> */}
-            <div ref={componentRef} style={{}}>
+            <div ref={componentRef} style={{}} className="componentRef">
                 <div className="containerPrintSlip">
                     
                     <div className="printSlip1">

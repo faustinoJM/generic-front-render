@@ -18,6 +18,8 @@ export let api2 = axios.create({
 
 //https://poised-pants-dove.cyclic.app
 
+//https://generic-render-production.up.railway.app
+
 
 
 
