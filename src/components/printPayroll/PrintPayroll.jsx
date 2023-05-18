@@ -300,7 +300,8 @@ export function printPDF(printData, settingData, urlLogo) {
         content: [details],
         images: ret.images,
         "images":{
-            "img_ref_0": settingData.companyLogoURL//"http://localhost:3333/companyy-logo/a4df5c8f488f42edb31bb7396393bb13-1534421123621.jpeg"
+            "img_ref_0": settingData.companyLogoURL
+            //"http://localhost:3333/companyy-logo/a4df5c8f488f42edb31bb7396393bb13-1534421123621.jpeg"
         },
         footer: rodape,
         info: {
