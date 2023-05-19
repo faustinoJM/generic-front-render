@@ -5,6 +5,7 @@ import './printPayrollMulti.scss'
 import api from "../../services/api";
 import { useEffect } from "react";
 import htmlToPdfmake from "html-to-pdfmake";
+import cons from "./coons.jpeg"
 
 const formatSalary = () => {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -300,7 +301,7 @@ export function printPDF(printData, settingData, urlLogo) {
         content: [details],
         images: ret.images,
         "images":{
-            "img_ref_0": settingData.companyLogoURL
+            "img_ref_0": settingData?.companyLogoURL ? settingData.companyLogoURL :  cons
             //"http://localhost:3333/companyy-logo/a4df5c8f488f42edb31bb7396393bb13-1534421123621.jpeg"
         },
         footer: rodape,

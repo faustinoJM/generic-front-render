@@ -6,9 +6,16 @@ import FullscreenExitOutlinedIcon from '@mui/icons-material/FullscreenExitOutlin
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
-import logo from "../../assets/elint3.PNG"
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
+    const { t, i18n } = useTranslation();
+
+    function handleLanguage(language) {
+        i18n.changeLanguage(language);
+        // console.log("maumau")
+    }
+
     return (
         <div className="navbar">
             <div className="wrapper">
@@ -16,14 +23,23 @@ const Navbar = () => {
                     <input type="text" placeholder="Pesquisar..." />
                     <SearchOutlinedIcon className="icon" />
                 </div>
-                <div className="image">
+                <div className="image" style={{color: "green"}}>
                     {/* <img src={logo} /> */}
+                    {/* <p>{t('Thanks.1')} {t('Why.1')}</p> */}
                 </div>
                 <div className="items">
-                    <div className="item">
+                    <div className="item" onClick={() => handleLanguage("en")}>
                         <LanguageOutlinedIcon className="icon" />
                         English
                     </div>
+                    {/* <div className="item" onClick={() => handleLanguage("ko")}>
+                        <LanguageOutlinedIcon className="icon" />
+                        Korean
+                    </div>
+                    <div className="item" onClick={() => handleLanguage("chi")}>
+                        <LanguageOutlinedIcon className="icon" />
+                        Chinese
+                    </div> */}
                     <div className="item">
                         <DarkModeOutlinedIcon className="icon" />
                     </div>

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { deepmerge } from '@mui/utils';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import "./i18next"
 
 const colors = {
   brand: {
@@ -22,7 +23,9 @@ root.render(
   <React.StrictMode>
       {/* <ChakraProvider theme={chakraTheme}>
         <ThemeProvider theme={muiTheme}> */}
-          <App />
+          <Suspense fallback={(<div>Loaging ~~</div>)}>
+            <App />
+          </Suspense>
         {/* </ThemeProvider>
       </ChakraProvider> */}
   </React.StrictMode>

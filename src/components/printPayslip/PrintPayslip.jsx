@@ -379,11 +379,13 @@ const PrintPayslip = ({componentRef, single}) => {
                                 <span>{setting?.company_province ?? "Sofala"}</span>
                             </div>
                             <div className="logo_print">
-                                <img 
+                               {urlLogo ? <img 
                                     src={
                                     urlLogo ? urlLogo : ""
                                     } 
                                     alt="" />
+                                : ""
+                                }
                             </div>
                         </div>
                         
@@ -548,11 +550,13 @@ const PrintPayslip = ({componentRef, single}) => {
                                 <span>{setting?.company_province ?? "Sofala"}</span>
                             </div>
                             <div className="logo_print">
-                                <img 
+                                { urlLogo ?<img 
                                     src={
                                     urlLogo ? urlLogo : ""
                                     } 
                                     alt="" />
+                                : ""
+                                }
                             </div>
                         </div>
                         <div className="employeeData">

@@ -46,7 +46,8 @@ const Sidebar = (d, f) => {
 
     useEffect(() => {
         if (!isLoading) {
-            setUrlLogo(data.companyLogoURL)
+            if (data)
+                setUrlLogo(data.companyLogoURL)
         }
     }, [data])
     
@@ -77,13 +78,15 @@ const Sidebar = (d, f) => {
             <div className="top">
                 <Link to="/" style={{textDecoration: "none"}} className="linkTop">
                     <span className="logo">{data?.company_name ?? 'Elint Payroll'}</span>
-                    <div className="logoImg">
+                    {urlLogo ? <div className="logoImg">
                                 <img 
                                     src={
                                     urlLogo ? urlLogo : ""
                                     } 
                                     alt="" />
                     </div>
+                    : ""
+                    }
                 </Link>
             </div>
             <hr />
