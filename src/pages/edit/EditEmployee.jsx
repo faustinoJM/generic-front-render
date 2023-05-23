@@ -66,7 +66,7 @@ const EditEmployee = ({ inputs, title }) => {
         marital_status: Yup.string().required("Selecione Estado Civil"),
         gender: Yup.string().required("Selecione Sexo"),
         address: Yup.string().required("Endereco Obrigatorio"),
-        contact: Yup.string().required("Contacto Obrigatorio"),
+        contact_1: Yup.string().required("Contacto Obrigatorio"),
         email: Yup.string().required("Email Obrigatorio").email("Insira endereco Email valido"),
         nuit: Yup.number().positive("NUIT deve ser numero positivo").integer("NUIT deve ser numero inteiro").required("NUIT obrigatorio"),
         dependents: Yup.number().min(0, "Deve ser numero maior ou igual a zero").integer("Deve ser numero inteiro").required("Numero de Dependentes obrigatorio"),
@@ -95,8 +95,8 @@ const EditEmployee = ({ inputs, title }) => {
             marital_status: data.marital_status,
             gender: data.gender,
             address: data.address,
-            contact: data.contact,
-            contact2: data.contact2,
+            contact_1: data.contact_1,
+            contact_2: data.contact_2,
             email: data.email,
             nuit: data.nuit,
             vacation: data.vacation,
@@ -148,8 +148,6 @@ const EditEmployee = ({ inputs, title }) => {
                                                      onChange={birth_date => setFieldValue('birth_date', birth_date)}
                                                      onBlur={handleBlur}/>
                                                      {errors.birth_date && touched.birth_date && <p>{errors.birth_date}</p>}
-                                                     {/* {console.log(data.birth_date) } */}
-                                                     
                                         {/* <label>Idade</label>
                                             <input className="inputClass" type="number" id="idade"
                                                  defaultValue={values.idade} onChange={handleChange} onBlur={handleBlur}/>
@@ -197,12 +195,12 @@ const EditEmployee = ({ inputs, title }) => {
                                                  defaultValue={data.address} onChange={handleChange} onBlur={handleBlur}/>
                                                   {errors.address && touched.address && <p>{errors.address}</p>}
                                         <label>Contacto</label>
-                                            <input className="inputClass" type="number" placeholder="contacto1" id="contact"
-                                                 defaultValue={data.contact} onChange={handleChange} onBlur={handleBlur}/>
-                                                  {errors.contact && touched.contact && <p>{errors.contact}</p>}
-                                            <input className="inputClass" type="number"  placeholder="contact2" id="contact2"
-                                                defaultValue={data.contact2} onChange={handleChange} onBlur={handleBlur}/>
-                                                {errors.contact2 && touched.contact2 && <p>{errors.contact2}</p>} 
+                                            <input className="inputClass" type="number" placeholder="contacto1" id="contact_1"
+                                                 defaultValue={data.contact_1} onChange={handleChange} onBlur={handleBlur}/>
+                                                  {errors.contact_1 && touched.contact_1 && <p>{errors.contact_1}</p>}
+                                            <input className="inputClass" type="number"  placeholder="contact2" id="contact_2"
+                                                defaultValue={data.contact_2} onChange={handleChange} onBlur={handleBlur}/>
+                                                {errors.contact_2 && touched.contact_2 && <p>{errors.contact_2}</p>} 
                                         <label>Email</label>
                                             <input className="inputClass" type="text" id="email"
                                                  defaultValue={data.email} onChange={handleChange} onBlur={handleBlur}/>

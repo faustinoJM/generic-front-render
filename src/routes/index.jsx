@@ -21,7 +21,6 @@ import Profile from '../pages/profile/Profile';
 import Setting from '../pages/settings/Setting';
 import SettingLogo from '../pages/settings/SettingLogo';
 import SettingPayroll from '../pages/settings/SettingPayroll';
-import Single from '../pages/single/Single';
 import SingleEmployee from '../pages/single/SingleEmployee';
 import RouteAuth from './RouteAuth';
 import ListPayrolls from '../pages/list/ListPayrolls';

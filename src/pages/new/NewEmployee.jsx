@@ -63,8 +63,8 @@ const NewEmployee = ({ inputs, title }) => {
         marital_status: Yup.string().required("Selecione Estado Civil"),
         gender: Yup.string().required("Selecione Sexo"),
         address: Yup.string().required("Endereco Obrigatorio"),
-        contact: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro").required("Contacto 1 Obrigatorio"),
-        contact2: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro"),
+        contact_1: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro").required("Contacto 1 Obrigatorio"),
+        contact_2: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro"),
         email: Yup.string().required("Email Obrigatorio").email("Insira endereco Email valido"),
         nuit: Yup.number().positive("NUIT deve ser numero positivo").integer("NUIT deve ser numero inteiro").required("NUIT obrigatorio"),
         dependents: Yup.number().integer("Deve ser numero inteiro").required("Numero de Dependentes obrigatorio"),
@@ -93,7 +93,8 @@ const NewEmployee = ({ inputs, title }) => {
             marital_status: "",
             gender: "",
             address: "",
-            contact: "",
+            contact_1: "",
+            contact_2: "",
             email: "",
             nuit: "",
             dependents: "",
@@ -184,12 +185,12 @@ const NewEmployee = ({ inputs, title }) => {
                                                  value={values.address} onChange={handleChange} onBlur={handleBlur}/>
                                                   {errors.address && touched.address && <p>{errors.address}</p>}
                                         <label>Contacto</label>
-                                            <input className="inputClass" type="number" placeholder="contacto1" id="contact"
-                                                 value={values.contact} onChange={handleChange} onBlur={handleBlur}/>
-                                                  {errors.contact && touched.contact && <p>{errors.contact}</p>}
-                                            <input className="inputClass" type="number"  placeholder="contacto2" id="contact2"
-                                                value={values.contact2} onChange={handleChange} onBlur={handleBlur}/>
-                                                {errors.contact2 && touched.contact2 && <p>{errors.contact2}</p>}
+                                            <input className="inputClass" type="number" placeholder="contacto1" id="contact_1"
+                                                 value={values.contact_1} onChange={handleChange} onBlur={handleBlur}/>
+                                                  {errors.contact_1 && touched.contact_1 && <p>{errors.contact_1}</p>}
+                                            <input className="inputClass" type="number"  placeholder="contacto2" id="contact_2"
+                                                value={values.contact_2} onChange={handleChange} onBlur={handleBlur}/>
+                                                {errors.contact_2 && touched.contact_2 && <p>{errors.contact_2}</p>}
                                         <label>Email</label>
                                             <input className="inputClass" type="text" id="email"
                                                  value={values.email} onChange={handleChange} onBlur={handleBlur}/>

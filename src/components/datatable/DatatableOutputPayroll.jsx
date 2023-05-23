@@ -26,7 +26,7 @@ async function fetchPrintData(){
 const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, outputColumnVisible, year2, month2, setMonth2, setYear2, loading, setLoading }) => {
     const workbook = new exceljs.Workbook();
     const [data2, setData2] = useState(userRows);
-    const [columnVisible, setColumnVisible] = useState(outputColumnVisible);
+    const [columnVisible, setColumnVisible] = useState(columns);
     const [year, setYear] = useState(0);
     const [month, setMonth] = useState("");
     const componentRef = useRef();
@@ -44,7 +44,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
     useEffect(() => {
       console.log("45",outputColumnVisible)
          if((Object.keys(settings).length) > 0)
-          setColumnVisible(outputColumnVisible)
+          setColumnVisible(columns)
        
     }, [settings])
 
@@ -57,7 +57,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               // setExcelPayroll(response.data)
             // console.log(response.data)
             if (month && year)
-            setExcelPayroll(() => response.data.filter(row => (row.year === +year) && (row.month === month)))
+              setExcelPayroll(() => response.data.filter(row => (row.year === +year) && (row.month === month)))
           }
         }
             fetchData()
@@ -74,6 +74,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                     yearsArray.push(data.year)
                 years = +(data.year)
             })
+             
             setYearOptions(yearsArray)
             setData2(response.data)
 
@@ -129,6 +130,13 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             let total_backpay = 0
             let total_total_absences = 0
             let total_total_overtime = 0
+            let total_subsidy_food = 0
+            let total_subsidy_transport =- 0
+            let total_subsidy_residence = 0 
+            let total_subsidy_medical = 0
+            let total_subsidy_vacation = 0
+            let total_salary_thirteenth = 0
+            let total_syndicate_employee = 0
 
             totalLength = filteredRows.map((data, index) => {
                 totalLiquid += (+data.salary_liquid)
@@ -144,6 +152,13 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 total_backpay += (+data.backpay)
                 total_total_absences += (+data.total_absences)
                 total_total_overtime += (+data.total_overtime)
+                total_subsidy_food += (+data.subsidy_food)
+                total_subsidy_transport += (+data.subsidy_transport)
+                total_subsidy_residence += (+data.subsidy_residence)
+                total_subsidy_medical += (+data.subsidy_medical)
+                total_subsidy_vacation += (+data.subsidy_vacation)
+                total_salary_thirteenth += (+data.salary_thirteenth)
+                total_syndicate_employee += (+data.syndicate_employee)
                 // console.log(data.created_at.getTime() > (new Date()).getTime()
               })
 
@@ -152,7 +167,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               id: "totalId",
               employee_id: totalLength.length + 1,
               employee_name: "Total",
-              departament_name: "", 
+              department_name: "", 
               position_name: "", 
               salary_base: formatSalary().format(totalBase), 
               subsidy: formatSalary().format(total_subsidy), 
@@ -167,6 +182,13 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               salary_liquid: formatSalary().format(totalLiquid), 
               inss_company: formatSalary().format(totalInssCompany), 
               total_inss: formatSalary().format(totalInss), 
+              subsidy_food: formatSalary().format(total_subsidy_food),
+              subsidy_transport: formatSalary().format(total_subsidy_transport),
+              subsidy_residence: formatSalary().format(total_subsidy_residence),
+              subsidy_medical: formatSalary().format(total_subsidy_medical),
+              subsidy_vacation: formatSalary().format(total_subsidy_vacation),
+              salary_thirteenth: formatSalary().format(total_salary_thirteenth),
+              syndicate_employee: formatSalary().format(total_syndicate_employee),
           }
       ]
 
@@ -176,14 +198,21 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             data.salary_base = formatSalary().format(data.salary_base)
             data.salary_liquid = formatSalary().format(data.salary_liquid)
             data.total_income = formatSalary().format(data.total_income)
+            data.total_overtime = formatSalary().format(data.total_overtime)
+            data.total_absences = formatSalary().format(data.total_absences)
+            data.subsidy = formatSalary().format(data.subsidy)
+            data.cash_advances = formatSalary().format(data.cash_advances)
+            data.bonus = formatSalary().format(data.bonus)
+            data.backpay = formatSalary().format(data.backpay)
+            data.subsidy_food = formatSalary().format(data.subsidy_food)
+            data.subsidy_transport = formatSalary().format(data.subsidy_transport)
+            data.subsidy_residence = formatSalary().format(data.subsidy_residence)
+            data.subsidy_medical = formatSalary().format(data.subsidy_medical)
+            data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
+            data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
+            data.syndicate_employee = formatSalary().format(data.syndicate_employee)
             data.irps = formatSalary().format(data.irps)
             data.inss_employee = formatSalary().format(data.inss_employee)
-            data.subsidy = formatSalary().format(data.subsidy)
-            data.bonus = formatSalary().format(data.bonus)
-            data.cash_advances = formatSalary().format(data.cash_advances)
-            data.backpay = formatSalary().format(data.backpay)
-            data.total_absences = formatSalary().format(data.total_absences)
-            data.total_overtime = formatSalary().format(data.total_overtime)
             data.inss_company = formatSalary().format(data.inss_company)
             data.total_inss = formatSalary().format(data.total_inss)
         })
@@ -220,6 +249,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             let total_backpay = 0
             let total_total_absences = 0
             let total_total_overtime = 0
+            let total_subsidy_food = 0
+            let total_subsidy_transport =- 0
+            let total_subsidy_residence = 0 
+            let total_subsidy_medical = 0
+            let total_subsidy_vacation = 0
+            let total_salary_thirteenth = 0
             let total_syndicate_employee = 0
 
             totalLength = filteredRows.map((data, index) => {
@@ -236,8 +271,13 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 total_backpay += (+data.backpay)
                 total_total_absences += (+data.total_absences)
                 total_total_overtime += (+data.total_overtime)
+                total_subsidy_food += (+data.subsidy_food)
+                total_subsidy_transport += (+data.subsidy_transport)
+                total_subsidy_residence += (+data.subsidy_residence)
+                total_subsidy_medical += (+data.subsidy_medical)
+                total_subsidy_vacation += (+data.subsidy_vacation)
+                total_salary_thirteenth += (+data.salary_thirteenth)
                 total_syndicate_employee += (+data.syndicate_employee)
-
                 // console.log(data.created_at.getTime() > (new Date()).getTime()
              })
 
@@ -246,7 +286,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               id: "totalId",
               employee_id: totalLength.length + 1,
               employee_name: "Total",
-              departament_name: "", 
+              department_name: "", 
               position_name: "", 
               salary_base: formatSalary().format(totalBase), 
               subsidy: formatSalary().format(total_subsidy), 
@@ -261,7 +301,13 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               salary_liquid: formatSalary().format(totalLiquid), 
               inss_company: formatSalary().format(totalInssCompany), 
               total_inss: formatSalary().format(totalInss), 
-              syndicate_employee: formatSalary().format(total_syndicate_employee)
+              subsidy_food: formatSalary().format(total_subsidy_food),
+              subsidy_transport: formatSalary().format(total_subsidy_transport),
+              subsidy_residence: formatSalary().format(total_subsidy_residence),
+              subsidy_medical: formatSalary().format(total_subsidy_medical),
+              subsidy_vacation: formatSalary().format(total_subsidy_vacation),
+              salary_thirteenth: formatSalary().format(total_salary_thirteenth),
+              syndicate_employee: formatSalary().format(total_syndicate_employee),
 
               
           }
@@ -273,17 +319,23 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             data.salary_base = formatSalary().format(data.salary_base)
             data.salary_liquid = formatSalary().format(data.salary_liquid)
             data.total_income = formatSalary().format(data.total_income)
-            data.irps = formatSalary().format(data.irps)
-            data.inss_employee = formatSalary().format(data.inss_employee)
-            data.subsidy = formatSalary().format(data.subsidy)
-            data.bonus = formatSalary().format(data.bonus)
-            data.cash_advances = formatSalary().format(data.cash_advances)
-            data.backpay = formatSalary().format(data.backpay)
             data.total_absences = formatSalary().format(data.total_absences)
             data.total_overtime = formatSalary().format(data.total_overtime)
+            data.cash_advances = formatSalary().format(data.cash_advances)
+            data.backpay = formatSalary().format(data.backpay)
+            data.bonus = formatSalary().format(data.bonus)
+            data.subsidy = formatSalary().format(data.subsidy)
+            data.subsidy_food = formatSalary().format(data.subsidy_food)
+            data.subsidy_transport = formatSalary().format(data.subsidy_transport)
+            data.subsidy_residence = formatSalary().format(data.subsidy_residence)
+            data.subsidy_medical = formatSalary().format(data.subsidy_medical)
+            data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
+            data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
+            data.syndicate_employee = formatSalary().format(data.syndicate_employee)
+            data.irps = formatSalary().format(data.irps)
+            data.inss_employee = formatSalary().format(data.inss_employee)
             data.inss_company = formatSalary().format(data.inss_company)
             data.total_inss = formatSalary().format(data.total_inss)
-            data.syndicate_employee = formatSalary().format(data.syndicate_employee)
 
         })
         // console.log(data3.filter(row => (row.year === "2023")))
@@ -316,6 +368,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             let total_backpay = 0
             let total_total_absences = 0
             let total_total_overtime = 0
+            let total_subsidy_food = 0
+            let total_subsidy_transport =- 0
+            let total_subsidy_residence = 0 
+            let total_subsidy_medical = 0
+            let total_subsidy_vacation = 0
+            let total_salary_thirteenth = 0
             let total_syndicate_employee = 0
 
             totalLength = filteredRows.map((data, index) => {
@@ -332,6 +390,12 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 total_backpay += (+data.backpay)
                 total_total_absences += (+data.total_absences)
                 total_total_overtime += (+data.total_overtime)
+                total_subsidy_food += (+data.subsidy_food)
+                total_subsidy_transport += (+data.subsidy_transport)
+                total_subsidy_residence += (+data.subsidy_residence)
+                total_subsidy_medical += (+data.subsidy_medical)
+                total_subsidy_vacation += (+data.subsidy_vacation)
+                total_salary_thirteenth += (+data.salary_thirteenth)
                 total_syndicate_employee += (+data.syndicate_employee)
 
              })
@@ -341,7 +405,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               id: "totalId",
               employee_id: totalLength.length + 1,
               employee_name: "Total",
-              departament_name: "", 
+              department_name: "", 
               position_name: "", 
               salary_base: formatSalary().format(totalBase), 
               subsidy: formatSalary().format(total_subsidy), 
@@ -356,13 +420,14 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
               salary_liquid: formatSalary().format(totalLiquid), 
               inss_company: formatSalary().format(totalInssCompany), 
               total_inss: formatSalary().format(totalInss), 
-              syndicate_employee: formatSalary().format(total_syndicate_employee)
-
+              subsidy_food: formatSalary().format(total_subsidy_food),
+              subsidy_transport: formatSalary().format(total_subsidy_transport),
+              subsidy_residence: formatSalary().format(total_subsidy_residence),
+              subsidy_medical: formatSalary().format(total_subsidy_medical),
+              subsidy_vacation: formatSalary().format(total_subsidy_vacation),
+              salary_thirteenth: formatSalary().format(total_salary_thirteenth),
+              syndicate_employee: formatSalary().format(total_syndicate_employee),
               // total_subsidy
-
-
-
-
             }
       ]
 
@@ -371,14 +436,21 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             data.salary_base = formatSalary().format(data.salary_base)
             data.salary_liquid = formatSalary().format(data.salary_liquid)
             data.total_income = formatSalary().format(data.total_income)
-            data.irps = formatSalary().format(data.irps)
-            data.inss_employee = formatSalary().format(data.inss_employee)
-            data.subsidy = formatSalary().format(data.subsidy)
-            data.bonus = formatSalary().format(data.bonus)
+            data.total_overtime = formatSalary().format(data.total_overtime)
+            data.total_absences = formatSalary().format(data.total_absences)
             data.cash_advances = formatSalary().format(data.cash_advances)
             data.backpay = formatSalary().format(data.backpay)
-            data.total_absences = formatSalary().format(data.total_absences)
-            data.total_overtime = formatSalary().format(data.total_overtime)
+            data.bonus = formatSalary().format(data.bonus)
+            data.subsidy = formatSalary().format(data.subsidy)
+            data.subsidy_food = formatSalary().format(data.subsidy_food)
+            data.subsidy_transport = formatSalary().format(data.subsidy_transport)
+            data.subsidy_residence = formatSalary().format(data.subsidy_residence)
+            data.subsidy_medical = formatSalary().format(data.subsidy_medical)
+            data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
+            data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
+            data.syndicate_employee = formatSalary().format(data.syndicate_employee)
+            data.irps = formatSalary().format(data.irps)
+            data.inss_employee = formatSalary().format(data.inss_employee)
             data.inss_company = formatSalary().format(data.inss_company)
             data.total_inss = formatSalary().format(data.total_inss)
             data.syndicate_employee = formatSalary().format(data.syndicate_employee)
@@ -591,7 +663,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
             employee_name: "TOTAL",
             dependents: "",
             position_name: "", 
-            departament_name: "",  
+            department_name: "",  
             month: "", 
             year: "", 
             nib: "",
@@ -768,7 +840,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
     //         employee_name: "TOTAL",
     //         dependents: "",
     //         position_name: "", 
-    //         departament_name: "",  
+    //         department_name: "",  
     //         month: "", 
     //         year: "", 
     //         nib: "",
@@ -835,7 +907,6 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
     //     }
     //   }, [excelPayroll]);
      
-
     const actionColumn = [
         { 
             field: "action", 
@@ -944,13 +1015,13 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
              
                 columnBuffer={columns.length}
                 rows={userRows}
-                columns={columns.concat(actionColumn)}
+                columns={columnVisible.concat(actionColumn)}
                 pageSize={8}
                 rowsPerPageOptions={[8]}
                 // checkboxSelection
                 onCellEditCommit={onCellEditCommit}
                 // autoHeight 
-                columnVisibilityModel={columnVisible} 
+                // columnVisibilityModel={columnVisible} 
                 // showCellRightBorder={true}  
                 // slots={{
                 //   loadingOverlay: LinearProgress,
@@ -989,7 +1060,7 @@ const columnsExcel = [
     {header: "Nome", key: "employee_name",  width: 25},
     // {header: "Dependentes", key: "dependents", width: 25},
     // {header: "Cargo", key: "position_name", width: 25},
-    // {header: "Departamento", key: "departament_name", width: 25},
+    // {header: "Departamento", key: "department_name", width: 25},
     {header: "Mes", key: "month", width: 25},
     {header: "Ano", key: "year", width: 25},
     // {header: "NIB", key: "nib", width: 25, type: "text"},
@@ -1014,7 +1085,7 @@ const columnsExcel = [
     {header: "INSS (3%)", key: "inss_employee", width: 25},
     {header: "INSS (4%)", key: "inss_company", width: 25},
     {header: "INSS Total", key: "total_inss", width: 25},
-    {header: "Adiantamento", key: "cash_advances", width: 25},
+    {header: "Emprestimos", key: "cash_advances", width: 25},
     {header: "Salario Liquido", key: "salary_liquid", width: 25},
 
     ]
@@ -1063,7 +1134,7 @@ const columnsExcel = [
       {key: "employee_name"},
       {key: "dependents"},
       {key: "position_name"},
-      {key: "departament_name"},
+      {key: "department_name"},
       {key: "month"},
       {key: "year"},
       {key: "month_total_workdays"},

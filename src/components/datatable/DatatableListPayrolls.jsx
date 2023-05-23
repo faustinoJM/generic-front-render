@@ -72,38 +72,9 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
 
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get("payrolls")
-            let id = ""
-            let incrment = 0
-            let mes = "";
-            let ano = 0;
-            let total = 0;
-            let newPayroll = [];
-            
-            response.data.map((data, index) => {
-                // data.id = index + 1
-            
-                if (!(mes === data.month && ano === +data.year)) {
-                    // delete data
-                    
-                    total = response.data.filter(data1 => data.month === data1.month && +data.year === +data1.year).length
-                    id = data.id = index + 1
-                    
-                    // total = total + index
-                    // newPayroll.push(data)
-                    let alreadyExists = newPayroll.find(data2 => data.month === data2.month && data.year === +data2.year)
-                    if (!alreadyExists) {
-                        incrment += 1; 
-                        newPayroll.push({id: incrment, month: data.month, year: data.year, total: total })
-                    }
-                }
-                mes = data.month
-                ano = data.year
-                
-            })
-
-            setRows(newPayroll)
-    
+            const response = await api.get("payroll")
+          
+            setRows(response.data)
         }
             fetchData()
     }, [])
@@ -290,7 +261,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
           employee_name: "TOTAL",
           dependents: "",
           position_name: "", 
-          departament_name: "",  
+          department_name: "",  
           month: "", 
           year: "", 
           nib: "",
@@ -470,7 +441,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     //         employee_name: "TOTAL",
     //         dependents: "",
     //         position_name: "", 
-    //         departament_name: "",  
+    //         department_name: "",  
     //         month: "", 
     //         year: "", 
     //         nib: "",
@@ -535,10 +506,13 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     //     }
     //   }, []);
 
-    const handleDelete = async (year, month, router) => {
+    const handleDelete = async (id) => {
         // console.log("aaa"+router)
-        await api.delete('payrolls', { data: { year, month }})
-        setRows(rows.filter(item => !(month === item.month && +year === +item.year)))
+        // await api.delete('payrolls', { data: { year, month }})
+        await api.delete(`payroll/${id}`)
+        setRows(rows.filter(item => !(id === item.id)))
+
+        // setRows(rows.filter(item => !(month === item.month && +year === +item.year)))
     } 
 
     const onCellEditCommit = ({ id, field, value }) => {
@@ -581,7 +555,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                         {/* handleSinglePrint(params.row.year, params.row.month) */}
                               <PrintIcon />  Imprimir
                             </div>
-                        <div className="deleteButton" onClick={() => handleDelete(params.row.year, params.row.month, listPath)}>
+                        <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
                             <DeleteForeverIcon /> Remover
                         </div>
                     </div>
@@ -649,7 +623,7 @@ const columnsExcel = [
     {header: "Nome", key: "employee_name",  width: 25},
     // {header: "Dependentes", key: "dependents", width: 25},
     // {header: "Cargo", key: "position_name", width: 25},
-    // {header: "Departamento", key: "departament_name", width: 25},
+    // {header: "Departamento", key: "department_name", width: 25},
     {header: "Mes", key: "month", width: 25},
     {header: "Ano", key: "year", width: 25},
     // {header: "NIB", key: "nib", width: 25, type: "text"},
@@ -674,7 +648,7 @@ const columnsExcel = [
     {header: "INSS (3%)", key: "inss_employee", width: 25},
     {header: "INSS (4%)", key: "inss_company", width: 25},
     {header: "INSS Total", key: "total_inss", width: 25},
-    {header: "Adiantamento", key: "cash_advances", width: 25},
+    {header: "Emprestimos", key: "cash_advances", width: 25},
     {header: "Sindicato", key: "syndicate_employee", width: 25},
     {header: "Salario Liquido", key: "salary_liquid", width: 25},
 
@@ -762,7 +736,7 @@ const keycolumns = [
   {key: "employee_name"},
   {key: "dependents"},
   {key: "position_name"},
-  {key: "departament_name"},
+  {key: "department_name"},
   {key: "month"},
   {key: "year"},
   {key: "month_total_workdays"},

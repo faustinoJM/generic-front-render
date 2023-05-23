@@ -230,7 +230,7 @@ const DatatableResource = ({ listName, listPath, columns, userRows, setUserRows,
         //   employee_name: "TOTAL",
         //   dependents: "",
         //   position_name: "", 
-        //   departament_name: "",  
+        //   department_name: "",  
         //   month: "", 
         //   year: "", 
         //   nib: "",
@@ -287,7 +287,7 @@ const DatatableResource = ({ listName, listPath, columns, userRows, setUserRows,
         worksheet.getCell("B3").alignment = { horizontal: 'center', vertical: 'middle' }
         worksheet.getRow(1).alignment = { horizontal: 'center', vertical: 'middle' };
         worksheet.getCell("A30", "B30").outlineLevel = 1;
-worksheet.getColumn(25).outlineLevel = 1;
+        worksheet.getColumn(25).outlineLevel = 1;
         // worksheet.getColumn("salary_thirteenth").hidden = true
         // worksheet.getColumn("days").hidden = true
         // worksheet.getColumn("nib").hidden = false ? false : true

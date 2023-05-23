@@ -54,7 +54,7 @@ const formatDate = () => {
         return [
             {text: data.employee_name, fontSize: 10, margin: [0, 2, 0, 2]},
             {text: data.position_name, fontSize: 10, margin: [0, 2, 0, 2]},
-            {text: data.departament_name, fontSize: 10, margin: [0, 2, 0, 2]},
+            {text: data.department_name, fontSize: 10, margin: [0, 2, 0, 2]},
             {text: data.social_security, fontSize: 10, margin: [0, 2, 0, 2]},
             {text: data.nuit, fontSize: 10, margin: [0, 2, 0, 2]},
             {text: data.vacation, fontSize: 10, margin: [0, 2, 0, 2]},
@@ -233,7 +233,7 @@ const PrintPayslip = ({componentRef, single}) => {
     //                                         </tr>
     //                                         <tr>
     //                                             <th>Departamento:</th>
-    //                                             <td>{single.departament_name}</td>
+    //                                             <td>{single.department_name}</td>
     //                                             <th>Dias de Ferias:</th>
     //                                             <td>{single.vacation}</td>
     //                                         </tr>
@@ -393,7 +393,7 @@ const PrintPayslip = ({componentRef, single}) => {
                             <div className="idRecibo">
                                 <div className="id">
                                     <span>ID do Trabalhador:</span>
-                                    <span>{single.employee_id}</span>
+                                    <span>{single.employee_number}</span>
                                 </div>
                                 <div className="recibo">
                                     <span className="title">Recibo/Payslip</span>
@@ -419,7 +419,7 @@ const PrintPayslip = ({componentRef, single}) => {
                                     </tr>
                                     <tr>
                                         <th>Departamento:</th>
-                                        <td>{single.departament_name}</td>
+                                        <td>{single.department_name}</td>
                                         <th>Dias de Ferias:</th>
                                         <td>{single.vacation}</td>
                                     </tr>
@@ -563,7 +563,7 @@ const PrintPayslip = ({componentRef, single}) => {
                             <div className="idRecibo">
                                 <div className="id">
                                     <span>ID do Trabalhador:</span>
-                                    <span>{single.employee_id}</span>
+                                    <span>{single.employee_number}</span>
                                 </div>
                                 <div className="recibo">
                                     <span className="title">Recibo/Payslip</span>
@@ -589,7 +589,7 @@ const PrintPayslip = ({componentRef, single}) => {
                                     </tr>
                                     <tr>
                                         <th>Departamento:</th>
-                                        <td>{single.departament_name}</td>
+                                        <td>{single.department_name}</td>
                                         <th>Dias de Ferias:</th>
                                         <td>{single.vacation}</td>
                                     </tr>

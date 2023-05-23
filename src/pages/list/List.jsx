@@ -23,7 +23,7 @@ const payrollColumns = [
     { field: "Overtime100", headerName: "HORAS EXTRA 100%", width: 130},
     { field: "bonus", headerName: "BONUS", width: 130},
     { field: "absences",  headerName: "FALTAS", width: 100},
-    { field: "cashAdvances",  headerName: "ADIANTAMENTOS", width: 130},
+    { field: "cashAdvances",  headerName: "EMPRESTIMOS", width: 130},
     { field: "totalIncome",  headerName: "RENDIMENTO TOTAL", width: 130},
     { field: "IRPS",  headerName: "IRPS", width: 130},
     { field: "INSS",  headerName: "INSS", width: 130},

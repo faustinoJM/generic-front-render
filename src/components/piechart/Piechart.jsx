@@ -1,4 +1,4 @@
-import "./featured.scss"
+import "./piechart.scss"
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -8,30 +8,8 @@ import  Chart  from "react-apexcharts";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 
-const dataJson = [
-    {
-      "subject": "Hindi",
-      "marks": "65"
-    },
-    {
-      "subject": "Math",
-      "marks": "76"
-    },
-    {
-      "subject": "English",
-      "marks": "85"
-    },
-    {
-      "subject": "Science",
-      "marks": "65"
-    },
-    {
-      "subject": "SocialScience",
-      "marks": "64"
-    }
-  ]
 
-const Featured = () => {
+const Piechart = () => {
     const [listName, setListName]= useState([]);
     const [listTotal, setListTotal]= useState([]);
     const [selected, setSelected] = useState(1);
@@ -69,23 +47,23 @@ const Featured = () => {
                 sName.push(data.name);
                 sTotal.push(parseInt(data.total_employee));
             })
-            let departamentName = ""
+            let departmentName = ""
             let positionName = ""
             if (dbData2 && selected === 3) {
                 dbData2.data.map(data => {
-                    if (!(departamentName === data.departament_name)) {
-                        let nameAlreadyExists = sName.find(d => d === data.departament_name)
+                    if (!(departmentName === data.department_name)) {
+                        let nameAlreadyExists = sName.find(d => d === data.department_name)
                         if (!nameAlreadyExists) {
-                            sName.push(data.departament_name)
+                            sName.push(data.department_name)
                             let total = 0;
                             dbData2.data.map(d => {
-                            if (d.departament_name === data.departament_name)
+                            if (d.department_name === data.department_name)
                                 total = total + d.total_income
                             })
                             sTotal.push(total)
                         }
                     }
-                    departamentName = data.departament_name
+                    departmentName = data.department_name
                 })
             } 
             if (dbData2 && selected === 4) {
@@ -118,7 +96,7 @@ const Featured = () => {
         setSelected(+(e.target.value))
     }
     return (
-        <div className="featured">
+        <div className="piechart">
             <div className="top">  
                 <h1 className="title">Total</h1>
                 <select id="year" name="year" onChange={handleSubmit}>
@@ -156,7 +134,7 @@ const Featured = () => {
     )
 }
 
-export default Featured;
+export default Piechart;
 
 
 

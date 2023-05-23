@@ -3,10 +3,10 @@ import Sidebar from "../../components/sidebar/Sidebar"
 import "./home.scss"
 import Sticky from 'react-stickynode';
 import Widget from "../../components/widget/Widget";
-import Featured from "../../components/featured/Featured";
 import Chart from "../../components/chart/Chart";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import Piechart from "../../components/piechart/Piechart";
 
 
 
@@ -130,7 +130,7 @@ const Home = () => {
                     <Widget type="payrolls" link="payrolls/output" dbData={payroll}/>
                 </div>
                 <div className="charts">
-                    <Featured />
+                    <Piechart />
                     <Chart aspect={ 2 / 1} title="Total de Pagamentos (Mes)" dbData={payroll}/>
                 </div>
             </div>

@@ -10,8 +10,7 @@ const payrollColumns = [
     { field: 'month', headerName: 'Mes', width: 150,align:'center', headerAlign: 'center',},
     // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
     { field: "year", headerName:"Ano", width: 180,  align:'center', headerAlign: 'center', },
-    { field: "total", headerName:"Total Funcionarios", width: 180,  align:'center', headerAlign: 'center', },
- 
+    { field: "total_employee", headerName:"Total Funcionarios", width: 180,  align:'center', headerAlign: 'center', },
 ]
 
 const ListPayrolls = ({ listName, listPath }) => {

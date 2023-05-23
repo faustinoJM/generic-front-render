@@ -222,7 +222,7 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
           employee_name: "TOTAL",
           dependents: "",
           position_name: "", 
-          departament_name: "",  
+          department_name: "",  
           month: "", 
           year: "", 
           nib: "",

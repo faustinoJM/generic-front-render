@@ -4,7 +4,7 @@ import { url } from "../context/AuthContext";
 
 // console.log(url)
 const api = axios.create({
-  baseURL: "https://generic-render-production.up.railway.app"  //"https://outrageous-slug-windbreaker.cyclic.app"
+  baseURL: "https://generic-render-production.up.railway.app" //"http://localhost:3333"  //"https://outrageous-slug-windbreaker.cyclic.app"
 })
 
 export let api2 = axios.create({
@@ -19,14 +19,6 @@ export let api2 = axios.create({
 //https://poised-pants-dove.cyclic.app
 
 //https://generic-render-production.up.railway.app
-
-
-
-
-
-
-
-
 
 
 // const api = axios.create({

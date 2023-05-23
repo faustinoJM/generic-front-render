@@ -9,22 +9,22 @@ const payrollInputColumns = [
     { field: 'employee_id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center', hide: true},
     { field: 'employee_name', headerName: 'Nome', width: 200,align:'left', headerAlign: 'center', },
     // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
-    { field: "departament_name", headerName:"Departamento", width: 180,  align:'left', headerAlign: 'center',  },
+    { field: "department_name", headerName:"Departamento", width: 180,  align:'left', headerAlign: 'center',  },
     { field: "position_name", headerName:"Cargo", width: 180,  align:'left', headerAlign: 'center', },
     { field: "salary_base", headerName: "Salario Base", width: 130, editable: false, align:'center', headerAlign: 'center',},
-    { field: "subsidy", headerName: "Subsidio", width: 130, editable: false, align:'center', headerAlign: 'center',},
-    { field: "subsidy_transport",  headerName: "Subsidio Transporte", width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_food",  headerName: "Subsidio Alimentacao", width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_residence",  headerName: "Subsidio Residencia", width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_medical",  headerName: "Subsidio Medico", width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_vacation",  headerName: "Subsidio de ferias", width: 130,  align:'center', headerAlign: 'center',},
-    { field: "salary_thirteenth",  headerName: "Subsidio", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy", headerName: "Subsidio", width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_transport",  headerName: "Subsidio Transporte", width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_food",  headerName: "Subsidio Alimentacao", width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_residence",  headerName: "Subsidio Residencia", width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_medical",  headerName: "Subsidio Medico", width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_vacation",  headerName: "Subsidio de ferias", width: 130, editable: true,   align:'center', headerAlign: 'center',},
     { field: "overtime50", headerName: "Horas Extras 50%", width: 135, editable: true, align:'center', headerAlign: 'center',},
     { field: "overtime100", headerName: "Horas Extras 100%", width: 140, editable: true,  align:'center', headerAlign: 'center',},
     { field: "bonus", headerName: "Bonus", width: 100, editable: true, align:'center', headerAlign: 'center',},
     { field: "absences",  headerName: "Faltas", width: 100, editable: true, align:'center', headerAlign: 'center'},
-    { field: "cash_advances",  headerName: "Adiantamentos", width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "cash_advances",  headerName: "Emprestimos", width: 130, editable: true, align:'center', headerAlign: 'center',},
     { field: "backpay",  headerName: "Retroativos", width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "salary_thirteenth",  headerName: "Decimo Terceiro", width: 130, editable: true,   align:'center', headerAlign: 'center',},
     // { field: "total_income",  headerName: "Rendimento Total", width: 130,  align:'center', headerAlign: 'center',},
     // { field: "irps",  headerName: "IRPS", width: 130,  align:'center', headerAlign: 'center',},
     // { field: "inss",  headerName: "INSS", width: 130, align:'center', headerAlign: 'center',},
@@ -37,11 +37,12 @@ const formatSalary = () => {
   }
 export const visible = {
     employee_name: true,
-    departament_name: true,
+    department_name: true,
     position_name: true,
     absences: true,
     overtime50: true,
     overtime100: true,
+    
 }
 
 const ListInputPayroll = ({ listName, listPath }) => {
@@ -61,28 +62,39 @@ const ListInputPayroll = ({ listName, listPath }) => {
                 payrollInputColumns.map(data => {
                     // if (data.field === "employee_name")
                     // data.hide = true
-                    // if (data.field === "departament_name")
-                    // data.hide = true
-                    // if (data.field === "position_name")
-                    // data.hide = true
+                    if (data.field === "position_name")
+                    response.data.column_position_name === "true" ? data.hide = false : data.hide = true
+                    if (data.field === "department_name")
+                    response.data.column_department_name === "true" ? data.hide = false : data.hide = true
                     if (data.field === "absences")
-                    response.data.absences === "true" ? data.hide = false : data.hide = true
+                    response.data.column_absences === "true" ? data.hide = false : data.hide = true
                     if (data.field === "cash_advances")
-                    response.data.cash_advances === "true" ? data.hide = false : data.hide = true
-                    if (data.field === "backpay")
-                    response.data.backpay === "true" ? data.hide = false : data.hide = true
-                    if (data.field === "bonus")
-                    response.data.bonus === "true" ? data.hide = false : data.hide = true
-                    if (data.field === "subsidy")
-                    response.data.subsidy === "true" ? data.hide = false : data.hide = true
+                    response.data.column_cash_advances === "true" ? data.hide = false : data.hide = true
                     if (data.field === "overtime50")
-                    response.data.overtime === "true" ? data.hide = false : data.hide = true
+                    response.data.column_overtime === "true" ? data.hide = false : data.hide = true
                     if (data.field === "overtime100")
-                    response.data.overtime === "true" ? data.hide = false : data.hide = true
+                    response.data.column_overtime === "true" ? data.hide = false : data.hide = true
+                    if (data.field === "backpay")
+                    response.data.column_backpay === "true" ? data.hide = false : data.hide = true
+                    if (data.field === "bonus")
+                    response.data.column_bonus === "true" ? data.hide = false : data.hide = true
+                    if (data.field === "subsidy")
+                    response.data.column_subsidy === "true" ? data.hide = false : data.hide = true
+                    if (data.field === "subsidy_transport")
+                    response.data.column_subsidy_transport === "true" ? data.hide = false : data.hide = true
+                    if (data.field === "subsidy_food")
+                    response.data.column_subsidy_food === "true" ? data.hide = false : data.hide = true
+                    if (data.field === "subsidy_residence")
+                    response.data.column_subsidy_residence === "true" ? data.hide = false : data.hide = true
+                    if (data.field === "subsidy_medical")
+                    response.data.column_subsidy_medical === "true" ? data.hide = false : data.hide = true
+                    if (data.field === "subsidy_vacation")
+                    response.data.column_subsidy_vacation === "true" ? data.hide = false : data.hide = true
+                    if (data.field === "salary_thirteenth")
+                    response.data.column_salary_thirteenth === "true" ? data.hide = false : data.hide = true
                     })
                     console.log("Input", payrollInputColumns)
                 setSettings(response.data)
-                
             }
         }
 

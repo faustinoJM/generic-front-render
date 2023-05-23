@@ -174,7 +174,7 @@ const Sidebar = (d, f) => {
                     {/* <li>   
                         <NavLink to="/cashadvances" className="navLink" style={{textDecoration: "none"}}>
                             <PointOfSaleOutlinedIcon className="icon" />
-                            <span>Adiantamento</span>
+                            <span>Emprestimos</span>
                         </NavLink>
                         </li> 
                         <li>

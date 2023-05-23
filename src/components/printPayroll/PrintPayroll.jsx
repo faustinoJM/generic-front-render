@@ -114,7 +114,7 @@ export function printPDF(printData, settingData, urlLogo) {
             {text: index + 1, fontSize: 10, margin: [0, 2, 0, 2]},
             {text: data.employee_name, fontSize: 10, margin: [0, 2, 0, 2]},
             {text: data.position_name, fontSize: 10, margin: [0, 2, 0, 2]},
-            {text: data.departament_name, fontSize: 10, margin: [0, 2, 0, 2]},
+            {text: data.department_name, fontSize: 10, margin: [0, 2, 0, 2]},
             {text: data.salary_base, fontSize: 10, margin: [0, 2, 0, 2]},
             {text: data.subsidy, fontSize: 10, margin: [0, 2, 0, 2], alignment: data.subsidy === "-" ? "center" : "left"},
             {text: data.bonus, fontSize: 10, margin: [0, 2, 0, 2], alignment: data.bonus === "-" ? "center" : "left"},
@@ -181,7 +181,7 @@ export function printPDF(printData, settingData, urlLogo) {
                         {text: "INSS 4%", style: "tableHeader", alignment: "center"},
                         {text: "Total INSS", style: "tableHeader", alignment: "center"},
                         {text: "IRPS", style: "tableHeader", alignment: "center"},
-                        {text: "Adiantamentos", style: "tableHeader", alignment: "center"},
+                        {text: "Emprestimos", style: "tableHeader", alignment: "center"},
                         {text: "Sindicato", style: "tableHeader", alignment: "center"},
                         {},
                     ],
@@ -301,7 +301,7 @@ export function printPDF(printData, settingData, urlLogo) {
         content: [details],
         images: ret.images,
         "images":{
-            "img_ref_0": settingData?.companyLogoURL ? settingData.companyLogoURL :  cons
+            "img_ref_0": settingData?.company_logo_name ? settingData.companyLogoURL :  cons
             //"http://localhost:3333/companyy-logo/a4df5c8f488f42edb31bb7396393bb13-1534421123621.jpeg"
         },
         footer: rodape,
@@ -439,7 +439,7 @@ const PrintPayroll = ({componentRef, printData}) => {
                                             <tr>
                                                 <td>{i + 1}</td>
                                                 <td style={{width: 200, textAlign: i + 1 === printData.length + 1 ? "center" : "left"}}>{data.employee_name}</td>
-                                                {/* <td>{data.departament_name}</td> */}
+                                                {/* <td>{data.department_name}</td> */}
                                                 {/* <td>{data.position_name}</td> */}
                                                 <td>{formatSalary().format(data.salary_base)}</td>
                                                 <td>{formatSalary().format(data.subsidy)}</td>
@@ -673,7 +673,7 @@ const returnTotalRow = (printData) => {
          //                                 <th>INSS 4$:</th>
          //                                 <th>Total INSS</th>
          //                                 <th>IRPS:</th>
-         //                                 <th>Adiantamentos</th>
+         //                                 <th>Emprestimos</th>
          //                             </tr>
          //                         </thead>
          //                         <tbody>
@@ -681,7 +681,7 @@ const returnTotalRow = (printData) => {
          //                             <tr>
          //                                 <td>1</td>
          //                                 <td>{data.employee_name}</td>
-         //                                 <td>{data.departament_name}</td>
+         //                                 <td>{data.department_name}</td>
          //                                 <td>{data.position_name}</td>
          //                                 <td>{formatSalary().format(data.salary_base)}</td>
          //                                 <td>{formatSalary().format(data.subsidy)}</td>

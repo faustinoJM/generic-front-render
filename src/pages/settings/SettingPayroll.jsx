@@ -8,6 +8,7 @@ import * as Yup from "yup"
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
+
 const SettingPayroll = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [setting, setSetting] = useState("")
@@ -21,12 +22,12 @@ const SettingPayroll = () => {
     useEffect(() => {
         async function fetch() {
             const response = await api.get("settings")
-            // response.data.payroll_total_workdays_month = response.data.payroll_total_workdays_month ?? 26
-            // response.data.payroll_total_workhours_day =  response.data.payroll_total_workhours_day ?? 8
+            // response.data.payroll_month_total_workdays = response.data.payroll_month_total_workdays ?? 26
+            // response.data.payroll_day_total_workhours =  response.data.payroll_day_total_workhours ?? 8
             if (response.data){
                 setSetting(response.data)
-                setday(response.data.payroll_total_workdays_month)
-                sethour(response.data.payroll_total_workhours_day)
+                setday(response.data.payroll_month_total_workdays)
+                sethour(response.data.payroll_day_total_workhours)
             } else {
                 setday(30)
                 sethour(8)
@@ -50,24 +51,31 @@ const SettingPayroll = () => {
         actions.resetForm()
      }, [day, hour])
 
-    //  const schema = Yup.object().shape({
-    //     name: Yup.string().required('Nome Obrigatorio'),
-    //     description: Yup.string().required("Descricao obrigatorio"),
-
-    // })
+     const schema = Yup.object().shape({
+        payroll_month_total_workdays: Yup.number().typeError("Deve ser um numero").integer("Deve ser um numero inteiro").min(1, "Deve ser maior que zero").required("Dias de Trabalho por mes obrigatorio"),
+        payroll_day_total_workhours: Yup.number().typeError("Deve ser um numero").min(1, "Deve ser maior que zero").required("Horas de Trabalho por mes obrigatorio"),
+    })
     const { values, errors, handleChange, setFieldValue ,touched, isSubmitting, handleBlur, handleSubmit} = useFormik({
         initialValues: {
-            payroll_total_workdays_month: day ?? "",
-            payroll_total_workhours_day: hour ?? "",
-            overtime: setting.overtime,
-            absences: setting.absences,
-            cash_advances: setting.cash_advances,
-            bonus: setting.bonus,
-            subsidy: setting.subsidy,
-            backpay: setting.backpay,
-            syndicate_status: setting.syndicate_status
+            payroll_month_total_workdays: day ?? "",
+            payroll_day_total_workhours: hour ?? "",
+            column_position_name: setting.column_position_name,
+            column_department_name: setting.column_department_name,
+            column_overtime: setting.column_overtime,
+            column_absences: setting.column_absences,
+            column_cash_advances: setting.column_cash_advances,
+            column_backpay: setting.column_backpay,
+            column_bonus: setting.column_bonus,
+            column_subsidy: setting.column_subsidy,
+            column_syndicate: setting.column_syndicate,
+            column_subsidy_transport: setting.column_subsidy_transport,
+            column_subsidy_food: setting.column_subsidy_food,
+            column_subsidy_residence: setting.column_subsidy_residence,
+            column_subsidy_medical: setting.column_subsidy_medical,
+            column_subsidy_vacation: setting.column_subsidy_vacation,
+            column_salary_thirteenth: setting.column_salary_thirteenth,
         },
-        // validationSchema: schema,
+        validationSchema: schema,
         enableReinitialize: true,
         onSubmit 
     })
@@ -91,151 +99,201 @@ const SettingPayroll = () => {
                         <h2>Tempo de trabalho</h2>
                         <div>
                             <label>Total dias de Trabalho por mes:</label>
-                            <input type="number" id="payroll_total_workdays_month"
+                            <input type="text" id="payroll_month_total_workdays"
                                 defaultValue={day} onChange={handleChange} onBlur={handleBlur}/>
+                                {errors.payroll_month_total_workdays && touched.payroll_month_total_workdays && <p>{errors.payroll_month_total_workdays}</p>} 
                         </div>
                         <div>
                             <label>Total horas de Trabalho por dia:</label>
-                            <input type="number" id="payroll_total_workhours_day"
+                            <input type="text" id="payroll_day_total_workhours"
                                 defaultValue={hour} onChange={handleChange} onBlur={handleBlur}/>
+                                {errors.payroll_day_total_workhours && touched.payroll_day_total_workhours && <p>{errors.payroll_day_total_workhours}</p>} 
                         </div>
                     </div>
                     <div className="folhaDiv">
-                        <h2>Campos de Folha Salario</h2>
+                        <h2>Colunas da Folha Salario</h2>
                         {/* <span>Seleciona campos activos ou inactivos</span> */}
                         <div className="divSelect">
                             <div>
-                                <label>Horas Extras</label>
-                                <select id="overtime" name="overtime"
-                                        onChange={e => setFieldValue("overtime", e.target.value)} onBlur={handleBlur}>
-                                    {setting.overtime === "true" ? <option value="true" selected>Activo</option> :
+                                <label>Cargo</label>
+                                <select id="column_position_name" name="column_position_name"
+                                        onChange={e => setFieldValue("column_position_name", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_position_name === "true" ? <option value="true" selected>Activo</option> :
                                     <option value="true">Activo</option> 
                                     }
-                                     {setting.overtime === "false" ? <option value="false" selected>Inactivo</option> :
+                                     {setting.column_position_name === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label>Departamento</label>
+                                <select id="column_department_name" name="column_department_name"
+                                        onChange={e => setFieldValue("column_department_name", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_department_name === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.column_department_name === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label>Horas Extras</label>
+                                <select id="column_overtime" name="column_overtime"
+                                        onChange={e => setFieldValue("column_overtime", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_overtime === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.column_overtime === "false" ? <option value="false" selected>Inactivo</option> :
                                     <option value="false">Inactivo</option> 
                                     }
                                 </select>
                             </div>
                             <div>
                                 <label>Faltas</label>
-                                <select id="absences" name="absences"
-                                        onChange={e => setFieldValue("absences", e.target.value)} onBlur={handleBlur}>
-                                    {setting.absences === "true" ? <option value="true" selected>Activo</option> :
+                                <select id="column_absences" name="column_absences"
+                                        onChange={e => setFieldValue("column_absences", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_absences === "true" ? <option value="true" selected>Activo</option> :
                                     <option value="true">Activo</option> 
                                     }
-                                     {setting.absences === "false" ? <option value="false" selected>Inactivo</option> :
+                                     {setting.column_absences === "false" ? <option value="false" selected>Inactivo</option> :
                                     <option value="false">Inactivo</option> 
                                     }
                                 </select>
                             </div>
                             <div>
-                                <label>Adiantamento</label>
-                                <select id="cash_advances" name="cash_advances"
-                                        onChange={e => setFieldValue("cash_advances", e.target.value)} onBlur={handleBlur}>
-                                    {setting.cash_advances === "true" ? <option value="true" selected>Activo</option> :
+                                <label>Emprestimos</label>
+                                <select id="column_cash_advances" name="column_cash_advances"
+                                        onChange={e => setFieldValue("column_cash_advances", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_cash_advances === "true" ? <option value="true" selected>Activo</option> :
                                     <option value="true">Activo</option> 
                                     }
-                                     {setting.cash_advances === "false" ? <option value="false" selected>Inactivo</option> :
+                                     {setting.column_cash_advances === "false" ? <option value="false" selected>Inactivo</option> :
                                     <option value="false">Inactivo</option> 
                                     }
                                 </select>
                             </div>
                             <div>
                                 <label>Bonus</label>
-                                <select id="bonus" name="bonus"
-                                        onChange={e => setFieldValue("bonus", e.target.value)} onBlur={handleBlur}>
-                                    {setting.bonus === "true" ? <option value="true" selected>Activo</option> :
+                                <select id="column_bonus" name="column_bonus"
+                                        onChange={e => setFieldValue("column_bonus", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_bonus === "true" ? <option value="true" selected>Activo</option> :
                                     <option value="true">Activo</option> 
                                     }
-                                     {setting.bonus === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
-                                    }
-                                </select>
-                            </div>
-                            <div>
-                                <label>Subsidio</label>
-                                <select id="subsidy" name="subsidy"
-                                        onChange={e => setFieldValue("subsidy", e.target.value)} onBlur={handleBlur}>
-                                    {setting.subsidy === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
-                                    }
-                                     {setting.subsidy === "false" ? <option value="false" selected>Inactivo</option> :
+                                     {setting.column_bonus === "false" ? <option value="false" selected>Inactivo</option> :
                                     <option value="false">Inactivo</option> 
                                     }
                                 </select>
                             </div>
                             <div>
                                 <label>Retroativo</label>
-                                <select id="backpay" name="backpay"
-                                        onChange={e => setFieldValue("backpay", e.target.value)} onBlur={handleBlur}>
-                                    {setting.backpay === "true" ? <option value="true" selected>Activo</option> :
+                                <select id="column_backpay" name="column_backpay"
+                                        onChange={e => setFieldValue("column_backpay", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_backpay === "true" ? <option value="true" selected>Activo</option> :
                                     <option value="true">Activo</option> 
                                     }
-                                     {setting.backpay === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
-                                    }
-                                </select>
-                            </div>
-                            {/* <div>
-                                <label>Sindicato</label>
-                                <select id="syndicate_status" name="syndicate_status"
-                                        onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
-                                    {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
-                                    }
-                                     {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+                                     {setting.column_backpay === "false" ? <option value="false" selected>Inactivo</option> :
                                     <option value="false">Inactivo</option> 
                                     }
                                 </select>
                             </div>
                             <div>
                                 <label>Sindicato</label>
-                                <select id="syndicate_status" name="syndicate_status"
-                                        onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
-                                    {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+                                <select id="column_syndicate" name="column_syndicate"
+                                        onChange={e => setFieldValue("column_syndicate", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_syndicate === "true" ? <option value="true" selected>Activo</option> :
                                     <option value="true">Activo</option> 
                                     }
-                                     {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+                                     {setting.column_syndicate === "false" ? <option value="false" selected>Inactivo</option> :
                                     <option value="false">Inactivo</option> 
                                     }
                                 </select>
                             </div>
                             <div>
-                                <label>Sindicato</label>
-                                <select id="syndicate_status" name="syndicate_status"
-                                        onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
-                                    {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+                                <label>Subsidio</label>
+                                <select id="column_subsidy" name="column_subsidy"
+                                        onChange={e => setFieldValue("column_subsidy", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_subsidy === "true" ? <option value="true" selected>Activo</option> :
                                     <option value="true">Activo</option> 
                                     }
-                                     {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+                                     {setting.column_subsidy === "false" ? <option value="false" selected>Inactivo</option> :
                                     <option value="false">Inactivo</option> 
                                     }
                                 </select>
                             </div>
                             <div>
-                                <label>Sindicato</label>
-                                <select id="syndicate_status" name="syndicate_status"
-                                        onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
-                                    {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+                                <label>Subsidio Transporte</label>
+                                <select id="column_subsidy_transport" name="column_subsidy_transport"
+                                        onChange={e => setFieldValue("column_subsidy_transport", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_subsidy_transport === "true" ? <option value="true" selected>Activo</option> :
                                     <option value="true">Activo</option> 
                                     }
-                                     {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+                                     {setting.column_subsidy_transport === "false" ? <option value="false" selected>Inactivo</option> :
                                     <option value="false">Inactivo</option> 
                                     }
                                 </select>
                             </div>
                             <div>
-                                <label>Sindicato</label>
-                                <select id="syndicate_status" name="syndicate_status"
-                                        onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
-                                    {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+                                <label>Subsidio de Alimentacao</label>
+                                <select id="column_subsidy_food" name="column_subsidy_food"
+                                        onChange={e => setFieldValue("column_subsidy_food", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_subsidy_food === "true" ? <option value="true" selected>Activo</option> :
                                     <option value="true">Activo</option> 
                                     }
-                                     {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+                                     {setting.column_subsidy_food === "false" ? <option value="false" selected>Inactivo</option> :
                                     <option value="false">Inactivo</option> 
                                     }
                                 </select>
-                            </div> */}
+                            </div>
+                            <div>
+                                <label>Subsidio de Residencia</label>
+                                <select id="column_subsidy_residence" name="column_subsidy_residence"
+                                        onChange={e => setFieldValue("column_subsidy_residence", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_subsidy_residence === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.column_subsidy_residence === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label>Subsidio Medico</label>
+                                <select id="column_subsidy_medical" name="column_subsidy_medical"
+                                        onChange={e => setFieldValue("column_subsidy_medical", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_subsidy_medical === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.column_subsidy_medical === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label>Subsidio de Ferias</label>
+                                <select id="column_subsidy_vacation" name="column_subsidy_vacation"
+                                        onChange={e => setFieldValue("column_subsidy_vacation", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_subsidy_vacation === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.column_subsidy_vacation === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label>Decimo Terceiro Salario</label>
+                                <select id="column_salary_thirteenth" name="column_salary_thirteenth"
+                                        onChange={e => setFieldValue("column_salary_thirteenth", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_salary_thirteenth === "true" ? <option value="true" selected>Activo</option> :
+                                    <option value="true">Activo</option> 
+                                    }
+                                     {setting.column_salary_thirteenth === "false" ? <option value="false" selected>Inactivo</option> :
+                                    <option value="false">Inactivo</option> 
+                                    }
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div className="buttonDiv">
@@ -247,5 +305,261 @@ const SettingPayroll = () => {
         </div>
     )
 }
+
+// const SettingPayroll = () => {
+//     const [startDate, setStartDate] = useState(new Date());
+//     const [setting, setSetting] = useState("")
+//     const [day, setday] = useState("")
+//     const [hour, sethour] = useState("")
+
+//     useEffect(() => {
+//         console.log(setting)
+//     }, [setting])
+
+//     useEffect(() => {
+//         async function fetch() {
+//             const response = await api.get("settings")
+//             // response.data.payroll_total_workdays_month = response.data.payroll_total_workdays_month ?? 26
+//             // response.data.payroll_total_workhours_day =  response.data.payroll_total_workhours_day ?? 8
+//             if (response.data){
+//                 setSetting(response.data)
+//                 setday(response.data.payroll_total_workdays_month)
+//                 sethour(response.data.payroll_total_workhours_day)
+//             } else {
+//                 setday(30)
+//                 sethour(8)
+//             }
+   
+//         }
+//         fetch()
+//     }, [])
+
+//     const onSubmit = useCallback(async (values, actions) => {  
+//         console.log(values)
+//         actions.resetForm()   
+        
+//         const response = await api.post("settings", values)
+//         if (response.status === 201)
+//         Swal.fire(
+//             'Sucesso!',
+//             'Dados salvos com sucesso!',
+//             'success'
+//           )
+//         actions.resetForm()
+//      }, [day, hour])
+
+//     //  const schema = Yup.object().shape({
+//     //     name: Yup.string().required('Nome Obrigatorio'),
+//     //     description: Yup.string().required("Descricao obrigatorio"),
+
+//     // })
+//     const { values, errors, handleChange, setFieldValue ,touched, isSubmitting, handleBlur, handleSubmit} = useFormik({
+//         initialValues: {
+//             payroll_month_total_workdays: day ?? "",
+//             payroll_day_total_workhours: hour ?? "",
+//             column_position_name: setting.column_position_name,
+//             column_department_name: setting.column_department_name,
+//             column_overtime: setting.column_overtime,
+//             column_absences: setting.column_absences,
+//             column_cash_advances: setting.column_cash_advances,
+//             column_bonus: setting.column_bonus,
+//             column_backpay: setting.column_backpay,
+//             column_syndicate: setting.column_syndicate,
+//             column_subsidy: setting.column_subsidy,
+//             column_subsidy_transport: setting.column_subsidy_transport,
+//             column_subsidy_food: setting.column_subsidy_food,
+//             column_subsidy_residence: setting.column_subsidy_residence,
+//             column_subsidy_medical: setting.column_subsidy_medical,
+//             column_subsidy_vacation: setting.column_subsidy_vacation,
+//             column_salary_thirteenth: setting.column_salary_thirteenth
+//             // overtime: setting.overtime,
+//             // absences: setting.absences,
+//             // cash_advances: setting.cash_advances,
+//             // bonus: setting.bonus,
+//             // subsidy: setting.subsidy,
+//             // backpay: setting.backpay,
+//             // syndicate_status: setting.syndicate_status
+            
+//         },
+//         // validationSchema: schema,
+//         enableReinitialize: true,
+//         onSubmit 
+//     })
+
+//     return (
+//         <div className="setting">
+//             <Sidebar />
+//             <div className="settingContainer">
+//                 <Navbar />
+//                 <div className="settingDiv">
+//                     {/* Settings
+//                     <DatePicker className="datas" selected={startDate} onChange={(date) => setStartDate(date)}/> */}
+//                     <ul>
+//                         <li><Link className="a" to="..">Dados da Empresa</Link></li>
+//                         <li><Link className="a" to="../logo">Titulo e Logo</Link></li>
+//                         <li><Link className="b" >Folha de Salario</Link></li>
+//                     </ul>
+//                 </div>
+//                 <form onSubmit={handleSubmit}>
+//                     <div className="folhaDiv">
+//                         <h2>Tempo de trabalho</h2>
+//                         <div>
+//                             <label>Total dias de Trabalho por mes:</label>
+//                             <input type="number" id="payroll_total_workdays_month"
+//                                 defaultValue={day} onChange={handleChange} onBlur={handleBlur}/>
+//                         </div>
+//                         <div>
+//                             <label>Total horas de Trabalho por dia:</label>
+//                             <input type="number" id="payroll_total_workhours_day"
+//                                 defaultValue={hour} onChange={handleChange} onBlur={handleBlur}/>
+//                         </div>
+//                     </div>
+//                     <div className="folhaDiv">
+//                         <h2>Campos de Folha Salario</h2>
+//                         {/* <span>Seleciona campos activos ou inactivos</span> */}
+//                         <div className="divSelect">
+//                             <div>
+//                                 <label>Horas Extras</label>
+//                                 <select id="column_overtime" name="column_overtime"
+//                                         onChange={e => setFieldValue("column_overtime", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.column_overtime === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.column_overtime === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label>Faltas</label>
+//                                 <select id="column_absences" name="column_absences"
+//                                         onChange={e => setFieldValue("column_absences", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.column_absences === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.column_absences === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label>Emprestimos</label>
+//                                 <select id="column_cash_advances" name="column_cash_advances"
+//                                         onChange={e => setFieldValue("column_cash_advances", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.column_cash_advances === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.column_cash_advances === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label>Bonus</label>
+//                                 <select id="column_bonus" name="column_bonus"
+//                                         onChange={e => setFieldValue("column_bonus", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.column_bonus === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.column_bonus === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label>Subsidio</label>
+//                                 <select id="column_subsidy" name="column_subsidy"
+//                                         onChange={e => setFieldValue("column_subsidy", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.column_subsidy === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.column_subsidy === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label>Retroativo</label>
+//                                 <select id="column_backpay" name="column_backpay"
+//                                         onChange={e => setFieldValue("column_backpay", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.column_backpay === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.column_backpay === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div>
+//                             {/* <div>
+//                                 <label>Sindicato</label>
+//                                 <select id="syndicate_status" name="syndicate_status"
+//                                         onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label>Sindicato</label>
+//                                 <select id="syndicate_status" name="syndicate_status"
+//                                         onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label>Sindicato</label>
+//                                 <select id="syndicate_status" name="syndicate_status"
+//                                         onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label>Sindicato</label>
+//                                 <select id="syndicate_status" name="syndicate_status"
+//                                         onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label>Sindicato</label>
+//                                 <select id="syndicate_status" name="syndicate_status"
+//                                         onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
+//                                     {setting.syndicate_status === "true" ? <option value="true" selected>Activo</option> :
+//                                     <option value="true">Activo</option> 
+//                                     }
+//                                      {setting.syndicate_status === "false" ? <option value="false" selected>Inactivo</option> :
+//                                     <option value="false">Inactivo</option> 
+//                                     }
+//                                 </select>
+//                             </div> */}
+//                         </div>
+//                     </div>
+//                     <div className="buttonDiv">
+//                         <button type="submit">Salvar</button>
+//                     </div>
+//                 </form>
+
+//             </div>
+//         </div>
+//     )
+// }
 
 export default SettingPayroll;

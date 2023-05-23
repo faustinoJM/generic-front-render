@@ -60,7 +60,7 @@ const SingleEmployee = () => {
                                 </div>
                                 <div className="detailItem">
                                     <span className="ItemKey">Contacto:</span>
-                                    <span className="itemValue">{data.contact}</span>
+                                    <span className="itemValue">{data.contact_1}</span>
                                 </div>
                                 <div className="detailItem">
                                     <span className="ItemKey">Data de Nascimento:</span>
@@ -102,11 +102,11 @@ const SingleEmployee = () => {
                                 <h2 className="title">Dados da Empresa</h2>
                                 <div className="detailItem">
                                     <span className="ItemKey">Departamento:</span>
-                                    <span className="itemValue">{data.department_id}</span>
+                                    <span className="itemValue">{data.department_name}</span>
                                 </div>
                                 <div className="detailItem">
                                     <span className="ItemKey">Cargo:</span>
-                                    <span className="itemValue">{data.position_id}</span>
+                                    <span className="itemValue">{data.position_name}</span>
                                 </div>
                                 <div className="detailItem">
                                     <span className="ItemKey">Salario Base:</span>
