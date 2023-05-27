@@ -28,3 +28,8 @@ export let api2 = axios.create({
 export default api;
 
 //"https://quaint-jewelry-elk.cyclic.app" 
+
+//user: mailto:carlos@mozfib.biz
+//user: mailto:admin@mozfib.biz
+// admin@ifmoz.biz
+// user: isra@123.com

@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {useQuery} from 'react-query'
+import { useTranslation } from 'react-i18next';
 
 const keyToPropMap = {
     "Nome": "name",
@@ -37,8 +38,9 @@ const keyToPropMap = {
   };
 
 const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading}) => {
-  const [excelFile, setExcelFile] = useState([]);
-  const [excelError, setExcellError] = useState("")
+    const { t, i18n } = useTranslation();
+    const [excelFile, setExcelFile] = useState([]);
+    const [excelError, setExcellError] = useState("")
 //   const [loading, setLoading] = useState(false)
 //   const {data, error, isError, isLoading } = useQuery('payrollsOutput', fetchPrintData)
     
@@ -134,16 +136,16 @@ const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows,
                     <div className="cellAction">
                         <Link to={`/${listPath}/${params.row.id}`} style={{textDecoration: "none"}}>
                             <div className="viewButton">
-                                <VisibilityIcon /> Ver
+                                <VisibilityIcon /> {t("Datatable.1")}
                             </div>
                         </Link>
                         <Link to={`/${listPath}/update/${params.row.id}`} style={{textDecoration: "none"}}>
                             <div className="editButton">
-                                <EditIcon className="edIcon"/> Editar
+                                <EditIcon className="edIcon"/> {t("Datatable.2")}
                             </div>
                         </Link>
                         <div className="deleteButton" onClick={() => handleDelete(params.row.id, listPath)}>
-                            <DeleteForeverIcon /> Remover
+                            <DeleteForeverIcon /> {t("Datatable.3")}
                         </div>
                     </div>
                 )
@@ -152,17 +154,17 @@ const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows,
     ]
     return (
         <div className="datatable">
-            {listName}
+            {t("Employee.1")}
             <div className="datatableTitle">
                 {listPath === "employees" ? 
                     <div className="link">
-                        <label htmlFor="file">Importar Lista</label>
+                        <label htmlFor="file">{t("Employee.2")}</label>
                         <input onChange={handleFile}  type="file" id="file" style={{ display: 'none' }}/>
                     </div>
                     :  ""
                 }
                 <Link to={`/${listPath}/new`} className="link">
-                    Adicionar Novo
+                    {t("Employee.3")}
                 </Link>
             </div>
 

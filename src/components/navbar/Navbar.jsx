@@ -7,17 +7,47 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
 import { useTranslation } from 'react-i18next';
+import DropDownProfile from "../dropdown/DropDownProfile";
+import { useState, useEffect, useRef } from "react";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DropDownLang from "../dropdown/DropDownLang";
+import "/node_modules/flag-icons/css/flag-icons.min.css";
+
 
 const Navbar = () => {
     const { t, i18n } = useTranslation();
+    const [openProfile, setOpenProfile] = useState(false)
+    const [openLang, setOpenLang] = useState(false)
+    const menuRef = useRef()
+    const [langOption, setLangOption] = useState("PT")
+
 
     function handleLanguage(language) {
-        i18n.changeLanguage(language);
+        // i18n.changeLanguage(language);
+        setOpenLang((prev) => !prev)
         // console.log("maumau")
+        // document.addEventListener("mouseenter", () => {
+        //     setOpenLang((prev) => !prev)
+        // })
+
     }
 
+    useEffect(() => {
+        let handler = (e) => {
+            if (!menuRef.current.contains(e.target)) {
+                setOpenLang(false)
+                setOpenProfile(false)
+                console.log(e)
+                console.log(menuRef.current)
+            }
+            console.log(e)
+                console.log(menuRef.current)
+        }
+        document.addEventListener("mousedown", handler)
+    }, [])
+
     return (
-        <div className="navbar">
+        <div className="navbar" ref={menuRef}>
             <div className="wrapper">
                 <div className="search">
                     <input type="text" placeholder="Pesquisar..." />
@@ -28,9 +58,10 @@ const Navbar = () => {
                     {/* <p>{t('Thanks.1')} {t('Why.1')}</p> */}
                 </div>
                 <div className="items">
-                    <div className="item" onClick={() => handleLanguage("en")}>
-                        <LanguageOutlinedIcon className="icon" />
-                        English
+                    <div className="item" >
+                        <LanguageOutlinedIcon className="icon" onClick={() => handleLanguage("en")}/>
+                        {langOption} {/* EN */}
+                        {openLang && <DropDownLang setOpenLang={setOpenLang} setLangOption={setLangOption}/>}
                     </div>
                     {/* <div className="item" onClick={() => handleLanguage("ko")}>
                         <LanguageOutlinedIcon className="icon" />
@@ -40,9 +71,11 @@ const Navbar = () => {
                         <LanguageOutlinedIcon className="icon" />
                         Chinese
                     </div> */}
-                    <div className="item">
-                        <DarkModeOutlinedIcon className="icon" />
-                    </div>
+                    {/* <div className="item" onClick={() => setOpenProfile((prev) => !prev)}>
+                       { openProfile ? <DarkModeOutlinedIcon className="icon" /> :
+                       <FullscreenExitOutlinedIcon className="icon" />
+                       } 
+                    </div> */}
                     {/* <div className="item">
                         <FullscreenExitOutlinedIcon className="icon" />
                     </div> */}
@@ -54,9 +87,12 @@ const Navbar = () => {
                         <ChatBubbleOutlineOutlinedIcon className="icon" />
                         <div className="counter">2</div>
                     </div> */}
-                    <div className="item">
-                        <ListOutlinedIcon className="icon" />
+                    <div className="item dropdown" onClick={() => setOpenProfile("")}>
+                        <AccountCircleIcon className="icon"/>
+                        {openProfile ? <DropDownProfile />  : ""}
                     </div>
+                    
+                   
                 </div>
             </div>
         </div>

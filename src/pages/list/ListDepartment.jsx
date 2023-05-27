@@ -4,6 +4,7 @@ import Navbar from "../../components/navbar/Navbar"
 import Datatable from "../../components/datatable/Datatable"
 import { useEffect, useState } from "react"
 import api from "../../services/api"
+import { useTranslation } from 'react-i18next';
 
 const departmentColumn = [
     { field: 'id', headerName: 'ID', width: 100,pinnable: true, hide: true },
@@ -14,6 +15,7 @@ const departmentColumn = [
 const ListDepartment = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         async function fetchData() {
@@ -35,7 +37,7 @@ const ListDepartment = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <Datatable listName={listName} listPath={listPath} columns={departmentColumn} 
+                <Datatable listName={t("Department.1")} listPath={listPath} columns={departmentColumn} 
                 userRows={userRows} setUserRows={setUserRows} 
                 loading={loading} setLoading={setLoading}/>
             </div>

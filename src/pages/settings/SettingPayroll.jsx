@@ -7,13 +7,14 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import { useTranslation } from 'react-i18next';
 
 const SettingPayroll = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [setting, setSetting] = useState("")
     const [day, setday] = useState("")
     const [hour, sethour] = useState("")
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         console.log(setting)
@@ -89,33 +90,33 @@ const SettingPayroll = () => {
                     {/* Settings
                     <DatePicker className="datas" selected={startDate} onChange={(date) => setStartDate(date)}/> */}
                     <ul>
-                        <li><Link className="a" to="..">Dados da Empresa</Link></li>
-                        <li><Link className="a" to="../logo">Titulo e Logo</Link></li>
-                        <li><Link className="b" >Folha de Salario</Link></li>
+                        <li><Link className="a" to="..">{t("SettingCompany.1")}</Link></li>
+                        <li><Link className="a" to="../logo">{t("SettingLogo.1")}</Link></li>
+                        <li><Link className="b" >{t("SettingPayroll.1")}</Link></li>
                     </ul>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="folhaDiv">
-                        <h2>Tempo de trabalho</h2>
+                        <h2>{t("SettingPayroll.2")}</h2>
                         <div>
-                            <label>Total dias de Trabalho por mes:</label>
+                            <label>{t("SettingPayroll.3")}:</label>
                             <input type="text" id="payroll_month_total_workdays"
                                 defaultValue={day} onChange={handleChange} onBlur={handleBlur}/>
                                 {errors.payroll_month_total_workdays && touched.payroll_month_total_workdays && <p>{errors.payroll_month_total_workdays}</p>} 
                         </div>
                         <div>
-                            <label>Total horas de Trabalho por dia:</label>
+                            <label>{t("SettingPayroll.4")}:</label>
                             <input type="text" id="payroll_day_total_workhours"
                                 defaultValue={hour} onChange={handleChange} onBlur={handleBlur}/>
                                 {errors.payroll_day_total_workhours && touched.payroll_day_total_workhours && <p>{errors.payroll_day_total_workhours}</p>} 
                         </div>
                     </div>
                     <div className="folhaDiv">
-                        <h2>Colunas da Folha Salario</h2>
+                        <h2>{t("SettingPayroll.5")}</h2>
                         {/* <span>Seleciona campos activos ou inactivos</span> */}
                         <div className="divSelect">
                             <div>
-                                <label>Cargo</label>
+                                <label>{t("SettingPayroll.6")}</label>
                                 <select id="column_position_name" name="column_position_name"
                                         onChange={e => setFieldValue("column_position_name", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_position_name === "true" ? <option value="true" selected>Activo</option> :
@@ -127,7 +128,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Departamento</label>
+                                <label>{t("SettingPayroll.7")}</label>
                                 <select id="column_department_name" name="column_department_name"
                                         onChange={e => setFieldValue("column_department_name", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_department_name === "true" ? <option value="true" selected>Activo</option> :
@@ -139,7 +140,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Horas Extras</label>
+                                <label>{t("SettingPayroll.8")}</label>
                                 <select id="column_overtime" name="column_overtime"
                                         onChange={e => setFieldValue("column_overtime", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_overtime === "true" ? <option value="true" selected>Activo</option> :
@@ -151,7 +152,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Faltas</label>
+                                <label>{t("SettingPayroll.9")}</label>
                                 <select id="column_absences" name="column_absences"
                                         onChange={e => setFieldValue("column_absences", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_absences === "true" ? <option value="true" selected>Activo</option> :
@@ -163,7 +164,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Emprestimos</label>
+                                <label>{t("SettingPayroll.10")}</label>
                                 <select id="column_cash_advances" name="column_cash_advances"
                                         onChange={e => setFieldValue("column_cash_advances", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_cash_advances === "true" ? <option value="true" selected>Activo</option> :
@@ -175,7 +176,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Bonus</label>
+                                <label>{t("SettingPayroll.11")}</label>
                                 <select id="column_bonus" name="column_bonus"
                                         onChange={e => setFieldValue("column_bonus", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_bonus === "true" ? <option value="true" selected>Activo</option> :
@@ -187,7 +188,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Retroativo</label>
+                                <label>{t("SettingPayroll.12")}</label>
                                 <select id="column_backpay" name="column_backpay"
                                         onChange={e => setFieldValue("column_backpay", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_backpay === "true" ? <option value="true" selected>Activo</option> :
@@ -199,7 +200,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Sindicato</label>
+                                <label>{t("SettingPayroll.13")}</label>
                                 <select id="column_syndicate" name="column_syndicate"
                                         onChange={e => setFieldValue("column_syndicate", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_syndicate === "true" ? <option value="true" selected>Activo</option> :
@@ -211,7 +212,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Subsidio</label>
+                                <label>{t("SettingPayroll.14")}</label>
                                 <select id="column_subsidy" name="column_subsidy"
                                         onChange={e => setFieldValue("column_subsidy", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_subsidy === "true" ? <option value="true" selected>Activo</option> :
@@ -223,7 +224,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Subsidio Transporte</label>
+                                <label>{t("SettingPayroll.15")}</label>
                                 <select id="column_subsidy_transport" name="column_subsidy_transport"
                                         onChange={e => setFieldValue("column_subsidy_transport", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_subsidy_transport === "true" ? <option value="true" selected>Activo</option> :
@@ -235,7 +236,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Subsidio de Alimentacao</label>
+                                <label>{t("SettingPayroll.16")}</label>
                                 <select id="column_subsidy_food" name="column_subsidy_food"
                                         onChange={e => setFieldValue("column_subsidy_food", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_subsidy_food === "true" ? <option value="true" selected>Activo</option> :
@@ -247,7 +248,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Subsidio de Residencia</label>
+                                <label>{t("SettingPayroll.17")}</label>
                                 <select id="column_subsidy_residence" name="column_subsidy_residence"
                                         onChange={e => setFieldValue("column_subsidy_residence", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_subsidy_residence === "true" ? <option value="true" selected>Activo</option> :
@@ -259,7 +260,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Subsidio Medico</label>
+                                <label>{t("SettingPayroll.18")}</label>
                                 <select id="column_subsidy_medical" name="column_subsidy_medical"
                                         onChange={e => setFieldValue("column_subsidy_medical", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_subsidy_medical === "true" ? <option value="true" selected>Activo</option> :
@@ -271,7 +272,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Subsidio de Ferias</label>
+                                <label>{t("SettingPayroll.19")}</label>
                                 <select id="column_subsidy_vacation" name="column_subsidy_vacation"
                                         onChange={e => setFieldValue("column_subsidy_vacation", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_subsidy_vacation === "true" ? <option value="true" selected>Activo</option> :
@@ -283,7 +284,7 @@ const SettingPayroll = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Decimo Terceiro Salario</label>
+                                <label>{t("SettingPayroll.20")}</label>
                                 <select id="column_salary_thirteenth" name="column_salary_thirteenth"
                                         onChange={e => setFieldValue("column_salary_thirteenth", e.target.value)} onBlur={handleBlur}>
                                     {setting.column_salary_thirteenth === "true" ? <option value="true" selected>Activo</option> :
@@ -297,7 +298,7 @@ const SettingPayroll = () => {
                         </div>
                     </div>
                     <div className="buttonDiv">
-                        <button type="submit">Salvar</button>
+                        <button type="submit">{t("Save.1")}</button>
                     </div>
                 </form>
 

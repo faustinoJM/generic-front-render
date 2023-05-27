@@ -6,6 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import  Chart  from "react-apexcharts";
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import api from "../../services/api";
 
 
@@ -13,6 +14,7 @@ const Piechart = () => {
     const [listName, setListName]= useState([]);
     const [listTotal, setListTotal]= useState([]);
     const [selected, setSelected] = useState(1);
+    const { t, i18n } = useTranslation();
 
     useEffect( ()=>{
        const sName=[];
@@ -100,10 +102,10 @@ const Piechart = () => {
             <div className="top">  
                 <h1 className="title">Total</h1>
                 <select id="year" name="year" onChange={handleSubmit}>
-                    <option value="1">Funcionarios por Departmento</option>
-                    <option value="2">Funcionarios por Cargo</option>
-                    <option value="3">Salarios por Departmento</option>
-                    <option value="4">Salarios por Cargo</option>
+                    <option value="1">{t("Home.9")}</option>
+                    <option value="2">{t("Home.10")}</option>
+                    <option value="3">{t("Home.11")}</option>
+                    <option value="4">{t("Home.12")}</option>
                 </select>
                 {/* <MoreVertIcon fontSize="small"/> */}
             </div>

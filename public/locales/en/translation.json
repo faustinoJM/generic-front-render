@@ -1,8 +1,232 @@
 {
-    "Thanks": {
-        "1": "Thanks"
+    "Sidebar": {
+        "1": "MAIN",
+        "2": "DASHBOARD",
+        "3": "EMPLOYEES",
+        "4": "Employee",
+        "5": "Position",
+        "6": "DEPARTMENTS",
+        "7": "Department",
+        "8": "PAYROLL",
+        "9": "New Payroll",
+        "10": "Pay run",
+        "11": "Payroll Sheet",
+        "12": "RESOURCES",
+        "13": "INSS",
+        "14": "Absences",
+        "15": "USER",
+        "16": "Settings",
+        "17": "Exit"
     },
-    "Why": {
-        "1": "For watching this video"
+
+    "Home": {
+        "1": "EMPLOYEES",
+        "2": "POSITIONS",
+        "3": "DEPARTMENTS",
+        "4": "TOTAL PAYMENTS",
+        "5": "see employees",
+        "6": "see positions",
+        "7": "see departments",
+        "8": "see payroll",
+        "9": "Employees by Department",
+        "10": "Employees by Position",
+        "11": "Salaries by Department",
+        "12": "Salaries by Position",
+        "13": "Total Payments (Month)"
+
+    },
+
+    "Employee": {
+        "1": "Employees",
+        "2": "Import List",
+        "3": "Add New"
+    },
+
+    "NewEmployee": {
+        "1": "Add New Employee"
+    },
+
+    "EditEmployee": {
+        "1": "Edit Employee"
+    },
+
+    "EmployeeData": {
+        "1": "Employee Data"
+    },
+
+    "PersonalData": {
+        "0": "Personal Data",
+        "1": "Name",
+        "2": "Date of Birth",
+        "3": "Naturalness",
+        "4": "Nationality",
+        "5": "ID Number",
+        "6": "marital status",
+        "7": "Select Marital Status",
+        "8": "Gender",
+        "9": "Select Gender",
+        "10": "Residence",
+        "11": "Contact",
+        "12": "contact 1",
+        "13": "contact 2",
+        "14": "Email",
+        "15": "NUIT",
+        "16": "Number of Dependents",
+        "17": "Total vacation days",
+        "18": "Syndicate",
+        "19": "Select syndicate state",
+        "20": "Single",
+        "21": "Married",
+        "22": "Male",
+        "23": "Female",
+        "24": "Pay",
+        "25": "No Pay"
+    },
+
+    "CompanyData": {
+        "0": "Company Data",
+        "1": "Department",
+        "2": "Select Department",
+        "3": "Position",
+        "4": "Select Position",
+        "5": "Start date",
+        "6": "End Date",
+        "7": "Employee Status",
+        "8": "Select State",
+        "9": "Base Salary",
+        "10": "Subsidy",
+        "11": "Active",
+        "12": "Inactive"
+    },
+
+    "FinancialData": {
+        "0": "Financial Data",
+        "1": "Bank Name",
+        "2": "Bank Account Number",
+        "3": "NIB",
+        "4": "Social Security Number",
+        "5": "INSS Status",
+        "6": "Select INSS"
+    },
+    
+    "Save": {
+        "1": "Save"
+    },
+
+    "Update": {
+        "1": "Update"
+    },
+
+    "Datatable": {
+        "0": "Add New",
+        "1": "View",
+        "2": "Edit",
+        "3": "Remove",
+        "4": "Export",
+        "5": "Print"
+    },
+
+    "Position": {
+        "1": "Positions",
+        "2": "Add new Job",
+        "3": "Position Data",
+        "4": "Position Name",
+        "5": "Description",
+        "6": "Edit Position"
+    },
+
+    "Department": {
+        "1": "Departments",
+        "2": "Add new Department",
+        "3": "Department Data",
+        "4": "Department Name",
+        "5": "Description",
+        "6": "Edit Department"
+    },
+
+    "NewPayroll": {
+        "1": "Add new Sheet",
+        "2": "New Payroll",
+        "3": "years",
+        "4": "Month",
+        "5": "Select Year",
+        "6": "Select Month"
+    },
+
+    "ProcessPayroll{": {
+        "1": "Salary processing",
+        "2": "New Sheet",
+        "3": "years",
+        "4": "Month",
+        "5": "Select Year",
+        "6": "Select Month"
+    },
+
+    "PayrollList": {
+        "1": "List of salary sheets",
+        "2": "Payroll",
+        "3": "Export Excel",
+        "4": "Sheet List",
+        "5": "Year",
+        "6": "Month",
+        "7": "Select Year",
+        "8": "Select Month"
+    },
+
+    "INSSList": {
+        "1": "List Sheets for INSS"
+    },
+
+    "AbsencesList": {
+        "1": "Absences List"
+    },
+
+    "SettingCompany": {
+        "1": "Company Data",
+        "2": "Company Name",
+        "3": "Phone",
+        "4": "Contact",
+        "5": "Email",
+        "6": "Website URL",
+        "7": "Fax",
+        "8": "Company Address",
+        "9": "Province",
+        "10": "City",
+        "11": "Postal Code",
+        "12": "Country"
+    },
+
+    "SettingLogo": {
+        "1": "Title and Logo",
+        "2": "Title/Company Name",
+        "3": "Company Logo"
+    },
+   
+    "SettingPayroll": {
+        "1": "Payroll",
+        "2": "Work time",
+        "3": "Total working days per month",
+        "4": "Total working hours per day",
+        "5": "Salary Sheet Columns",
+        "6": "Position",
+        "7": "Department",
+        "8": "Overtime",
+        "9": "Absences",
+        "10": "Cash Advances",
+        "11": "Bonus",
+        "12": "Backpay",
+        "13": "Syndicate",
+        "14": "Subsidy",
+        "15": "Transport allowance",
+        "16": "Food allowance",
+        "17": "Housing allowance",
+        "18": "Medical allowance",
+        "19": "Holiday Allowance",
+        "20": "Thirteenth Salary"
+    },
+
+    "Exit": {
+        "1": "Exit"
     }
+
 }

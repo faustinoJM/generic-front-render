@@ -7,11 +7,12 @@ import api from "../../services/api";
 import { read, utils, writeFileXLSX } from 'xlsx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useTranslation } from 'react-i18next';
 
 
 const Datatable = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading }) => {
-//   const [loading, setLoading] = useState(false)
+    //   const [loading, setLoading] = useState(false)
+    const { t, i18n } = useTranslation();
 
 
     const handleDelete = async (id, router) => {
@@ -47,11 +48,11 @@ const Datatable = ({ listName, listPath, columns, userRows, setUserRows, loading
                     <div className="cellAction">
                         <Link to={`/${listPath}/update/${params.row.id}`} style={{textDecoration: "none"}}>
                             <div className="editButton">
-                                <EditIcon className="edIcon"/> Editar
+                                <EditIcon className="edIcon"/> {t("Datatable.2")}
                             </div>
                         </Link>
                         <div className="deleteButton" onClick={() => handleDelete(params.row.id, listPath)}>
-                            <DeleteForeverIcon /> Remover
+                            <DeleteForeverIcon /> {t("Datatable.3")}
                         </div>
                     </div>
                 )
@@ -63,7 +64,7 @@ const Datatable = ({ listName, listPath, columns, userRows, setUserRows, loading
             {listName}
             <div className="datatableTitle">
                 <Link to={`/${listPath}/new`} className="link">
-                    Adicionar Novo
+                    {t("Datatable.0")}
                 </Link>
             </div>
 

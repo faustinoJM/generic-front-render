@@ -5,6 +5,7 @@ import Datatable from "../../components/datatable/Datatable"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import api from "../../services/api"
+import { useTranslation } from 'react-i18next';
 
 const positionColumns = [
     { field: 'id', headerName: 'ID', width: 100,pinnable: true, hide: true },
@@ -16,6 +17,7 @@ const positionColumns = [
 const ListPosition = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         async function fetchData() {
@@ -37,7 +39,7 @@ const ListPosition = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <Datatable listName={listName} listPath={listPath} columns={positionColumns} 
+                <Datatable listName={t("Position.1")} listPath={listPath} columns={positionColumns} 
                 userRows={userRows} setUserRows={setUserRows} 
                 loading={loading} setLoading={setLoading}/>
             </div>

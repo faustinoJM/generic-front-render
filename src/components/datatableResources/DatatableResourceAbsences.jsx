@@ -14,7 +14,7 @@ import PrintPayroll from "../printPayroll/PrintPayroll";
 import { printPDF } from "../printPayroll/PrintPayroll";
 import { useQuery } from 'react-query'
 import PrintINSS from "../printResources/PrintINSS";
-
+import { useTranslation } from 'react-i18next';
 
 const formatSalary = () => {
     return new Intl.NumberFormat("en-US",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -36,6 +36,7 @@ const DatatableResourceAbsences = ({ listName, listPath, columns, userRows, setU
     const [year, setYear] = useState(0);
     const componentRef = useRef();
     const [single, setSingle] = useState([]);
+    const { t, i18n } = useTranslation();
     const {data, error, isError, isLoading } = useQuery('payrolls', fetchPrintData)
 
     useEffect(() => {
@@ -297,7 +298,7 @@ const DatatableResourceAbsences = ({ listName, listPath, columns, userRows, setU
                             </div>
                         </Link> */}
                         <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month)}>
-                            <DescriptionIcon className="edIcon"/> Exportar
+                            <DescriptionIcon className="edIcon"/> {t("Datatable.4")}
                         </div>
                         {/* <div className="printButton" onClick={() => handleSinglePrint(params.row.id)}>
                               <PrintIcon />  Imprimir
@@ -310,7 +311,7 @@ const DatatableResourceAbsences = ({ listName, listPath, columns, userRows, setU
     return (
         <div className="datatable">
             <div className="datatableTitle">
-                {listName}
+                {t("AbsencesList.1")}
                 <PrintINSS componentRef={componentRef} single={single}/>
             </div>
             <DataGrid

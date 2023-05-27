@@ -4,6 +4,8 @@ import { DataGrid} from '@mui/x-data-grid';
 import { Link } from "react-router-dom"
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import { useTranslation } from 'react-i18next';
+
 
 const formatSalary = () => {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -33,6 +35,7 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
     const [year, setYear] = useState(0);
     const [month, setMonth] = useState("");
     const [yearOptions, setYearOptions] = useState([])
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         console.log("2", settings)
@@ -160,11 +163,11 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
     return (
         <div className="datatable">
             <div className="datatableTitle">
-                {listName}
+                {t("ProcessPayroll.1")}
                 <div className="anoMes">
-                    <label>Ano: </label>
+                    <label>{t("ProcessPayroll.3")}: </label>
                         <select id="year" name="year" value={year} onChange={e => submitByYear(e.target.value)}>
-                            <option value="">Selecione Ano</option>
+                            <option value="">{t("ProcessPayroll.5")}</option>
                             {yearOptions ? yearOptions.map((data, i) => {
                                 return <option key={i}>{data}</option>
                             })
@@ -174,9 +177,9 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
                             <option >2023</option>
                             <option >2024</option> */}
                         </select>
-                    <label>Mes: </label>
+                    <label>{t("ProcessPayroll.4")}: </label>
                         <select id="month" name="month" value={month} onChange={e => submitByMonth(e.target.value)} >
-                            <option value="">Selecione Mes</option>
+                            <option value="">{t("ProcessPayroll.6")}</option>
                             <option >Janeiro</option>
                             <option >Fevereiro</option>
                             <option >Marco</option>
@@ -192,7 +195,7 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
                         </select>
                 </div> 
                 <Link to={`/${listPath}/new`} className="link">
-                    Nova Folha
+                    {t("ProcessPayroll.2")}
                 </Link>
             </div>
             <div  style={{ height: 545, width: '100%' }}>

@@ -8,10 +8,12 @@ import { useNavigate } from "react-router-dom"
 import api from "../../services/api";
 import "react-datepicker/dist/react-datepicker.css"
 import Swal from "sweetalert2";
+import { useTranslation } from 'react-i18next';
 
 
 
 const NewPayroll = ({ inputs, title }) => {
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate()
     const [errorPayroll, setErrorPayroll] = useState(false)
 
@@ -80,27 +82,27 @@ const NewPayroll = ({ inputs, title }) => {
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                    <h1>{title}</h1>
+                    <h1>{t("NewPayroll.1")}</h1>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="bottom">
                         <div className="form" >
-                            <h2>Nova Folha de Salario</h2>
+                            <h2>{t("NewPayroll.2")}</h2>
                             <div className="formInput1">
-                                <label>Ano:</label>
+                                <label>{t("NewPayroll.3")}:</label>
                                     {/* <input className="inputClass" type="text" id="year" 
                                             value={2023 } onChange={handleChange} onBlur={handleBlur}/>
                                     {errors.year && touched.year && <p>{errors.year}</p>} */}
                                     <select id="year" name="year" className="yearClass"
                                             onChange={e => setFieldValue("year", e.target.value)} onBlur={handleBlur}>
-                                        <option value="">Selecione Ano</option>
+                                        <option value="">{t("NewPayroll.5")}</option>
                                         <option>2023</option>
                                     </select>
                                 {errors.year && touched.year && <p>{errors.year}</p>} 
-                                <label>Mes</label>
+                                <label>{t("NewPayroll.4")}:</label>
                                     <select id="month" name="month" className="monthClass"
                                             onChange={e => setFieldValue("month", e.target.value)} onBlur={handleBlur}>
-                                        <option value="">Selecione Mes</option>
+                                        <option value="">{t("NewPayroll.6")}</option>
                                         <option>Janeiro</option>
                                         <option>Fevereiro</option>
                                         <option>Marco</option>
@@ -121,7 +123,7 @@ const NewPayroll = ({ inputs, title }) => {
                         </div> 
                     </div>
                     <div className="bottomForm2">
-                        <button disabled={isSubmitting} type="submit" className="buttonClass">Cadastrar</button>
+                        <button disabled={isSubmitting} type="submit" className="buttonClass">{t("Save.1")}</button>
                     </div>
                 </form>  
             </div>

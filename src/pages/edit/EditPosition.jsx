@@ -7,14 +7,14 @@ import * as Yup from "yup"
 import { useNavigate, useParams } from "react-router-dom"
 import api from "../../services/api";
 import "react-datepicker/dist/react-datepicker.css"
-
+import { useTranslation } from 'react-i18next';
 
 const EditPosition = ({ inputs, title }) => {
     const navigate = useNavigate()
     const params = useParams()
     const id = Object.values(params)[0]
     const [data, setData] = useState({});
-
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         async function fetch() {
@@ -57,18 +57,18 @@ const EditPosition = ({ inputs, title }) => {
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                    <h1>{title}</h1>
+                    <h1>{t("Position.6")}</h1>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="bottom">
                         <div className="form" >
-                            <h2>Dados do Cargo</h2>
+                            <h2>{t("Position.3")}</h2>
                             <div className="formInput1">
-                                <label>Nome do Cargo</label>
+                                <label>{t("Position.4")}</label>
                                     <input className="inputClass" type="text" id="name" 
                                             defaultValue={data.name} onChange={handleChange} onBlur={handleBlur}/>
                                     {errors.name && touched.name && <p>{errors.name}</p>}
-                                <label>Descricao</label>
+                                <label>{t("Position.5")}</label>
                                     <input className="inputClass" type="text" id="description"
                                             value={values.description} onChange={handleChange} onBlur={handleBlur}/>
                                             {errors.description && touched.description && <p>{errors.description}</p>} 
@@ -76,7 +76,7 @@ const EditPosition = ({ inputs, title }) => {
                         </div> 
                     </div>
                     <div className="bottomForm2">
-                        <button disabled={isSubmitting} type="submit" className="buttonClass">Actualizar</button>
+                        <button disabled={isSubmitting} type="submit" className="buttonClass">{t("Update.1")}</button>
                     </div>
                 </form>  
             </div>

@@ -8,13 +8,13 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-
-
+import { useTranslation } from 'react-i18next';
 
 const SettingLogo = () => {
     const [file, setFile] = useState("");
     const [urlLogo, setUrlLogo] = useState("");
     const [setting, setSetting] = useState("")
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         async function fetch() {
@@ -97,22 +97,22 @@ const SettingLogo = () => {
                     {/* Settings
                     <DatePicker className="datas" selected={startDate} onChange={(date) => setStartDate(date)}/> */}
                     <ul>
-                        <li><Link className="a" to="..">Dados da Empresa</Link></li>
-                        <li><Link className="b" >Titulo e Logo</Link></li>
-                        <li><Link className="a" to="../payroll">Folha de Salario</Link></li>
+                        <li><Link className="a" to="..">{t("SettingCompany.1")}</Link></li>
+                        <li><Link className="b" >{t("SettingLogo.1")}</Link></li>
+                        <li><Link className="a" to="../payroll">{t("SettingPayroll.1")}</Link></li>
                     </ul>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="logoDiv">
                         <div className="company">
-                            <label>Titulo/Nome da Empresa</label>
+                            <label>{t("SettingLogo.2")}</label>
                             <input type="text" id="company_name"
                                 defaultValue={setting.company_name} onChange={handleChange} onBlur={handleBlur}/>
                                 {errors.company_name && touched.company_name && <p style={{color: "crimson"}}>{errors.company_name}</p>} 
                         </div>
                         <div className="upload">
                             <div className="labelIcon">
-                                <label htmlFor="file">Logo da Empresa: <DriveFolderUploadOutlinedIcon className="icon" /></label>
+                                <label htmlFor="file">{t("SettingLogo.3")}: <DriveFolderUploadOutlinedIcon className="icon" /></label>
                                 <input  type="file" id="file" name="logo" style={{ display: 'none' }} onChange={(e) => {
                                     setFieldValue("logo", e.target.files[0])
                                     setFile(e.target.files[0])
@@ -129,7 +129,7 @@ const SettingLogo = () => {
                         {errors.logo && touched.logo && <p style={{color: "crimson"}}>{errors.logo}</p>} 
                     </div>
                     <div className="buttonDiv">
-                        <button type="submit">Salvar</button>
+                        <button type="submit">{t("Save.1")}</button>
                     </div>
                 </form>
                 

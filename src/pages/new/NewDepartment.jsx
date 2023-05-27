@@ -8,11 +8,11 @@ import { useNavigate } from "react-router-dom"
 import api from "../../services/api";
 import "react-datepicker/dist/react-datepicker.css"
 import Swal from "sweetalert2";
-
-
+import { useTranslation } from 'react-i18next';
 
 const NewDepartment = ({ inputs, title }) => {
     const navigate = useNavigate()
+    const { t, i18n } = useTranslation();
 
      const onSubmit = async (values, actions) => {
         console.log(values)
@@ -53,18 +53,18 @@ const NewDepartment = ({ inputs, title }) => {
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                    <h1>{title}</h1>
+                    <h1>{t("Department.2")}</h1>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="bottom">
                         <div className="form" >
-                            <h2>Dados do Departmento</h2>
+                            <h2>{t("Department.3")}</h2>
                             <div className="formInput1">
-                                <label>Nome do Departemento</label>
+                                <label>{t("Department.4")}</label>
                                     <input className={`inputClass ${errors.name && touched.name? "input-error" : ""}`} type="text" id="name" 
                                             value={values.name} onChange={handleChange} onBlur={handleBlur}/>
                                     {errors.name && touched.name && <p>{errors.name}</p>}
-                                <label>Descricao</label>
+                                <label>{t("Department.5")}</label>
                                     <input className="inputClass" type="text" id="description"
                                             value={values.description} onChange={handleChange} onBlur={handleBlur}/>
                                             {errors.description && touched.description && <p>{errors.description}</p>} 
@@ -72,7 +72,7 @@ const NewDepartment = ({ inputs, title }) => {
                         </div> 
                     </div>
                     <div className="bottomForm2">
-                        <button disabled={isSubmitting} type="submit" className="buttonClass">Cadastrar</button>
+                        <button disabled={isSubmitting} type="submit" className="buttonClass">{t("Save.1")}</button>
                     </div>
                 </form>  
             </div>

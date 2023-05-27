@@ -1,0 +1,234 @@
+{
+    "Sidebar": {
+        "1": "PRINCIPAL",
+        "2": "Painel Principal",
+        "3": "FUNCIONARIOS",
+        "4": "Funcionario",
+        "5": "Cargo",
+        "6": "DEPARTAMENTOS",
+        "7": "Departamento",
+        "8": "FOLHA DE SALARIO",
+        "9": "Nova Folha",
+        "10": "Processamento",
+        "11": "Folha",
+        "12": "RECURSOS",
+        "13": "INSS",
+        "14": "Faltas",
+        "15": "USUARIO",
+        "16": "Definições",
+        "17": "Sair"
+    },
+
+    "Home": {
+        "1": "FUNCIONARIOS",
+        "2": "CARGOS",
+        "3": "DEPARTAMENTOS",
+        "4": "TOTAL PAGAMENTOS",
+        "5": "ver funcionarios",
+        "6": "ver cargos",
+        "7": "ver departamentos",
+        "8": "ver folha de salario",
+        "9": "Funcionarios por Departmento",
+        "10": "Funcionarios por Cargo",
+        "11": "Salarios por Departmento",
+        "12": "Salarios por Cargo",
+        "13": "Total de Pagamentos (Mes)"
+    },
+
+    "Employee": {
+        "1": "Funcionarios",
+        "2": "Importar Lista",
+        "3": "Adicionar Novo"
+    },
+
+    "NewEmployee": {
+        "1": "Adicionar novo Funcionario"
+    },
+
+    "EditEmployee": {
+        "1": "Editar Funcionario"
+    },
+
+    "EmployeeData": {
+        "1": "Dados do Funcionario",
+        "2": "Editar"
+    },
+
+    "PersonalData": {
+        "0": "Dados Pessoais",
+        "1": "Nome",
+        "2": "Data de Nascimento",
+        "3": "Naturalidade",
+        "4": "Nacionalidade",
+        "5": "Numero de BI",
+        "6": "Estado Civil",
+        "7": "Selecione Estado Civil",
+        "8": "Genero",
+        "9": "Selecione Sexo",
+        "10": "Residencia",
+        "11": "Contacto",
+        "12": "contacto 1",
+        "13": "contacto 2",
+        "14": "Email",
+        "15": "NUIT",
+        "16": "Numero de Dependentes",
+        "17": "Total dias de ferias",
+        "18": "Sindicato",
+        "19": "Selecione estado Sindicato",
+        "20": "Solteiro",
+        "21": "Casado",
+        "22": "Masculino",
+        "23": "Femenino",
+        "24": "Paga",
+        "25": "Nao Paga"
+    },
+
+    "CompanyData": {
+        "0": "Dados da Empresa",
+        "1": "Departamento",
+        "2": "Selecione Departemento",
+        "3": "Cargo",
+        "4": "Selecione Cargo",
+        "5": "Data de Inicio",
+        "6": "Data do Fim",
+        "7": "Estado do Funcionario",
+        "8": "Selecione Estado",
+        "9": "Salario Base",
+        "10": "Subsidio",
+        "11": "Activo",
+        "12": "Inactivo"
+    },
+
+    "FinancialData": {
+        "0": "Dados Financeiro",
+        "1": "Nome do Banco",
+        "2": "Numero da Conta Bancaria",
+        "3": "NIB",
+        "4": "Numero de Seg. Social",
+        "5": "Estado INSS",
+        "6": "Selecione INSS"
+    },
+
+    "Save": {
+        "1": "Cadastrar"
+    },
+
+    "Update": {
+        "1": "Actualizar"
+    },
+
+    "Datatable": {
+        "0": "Adicionar Novo",
+        "1": "Ver",
+        "2": "Editar",
+        "3": "Remover",
+        "4": "Exportar",
+        "5": "Imprimir"
+    },
+
+    "Position": {
+        "1": "Cargos",
+        "2": "Adicionar novo Cargo",
+        "3": "Dados do Cargo",
+        "4": "Nome do Cargo",
+        "5": "Descricao",
+        "6": "Editar Cargo"
+    },
+
+    "Department": {
+        "1": "Departamentos",
+        "2": "Adicionar novo Departamento",
+        "3": "Dados do Departamento",
+        "4": "Nome do Departamento",
+        "5": "Descricao",
+        "6": "Editar Departamento"
+    },
+
+    "NewPayroll": {
+        "1": "Adicionar nova Folha",
+        "2": "Nova Folha de Salario",
+        "3": "Ano",
+        "4": "Mes",
+        "5": "Selecione Ano",
+        "6": "Selecione Mes"
+    },
+
+    "ProcessPayroll{": {
+        "1": "Processamento Salario",
+        "2": "Nova Folha",
+        "3": "Ano",
+        "4": "Mes",
+        "5": "Selecione Ano",
+        "6": "Selecione Mes"
+    },
+
+    "PayrollList": {
+        "1": "Lista de folhas de Salarios",
+        "2": "Folha de Salario",
+        "3": "Exportar Excel",
+        "4": "Lista de Folhas",
+        "5": "Ano",
+        "6": "Mes",
+        "7": "Selecione Ano",
+        "8": "Selecione Mes"
+    },
+
+    "INSSList": {
+        "1": "Lista Folhas Para INSS"
+    },
+
+    "AbsencesList": {
+        "1": "Lista de Faltas"
+    },
+
+    "SettingCompany": {
+        "1": "Dados da Empresa",
+        "2": "Nome da Empresa",
+        "3": "Telefone",
+        "4": "Contacto",
+        "5": "Email",
+        "6": "Website URL",
+        "7": "Fax",
+        "8": "Endereco da Empresa",
+        "9": "Provincia",
+        "10": "Cidade",
+        "11": "Codigo Postal",
+        "12": "Pais"
+    },
+
+    "SettingLogo": {
+        "1": "Titulo e Logo",
+        "2": "Titulo/Nome da Empresa",
+        "3": "Logo da Empresa"
+    },
+    
+    "SettingPayroll": {
+        "1": "Folha de Salario",
+        "2": "Tempo de trabalho",
+        "3": "Total dias de Trabalho por mes",
+        "4": "Total horas de Trabalho por dia",
+        "5": "Colunas da Folha Salario",
+        "6": "Cargo",
+        "7": "Departamento",
+        "8": "Horas Extras",
+        "9": "Faltas",
+        "10": "Emprestimos",
+        "11": "Bonus",
+        "12": "Retroativo",
+        "13": "Sindicato",
+        "14": "Subsidio",
+        "15": "Subsidio Transporte",
+        "16": "Subsidio de Alimentacao",
+        "17": "Subsidio de Residencia",
+        "18": "Subsidio Medico",
+        "19": "Subsidio de Ferias",
+        "20": "Decimo Terceiro Salario"
+    },
+
+    "Exit": {
+        "1": "Sair"
+    }
+
+
+	
+}

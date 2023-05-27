@@ -9,6 +9,7 @@ import exceljs from 'exceljs';
 import { saveAs } from 'file-saver';
 import PrintIcon from '@mui/icons-material/Print';
 import {useQuery} from 'react-query'
+import { useTranslation } from 'react-i18next';
 
 const formatSalary = () => {
     return new Intl.NumberFormat("en-US",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -36,6 +37,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
     const [urlLogo, setUrlLogo] = useState(null);
     // const [loading, setLoading] = useState(true)
     const params = useParams()
+    const { t, i18n } = useTranslation();
 
     const {data, error, isError, isLoading } = useQuery('payrollsOutput', fetchPrintData)
 
@@ -919,7 +921,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                         {/* <Link to={`/${listPath}/${params.row.id}`} style={{textDecoration: "none"}}> */}
                             <div className="printButton" onClick={() => handleSinglePrint(params.row.id)}>
                             {/* handleSinglePrint(params.row.id) */}
-                              <PrintIcon />  Imprimir
+                              <PrintIcon />  {t("Datatable.5")}
                             </div>
                         {/* </Link> */}
                         {/* <div className="deleteButton" onClick={() => handleDelete(params.row.id, listPath)}>Remover</div> */}
@@ -931,15 +933,15 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
     return (
         <div className="datatable">
             {/* {console.log("encima")} */}
-            {listName}
+            {t("PayrollList.2")}
             <div className="datatableTitle">
                 <div className="link" onClick={exportExcelFile}>
-                    Exportar Excel
+                  {t("PayrollList.3")}
                 </div>
                 <div className="anoMes">
-                    <label>Ano: </label>
+                    <label>{t("PayrollList.5")}: </label>
                         <select id="year" name="year" value={year} onChange={e => submitByYear(e.target.value)}>
-                            <option value="">Selecione Ano</option>
+                            <option value="">{t("PayrollList.7")}</option>
                             {yearOptions ? yearOptions.map((data, i) => {
                                 return <option key={i}>{data}</option>
                             })
@@ -951,9 +953,9 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                             <option >2023</option>
                             <option >2024</option> */}
                         </select>
-                    <label>Mes: </label>
+                    <label>{t("PayrollList.6")}: </label>
                         <select id="month" name="month" value={month} onChange={e => submitByMonth(e.target.value)} >
-                            <option value="">Selecione Mes</option>
+                            <option value="">{t("PayrollList.8")}</option>
                             <option >Janeiro</option>
                             <option >Fevereiro</option>
                             <option >Marco</option>
@@ -969,7 +971,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                         </select>
                 </div> 
                 <Link to={`/${listPath}/list`} className="link">
-                  Lista de Folhas
+                  {t("PayrollList.4")}
                 </Link>
 
                 <PrintPayslip componentRef={componentRef} single={single} />

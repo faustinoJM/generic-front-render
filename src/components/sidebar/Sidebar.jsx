@@ -18,6 +18,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ElderlyIcon from '@mui/icons-material/Elderly';
 import DescriptionIcon from '@mui/icons-material/Description';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import { useTranslation } from 'react-i18next';
 
 
 import { Link, NavLink } from "react-router-dom"
@@ -41,6 +42,7 @@ const Sidebar = (d, f) => {
     const [setting, setSetting] = useState(null)
     const [companyName, setCompanyName] = useState("")
     const [urlLogo, setUrlLogo] = useState(null);
+    const { t, i18n } = useTranslation();
 
     const {data, error, isError, isLoading } = useQuery('settings', fetchSettings)
 
@@ -92,24 +94,26 @@ const Sidebar = (d, f) => {
             <hr />
             <div className="center">
                 <ul>
-                    <p className="title">PRINCIPAL</p>
+                    {/* <p className="title">PRINCIPAL</p> */}
+                            {/* <p>{t('Thanks.1')} {t('Why.1')}</p> */}
+                    <p className="title">{t('Sidebar.1')}</p>
                     <li>
                         <NavLink to="/" className="navLink" style={{textDecoration: "none"}}>
                             <DashboardIcon className="icon" />
-                            <span>Dashboard</span>
+                            <span>{t('Sidebar.2')}</span>
                         </NavLink>
                     </li>
-                    <p className="title">FUNCIONARIOS</p>
+                    <p className="title">{t('Sidebar.3')}</p>
                     <li>
                         <NavLink to="/employees" className="navLink" style={{textDecoration: "none"}}>
                             <PersonOutlineOutlinedIcon className="icon" />
-                            <span>Funcionario</span>
+                            <span>{t('Sidebar.4')}</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/positions" className="navLink" style={{textDecoration: "none"}}>
                             <BusinessCenterOutlinedIcon className="icon" />
-                            <span>Cargo</span>
+                            <span>{t('Sidebar.5')}</span>
                         </NavLink>
                     </li>
                     {/* <li>
@@ -119,33 +123,33 @@ const Sidebar = (d, f) => {
                         </NavLink>
                         </li>
                      */}
-                    <p className="title">DEPARTAMENTOS</p>
+                    <p className="title">{t('Sidebar.6')}</p>
                     <li>
                         <NavLink to="/departments" className="navLink" style={{textDecoration: "none"}}>
                             <ApartmentOutlinedIcon className="icon" />
-                            <span>Departamento</span>
+                            <span>{t('Sidebar.7')}</span>
                         </NavLink>
                     </li>
-                    <p className="title">FOLHA DE SALARIO</p>
+                    <p className="title">{t('Sidebar.8')}</p>
                     <li>
                         <NavLink to="/payrolls/new" className="navLink" style={{textDecoration: "none"}}>
                             <InsertDriveFileIcon className="icon" />
-                            <span>Nova Folha</span>
+                            <span>{t('Sidebar.9')}</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/payrolls/input" className="navLink" style={{textDecoration: "none"}}>
                             <PointOfSaleOutlinedIcon className="icon" />
-                            <span>Processamento</span>
+                            <span>{t('Sidebar.10')}</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/payrolls/list" className="navLink" style={{textDecoration: "none"}}>
                             <PaymentOutlinedIcon className="icon" />
-                            <span>Folha</span>
+                            <span>{t('Sidebar.11')}</span>
                         </NavLink>
                     </li>
-                   <p className="title">RECURSOS</p>
+                   <p className="title">{t('Sidebar.12')}</p>
                     {/* <li>
                         <NavLink to="/resources/banks" className="navLink" style={{textDecoration: "none"}}>
                             <AccountBalanceIcon className="icon" />
@@ -155,13 +159,13 @@ const Sidebar = (d, f) => {
                     <li>
                         <NavLink to="/resources/social-security" className="navLink" style={{textDecoration: "none"}}>
                             <ElderlyIcon className="icon" />
-                            <span>INSS</span>
+                            <span>{t('Sidebar.13')}</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/resources/absences" className="navLink" style={{textDecoration: "none"}}>
                             <FactCheckOutlinedIcon className="icon" />
-                            <span>Faltas</span>
+                            <span>{t('Sidebar.14')}</span>
                         </NavLink>
                     </li>
                     {/* 
@@ -190,7 +194,7 @@ const Sidebar = (d, f) => {
                         </NavLink>
                         </li>
                         */}
-                    <p className="title">USUARIO</p>
+                    <p className="title">{t('Sidebar.15')}</p>
                     {/* <li>
                         <NavLink to="/profile" className="navLink" style={{textDecoration: "none"}}>
                             <AccountBoxOutlinedIcon className="icon" />
@@ -200,13 +204,13 @@ const Sidebar = (d, f) => {
                     <li>
                         <NavLink to="/settings" className="navLink" style={{textDecoration: "none"}}>
                             <SettingsApplicationsIcon className="icon" />
-                            <span>Settings</span>
+                            <span>{t('Sidebar.16')}</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink onClick={signOut} to="/login" className="navLink" style={{textDecoration: "none"}}>
                             <ExitToAppOutlinedIcon className="icon" />
-                            <span>Sair</span>
+                            <span>{t('Sidebar.17')}</span>
                         </NavLink>
                     </li>
                 </ul>

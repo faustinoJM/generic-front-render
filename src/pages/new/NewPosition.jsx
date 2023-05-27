@@ -8,11 +8,14 @@ import { useNavigate } from "react-router-dom"
 import api from "../../services/api";
 import "react-datepicker/dist/react-datepicker.css"
 import Swal from "sweetalert2";
+import { useTranslation } from 'react-i18next';
 
 
 const NewPosition = ({ inputs, title }) => {
     const navigate = useNavigate()
-     const onSubmit = async (values, actions) => {
+    const { t, i18n } = useTranslation();
+
+    const onSubmit = async (values, actions) => {
         console.log(values)
         console.log(actions)
         const { name } = values
@@ -38,9 +41,9 @@ const NewPosition = ({ inputs, title }) => {
                 // footer: '<a href="">Why do I have this issue?</a>'
               })
         }
-     }
+    }
 
-     const schema = Yup.object().shape({
+    const schema = Yup.object().shape({
         name: Yup.string().required('Nome Obrigatorio'),
         description: Yup.string().required("Descricao obrigatorio"),
 
@@ -61,18 +64,18 @@ const NewPosition = ({ inputs, title }) => {
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                    <h1>{title}</h1>
+                    <h1>{t("Position.2")}</h1>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="bottom">
                         <div className="form" >
-                            <h2>Dados do Cargo</h2>
+                            <h2>{t("Position.3")}</h2>
                             <div className="formInput1">
-                                <label>Nome do Cargo</label>
+                                <label>{t("Position.4")}</label>
                                     <input className={`inputClass ${errors.name && touched.name? "input-error" : ""}`} type="text" id="name" 
                                             value={values.name} onChange={handleChange} onBlur={handleBlur}/>
                                     {errors.name && touched.name && <p>{errors.name}</p>}
-                                <label>Descricao</label>
+                                <label>{t("Position.5")}</label>
                                     <input className="inputClass" type="text" id="description"
                                             value={values.description} onChange={handleChange} onBlur={handleBlur}/>
                                             {errors.description && touched.description && <p>{errors.description}</p>} 
@@ -80,7 +83,7 @@ const NewPosition = ({ inputs, title }) => {
                         </div> 
                     </div>
                     <div className="bottomForm2">
-                        <button disabled={isSubmitting} type="submit" className="buttonClass">Cadastrar</button>
+                        <button disabled={isSubmitting} type="submit" className="buttonClass">{t("Save.1")}</button>
                     </div>
                 </form>  
             </div>

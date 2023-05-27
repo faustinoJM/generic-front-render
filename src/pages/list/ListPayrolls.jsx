@@ -19,7 +19,7 @@ const ListPayrolls = ({ listName, listPath }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get(`${listPath}`)
+            const response = await api.get(`payroll`)
              console.log(listPath)
              console.log(response.data)
 

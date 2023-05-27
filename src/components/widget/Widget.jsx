@@ -9,9 +9,11 @@ import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 import PointOfSaleOutlinedIcon from '@mui/icons-material/PointOfSaleOutlined';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 
 const Widget = ({ type, dbData, link }) => {
+    const { t, i18n } = useTranslation();
     const [total, setStotal] = useState(0);
     const formatSalary = new Intl.NumberFormat("de-DE", {maximumFractionDigits: 2, minimumFractionDigits: 2})
 
@@ -36,9 +38,9 @@ const Widget = ({ type, dbData, link }) => {
     switch (type) {
         case "employees":
             data = {
-                title: "FUNCIONARIOS",
+                title: `${t("Home.1")}`,
                 isMoney: false,
-                link: "ver funcionarios",
+                link: `${t("Home.5")}`,
                 icon: (
                     <PersonOutlineOutlinedIcon className="icon" 
                     style={{
@@ -50,9 +52,9 @@ const Widget = ({ type, dbData, link }) => {
         break;
         case "positions":
             data = {
-                title: "CARGOS",
+                title: `${t("Home.2")}`,
                 isMoney: false,
-                link: "ver cargos",
+                link: `${t("Home.6")}`,
                 icon: (
                     <BusinessCenterOutlinedIcon className="icon" 
                     style={{
@@ -64,9 +66,9 @@ const Widget = ({ type, dbData, link }) => {
         break;
         case "departments":
             data = {
-                title: "DEPARTAMENTOS",
+                title: `${t("Home.3")}`,
                 isMoney: false,
-                link: "ver departamentos",
+                link: `${t("Home.7")}`,
                 icon: (
                     <ApartmentOutlinedIcon className="icon" 
                     style={{
@@ -78,9 +80,9 @@ const Widget = ({ type, dbData, link }) => {
         break;
         case "payrolls":
             data = {
-                title: "TOTAL PAGAMENTOS",
+                title: `${t("Home.4")}`,
                 isMoney: true,
-                link: "ver folha de salario",
+                link: `${t("Home.8")}`,
                 icon: (
                     <PointOfSaleOutlinedIcon className="icon" 
                     style={{

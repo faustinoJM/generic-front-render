@@ -14,7 +14,7 @@ import PrintPayroll from "../printPayroll/PrintPayroll";
 import { printPDF } from "../printPayroll/PrintPayroll";
 import {useQuery} from 'react-query'
 import axios from "axios";
-
+import { useTranslation } from 'react-i18next';
 
 const formatSalary = () => {
     return new Intl.NumberFormat("en-US",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -37,7 +37,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     const [printPayroll, setPrintPayroll] = useState([]);
     const {data, error, isError, isLoading } = useQuery('payrolls', fetchPrintData)
     const [urlLogo, setUrlLogo] = useState(null);
-
+    const { t, i18n } = useTranslation();
 
     const handleSinglePrint = (year, month) => {
       const fetch = async () => {
@@ -545,18 +545,18 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                         {/* to={`/${listPath}/${params.row.id}`} */}
                         {/* {console.log(params.row.month+""+listPath)} */}
                                 <div className="viewButton">
-                                    <VisibilityIcon /> Ver
+                                    <VisibilityIcon /> {t("Datatable.1")}
                                 </div>
                         </Link>
                         <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month)}>
-                            <DescriptionIcon className="edIcon"/> Exportar
+                            <DescriptionIcon className="edIcon"/> {t("Datatable.4")}
                         </div>
                         <div className="printButton" onClick={() => handleSinglePrint(params.row.year, params.row.month)}>
                         {/* handleSinglePrint(params.row.year, params.row.month) */}
-                              <PrintIcon />  Imprimir
+                              <PrintIcon />  {t("Datatable.5")}
                             </div>
                         <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
-                            <DeleteForeverIcon /> Remover
+                            <DeleteForeverIcon /> {t("Datatable.3")}
                         </div>
                     </div>
                 )
@@ -566,7 +566,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     return (
         <div className="datatable">
             <div className="datatableTitle">
-                {listName}
+                {t("PayrollList.1")}
                 {/* {listPath === "payrolls" ? 
                 <div className="anoMes">
                     <label>Ano: </label>

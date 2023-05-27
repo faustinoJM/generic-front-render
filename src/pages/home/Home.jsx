@@ -7,8 +7,7 @@ import Chart from "../../components/chart/Chart";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import Piechart from "../../components/piechart/Piechart";
-
-
+import { useTranslation } from 'react-i18next';
 
 // function addToken() {
 //     api.defaults.headers['Authorization'] = !!localStorage.getItem('@ConsulPayroll:refresh_token') ? `Bearer ${localStorage.getItem('@ConsulPayroll:refresh_token')}` : '';
@@ -27,6 +26,7 @@ const Home = () => {
     const [position, setPosition] = useState(null);
     const [department, setDepartment] = useState(null);
     const [payroll, setPayroll] = useState(null);
+    const { t, i18n } = useTranslation();
 
     //Fetch api in serie and wait
     // useEffect(() => {
@@ -131,7 +131,7 @@ const Home = () => {
                 </div>
                 <div className="charts">
                     <Piechart />
-                    <Chart aspect={ 2 / 1} title="Total de Pagamentos (Mes)" dbData={payroll}/>
+                    <Chart aspect={ 2 / 1} title={`${t("Home.13")}`} dbData={payroll}/>
                 </div>
             </div>
         </div>
