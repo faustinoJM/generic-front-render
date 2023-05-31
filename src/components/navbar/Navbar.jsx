@@ -11,7 +11,7 @@ import DropDownProfile from "../dropdown/DropDownProfile";
 import { useState, useEffect, useRef } from "react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DropDownLang from "../dropdown/DropDownLang";
-import "/node_modules/flag-icons/css/flag-icons.min.css";
+// import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 
 const Navbar = () => {

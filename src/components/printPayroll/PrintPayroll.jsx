@@ -150,7 +150,7 @@ export function printPDF(printData, settingData, urlLogo) {
                 headerRows: 3,
                 body: [
                     [
-                        {text: "Elint Payroll", style: "tableHeader", colSpan: 17, alignment: "center"},
+                        {text: settingData ? settingData.company_name : "Elint Payroll", style: "tableHeader", colSpan: 17, alignment: "center"},
                         {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
                     ],
                     [
@@ -189,12 +189,29 @@ export function printPDF(printData, settingData, urlLogo) {
                     ...totalRow
                 
                 ]
-
             },
         },
         
-        {text: '\nAssinatura \n________________________', alignment: "left"},
-        {text: `\nData: ${formatDate().format(new Date())}`, alignment: "left"},
+        // {text: '\nAssinatura \n________________________', alignment: "left"},
+        // {text: `\nData: ${formatDate().format(new Date())}`, alignment: "left"},
+        {
+            table: {
+                widths: ['85%', '15%'],
+                body: [
+                  [
+                    [
+                        {text: '\nAssinatura \n________________________', alignment: "left"},
+                        {text: `\nData: ${formatDate().format(new Date())}`, alignment: "left"}
+                    ],
+                    [
+                        {text: '\nAssinatura \n________________________', alignment: "left"},
+                        {text: `\nData: ${formatDate().format(new Date())}`, alignment: "left"}
+                    ]
+                  ]
+                ],
+              },
+              layout: 'noBorders'
+        }
 
         // {
         //  "nodeName":"IMG",
@@ -545,7 +562,7 @@ const totalPrint = (printData) => {
         totalBase += (+data.salary_base)
         totalGross += (+data.total_income)
         totalIrps += (+data.irps)
-        totalInss += (+data.inss_company) + (+data.inss_employee)
+        totalInss += (+data.total_inss)
         totalInssCompany += (+data.inss_company)
         totalInssEmployee += (+data.inss_employee)
         total_cash_advances += (+data.cash_advances)
