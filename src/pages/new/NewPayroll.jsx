@@ -9,13 +9,31 @@ import api from "../../services/api";
 import "react-datepicker/dist/react-datepicker.css"
 import Swal from "sweetalert2";
 import { useTranslation } from 'react-i18next';
+import {useQuery} from 'react-query'
 
-
+async function fetchSettings(){
+    const {data} = await api.get("settings") 
+    return data
+}
 
 const NewPayroll = ({ inputs, title }) => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate()
     const [errorPayroll, setErrorPayroll] = useState(false)
+    const [setting, setSetting] = useState(null)
+
+    const {data, error, isError, isLoading } = useQuery('settings', fetchSettings)
+
+    useEffect(() => {
+        // if (!isLoading) {
+            async function fetchSettings(){
+                const response = await api.get("settings") 
+                if (response)
+                setSetting(response.data)
+            }
+            fetchSettings()
+        // }
+    }, [data])
 
     useEffect(() => {
         setErrorPayroll(false)
@@ -38,18 +56,24 @@ const NewPayroll = ({ inputs, title }) => {
             day_total_workhours: 8,
         })
 
-        if (response.status === 201)
-            Swal.fire(
-                'Sucesso!',
-                'Folha criada com sucesso!!',
-                'success'
-            )
+        if (response.status === 201) {
+            setting?.language_options === "pt" ?
+                Swal.fire(
+                    'Sucesso!',
+                    'Dados salvos com sucesso!',
+                    'success'
+                ) : Swal.fire(
+                    'Success!',
+                    'Data successfully saved',
+                    'success'
+                )
+        }
             
             actions.resetForm()
             navigate("/payrolls/input")
         } catch (err) {
             if (err.response.status === 400)
-                errors.month = "Mes ja cadastrado!"
+                errors.month = setting?.language_options === "pt" ? "Mes ja cadastrado!!" : "Month already registered!!!"
             // Swal.fire({
             //     icon: 'error',
             //     title: 'Mes ja Cadastrado...',
@@ -67,7 +91,7 @@ const NewPayroll = ({ inputs, title }) => {
     })
     const { values, errors, handleChange, touched, isSubmitting, setFieldValue, handleBlur, handleSubmit} = useFormik({
         initialValues: {
-            year: 2023,
+            year: "",
             month: "",
         },
         validationSchema: schema,
@@ -103,18 +127,26 @@ const NewPayroll = ({ inputs, title }) => {
                                     <select id="month" name="month" className="monthClass"
                                             onChange={e => setFieldValue("month", e.target.value)} onBlur={handleBlur}>
                                         <option value="">{t("NewPayroll.6")}</option>
-                                        <option>Janeiro</option>
-                                        <option>Fevereiro</option>
-                                        <option>Marco</option>
-                                        <option>Abril</option>
-                                        <option>Maio</option>
-                                        <option>Junho</option>
-                                        <option>Julho</option>
-                                        <option>Agosto</option>
-                                        <option>Setembro</option>
-                                        <option>Outubro</option>
-                                        <option>Novembro</option>
-                                        <option>Dezembro</option>
+                                        <option value={"Janeiro"}>{t("Month.1")}</option>
+                                        <option value={"Fevereiro"}>{t("Month.2")}</option>
+                                        <option value={"Marco"}>{t("Month.3")}</option>
+                                        <option value={"Abril"}>{t("Month.4")}</option>
+                                        <option value={"Maio"}>{t("Month.5")}</option>
+                                        <option value={"Junho"}>{t("Month.6")}</option>
+                                        <option value={"Julho"}>{t("Month.7")}</option>
+                                        <option value={"Agosto"}>{t("Month.8")}</option>
+                                        <option value={"Setembro"}>{t("Month.9")}</option>
+                                        <option value={"Outubro"}>{t("Month.10")}</option>
+                                        <option value={"Novembro"}>{t("Month.11")}</option>
+                                        <option value={"Dezembro"}>{t("Month.12")}</option>
+                                        {setting?.column_salary_thirteenth === "true" ?
+                                        <option value={"Decimo Terceiro Salario"}>{t("Month.13")}</option>  
+                                        : ""  
+                                        }
+                                        {setting?.column_salary_fourteenth === "true" ?
+                                        <option value={"Decimo Quarto Salario"}>{t("Month.14")}</option>  
+                                        : ""  
+                                        }
                                     </select>
                                     {errors.month && touched.month && <p>{errors.month}</p>} 
                                     {errorPayroll && <p>{"O mes ja esta pago"}</p>}

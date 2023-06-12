@@ -43,12 +43,18 @@ const SettingPayroll = () => {
         actions.resetForm()   
         
         const response = await api.post("settings", values)
-        if (response.status === 201)
-        Swal.fire(
-            'Sucesso!',
-            'Dados salvos com sucesso!',
-            'success'
-          )
+        if (response.status === 201) {
+            setting?.language_options === "pt" ?
+                Swal.fire(
+                    'Sucesso!',
+                    'Dados salvos com sucesso!',
+                    'success'
+                ) : Swal.fire(
+                    'Success!',
+                    'Data successfully saved',
+                    'success'
+                )
+        }
         actions.resetForm()
      }, [day, hour])
 
@@ -75,6 +81,7 @@ const SettingPayroll = () => {
             column_subsidy_medical: setting.column_subsidy_medical,
             column_subsidy_vacation: setting.column_subsidy_vacation,
             column_salary_thirteenth: setting.column_salary_thirteenth,
+            column_salary_fourteenth: setting.column_salary_fourteenth
         },
         validationSchema: schema,
         enableReinitialize: true,
@@ -119,11 +126,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.6")}</label>
                                 <select id="column_position_name" name="column_position_name"
                                         onChange={e => setFieldValue("column_position_name", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_position_name === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_position_name === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_position_name === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_position_name === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -131,11 +138,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.7")}</label>
                                 <select id="column_department_name" name="column_department_name"
                                         onChange={e => setFieldValue("column_department_name", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_department_name === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_department_name === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_department_name === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_department_name === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -143,11 +150,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.8")}</label>
                                 <select id="column_overtime" name="column_overtime"
                                         onChange={e => setFieldValue("column_overtime", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_overtime === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_overtime === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_overtime === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_overtime === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -155,11 +162,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.9")}</label>
                                 <select id="column_absences" name="column_absences"
                                         onChange={e => setFieldValue("column_absences", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_absences === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_absences === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_absences === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_absences === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -167,11 +174,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.10")}</label>
                                 <select id="column_cash_advances" name="column_cash_advances"
                                         onChange={e => setFieldValue("column_cash_advances", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_cash_advances === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_cash_advances === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_cash_advances === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_cash_advances === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -179,11 +186,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.11")}</label>
                                 <select id="column_bonus" name="column_bonus"
                                         onChange={e => setFieldValue("column_bonus", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_bonus === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_bonus === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_bonus === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_bonus === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -191,11 +198,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.12")}</label>
                                 <select id="column_backpay" name="column_backpay"
                                         onChange={e => setFieldValue("column_backpay", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_backpay === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_backpay === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_backpay === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_backpay === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -203,11 +210,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.13")}</label>
                                 <select id="column_syndicate" name="column_syndicate"
                                         onChange={e => setFieldValue("column_syndicate", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_syndicate === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_syndicate === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_syndicate === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_syndicate === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -215,11 +222,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.14")}</label>
                                 <select id="column_subsidy" name="column_subsidy"
                                         onChange={e => setFieldValue("column_subsidy", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_subsidy === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_subsidy === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_subsidy === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_subsidy === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -227,11 +234,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.15")}</label>
                                 <select id="column_subsidy_transport" name="column_subsidy_transport"
                                         onChange={e => setFieldValue("column_subsidy_transport", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_subsidy_transport === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_subsidy_transport === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_subsidy_transport === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_subsidy_transport === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -239,11 +246,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.16")}</label>
                                 <select id="column_subsidy_food" name="column_subsidy_food"
                                         onChange={e => setFieldValue("column_subsidy_food", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_subsidy_food === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_subsidy_food === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_subsidy_food === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_subsidy_food === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -251,11 +258,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.17")}</label>
                                 <select id="column_subsidy_residence" name="column_subsidy_residence"
                                         onChange={e => setFieldValue("column_subsidy_residence", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_subsidy_residence === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_subsidy_residence === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_subsidy_residence === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_subsidy_residence === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -263,11 +270,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.18")}</label>
                                 <select id="column_subsidy_medical" name="column_subsidy_medical"
                                         onChange={e => setFieldValue("column_subsidy_medical", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_subsidy_medical === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_subsidy_medical === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_subsidy_medical === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_subsidy_medical === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -275,11 +282,11 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.19")}</label>
                                 <select id="column_subsidy_vacation" name="column_subsidy_vacation"
                                         onChange={e => setFieldValue("column_subsidy_vacation", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_subsidy_vacation === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_subsidy_vacation === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_subsidy_vacation === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_subsidy_vacation === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>
@@ -287,11 +294,23 @@ const SettingPayroll = () => {
                                 <label>{t("SettingPayroll.20")}</label>
                                 <select id="column_salary_thirteenth" name="column_salary_thirteenth"
                                         onChange={e => setFieldValue("column_salary_thirteenth", e.target.value)} onBlur={handleBlur}>
-                                    {setting.column_salary_thirteenth === "true" ? <option value="true" selected>Activo</option> :
-                                    <option value="true">Activo</option> 
+                                    {setting.column_salary_thirteenth === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
                                     }
-                                     {setting.column_salary_thirteenth === "false" ? <option value="false" selected>Inactivo</option> :
-                                    <option value="false">Inactivo</option> 
+                                     {setting.column_salary_thirteenth === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label>{t("SettingPayroll.21")}</label>
+                                <select id="column_salary_fourteenth" name="column_salary_fourteenth"
+                                        onChange={e => setFieldValue("column_salary_fourteenth", e.target.value)} onBlur={handleBlur}>
+                                    {setting.column_salary_fourteenth === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                    <option value="true">{t("SettingPayroll.22")}</option> 
+                                    }
+                                     {setting.column_salary_fourteenth === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                    <option value="false">{t("SettingPayroll.23")}</option> 
                                     }
                                 </select>
                             </div>

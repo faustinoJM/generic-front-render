@@ -106,7 +106,9 @@
         "3": "NIB",
         "4": "Numero de Seg. Social",
         "5": "Estado INSS",
-        "6": "Selecione INSS"
+        "6": "Selecione INSS",
+        "7": "Paga",
+        "8": "Nao Paga"
     },
 
     "Save": {
@@ -123,7 +125,8 @@
         "2": "Editar",
         "3": "Remover",
         "4": "Exportar",
-        "5": "Imprimir"
+        "5": "Imprimir",
+        "6": "Recibo"
     },
 
     "Position": {
@@ -222,7 +225,27 @@
         "17": "Subsidio de Residencia",
         "18": "Subsidio Medico",
         "19": "Subsidio de Ferias",
-        "20": "Decimo Terceiro Salario"
+        "20": "Decimo Terceiro Salario",
+        "21": "Decimo Quarto Salario",
+        "22": "Activo",
+        "23": "Inactivo"
+    },
+
+    "Month": {
+        "1": "Janeiro",
+        "2": "Fevereiro",
+        "3": "Marco",
+        "4": "Abril",
+        "5": "Maio",
+        "6": "Junho",
+        "7": "Julho",
+        "8": "Agosto",
+        "9": "Setembro",
+        "10": "Outubro",
+        "11": "Novembro",
+        "12": "Dezembro",
+        "13": "Decimo Terceiro Salario",
+        "14": "Decimo Quarto Salario"
     },
 
     "Exit": {

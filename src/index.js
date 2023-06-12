@@ -23,7 +23,7 @@ root.render(
   <React.StrictMode>
       {/* <ChakraProvider theme={chakraTheme}>
         <ThemeProvider theme={muiTheme}> */}
-          <Suspense fallback={(<div>Loaging ~~</div>)}>
+          <Suspense fallback={(<div>Loading ~~</div>)}>
             <App />
           </Suspense>
         {/* </ThemeProvider>

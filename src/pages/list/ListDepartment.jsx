@@ -16,6 +16,26 @@ const ListDepartment = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
     const { t, i18n } = useTranslation();
+    const [searchName, setSearchName] = useState("")
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await api.get("settings")
+            if (response.data) {
+
+                departmentColumn.map(data => {
+                    if (data.field === "name") {
+                        response.data.language_options === "en" ? data.headerName = "DEPARTMENT NAME" : data.headerName = data.headerName
+                    }
+                    if (data.field === "total_employee") {
+                        response.data.language_options === "en" ? data.headerName = "TOTAL EMPLOYEES" : data.headerName = data.headerName
+                    }
+                })
+            }
+        }
+
+            fetchData()
+    }, [])
 
     useEffect(() => {
         async function fetchData() {
@@ -25,18 +45,24 @@ const ListDepartment = ({ listName, listPath }) => {
              if (response.status === 200) {
                 setLoading(false)
             }
-            setUserRows(response.data)
+            // setUserRows(response.data)
+            setUserRows(response.data.filter(data => {
+                if (searchName === "")
+                    return data
+                else if (data.name.toLowerCase().includes(searchName.toLocaleLowerCase()))
+                    return data
+            }))
 
         }
         fetchData()
       
-    }, [listPath])
+    }, [listPath, searchName])
 
     return (
         <div className="list">
             <Sidebar />
             <div className="listContainer">
-                <Navbar />
+                <Navbar searchName={searchName} setSearchName={setSearchName}/>
                 <Datatable listName={t("Department.1")} listPath={listPath} columns={departmentColumn} 
                 userRows={userRows} setUserRows={setUserRows} 
                 loading={loading} setLoading={setLoading}/>

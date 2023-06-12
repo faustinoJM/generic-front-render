@@ -9,7 +9,7 @@ import DatatableEmployee from "../../components/datatable/DatatableEmployee"
 
 const employeeColumns = [
     { field: 'employee_id', headerName: 'ID', width: 70, pinnable: true },
-    { field: 'name', headerName: 'Nome', width: 150, editable: true, align:'left', headerAlign: 'center'},
+    { field: 'name', headerName: 'Nome', width: 200, editable: true, align:'left', headerAlign: 'center'},
     { field: "birth_date", headerName:"Data Nascimento", width: 160,  },
     { field: "gender", headerName: "Genero", width: 130, align:'center', headerAlign: 'center' },
     // { field: "address", headerName: "Endereco", width: 130, align:'center', headerAlign: 'center' },
@@ -25,7 +25,7 @@ const employeeColumns = [
     // { field: "social_security",headerName: "Numero Seg. Social", width: 130, align:'center', headerAlign: 'center'},
     { field: "start_date",headerName: "Data Inicio", width: 100,align:'center', headerAlign: 'center' },
     { field: "end_date",headerName: "Data Fim", width: 100, align:'center', headerAlign: 'center' },
-    { field: "employee_status",headerName: "Estado", width: 70, align:'center', headerAlign: 'center' }
+    { field: "employee_status",headerName: "Estado", width: 70, align:'center', headerAlign: 'center'}
 ]
 
 const formatSalary = new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -35,6 +35,50 @@ const formatDate = new Intl.DateTimeFormat("pt-br", { dateStyle: 'short'})
 const ListEmployee = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
+    const [searchName, setSearchName] = useState("")
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await api.get("settings")
+            if (response.data) {
+
+                employeeColumns.map(data => {
+                    if (data.field === "name") {
+                        response.data.language_options === "en" ? data.headerName = "Name" : data.headerName = data.headerName
+                    }
+                    if (data.field === "birth_date") {
+                        response.data.language_options === "en" ? data.headerName = "Birth Data" : data.headerName = data.headerName
+                    }
+                    if (data.field === "gender") {
+                        response.data.language_options === "en" ? data.headerName = "Gender" : data.headerName = data.headerName
+                    }
+                    if (data.field === "contact") {
+                        response.data.language_options === "en" ? data.headerName = "Contact" : data.headerName = data.headerName
+                    }
+                    if (data.field === "dependents") {
+                        response.data.language_options === "en" ? data.headerName = "Dependents" : data.headerName = data.headerName
+                    }
+                    if (data.field === "salary") {
+                            response.data.language_options === "en" ? data.headerName = "Salary" : data.headerName = data.headerName
+                    }
+                    if (data.field === "subsidy") {
+                        response.data.language_options === "en" ? data.headerName = "Subsidy" : data.headerName = data.headerName
+                    }
+                    if (data.field === "start_date") {
+                        response.data.language_options === "en" ? data.headerName = "Start Date" : data.headerName = data.headerName
+                    }
+                    if (data.field === "end_date") {
+                        response.data.language_options === "en" ? data.headerName = "End Date" : data.headerName = data.headerName
+                    }
+                    if (data.field === "employee_status") {
+                        response.data.language_options === "en" ? data.headerName = "Employee Status" : data.headerName = data.headerName
+                    }
+                    })
+            }
+        }
+
+            fetchData()
+        }, [])
  
     useEffect(() => {
         async function fetchData() {
@@ -57,23 +101,39 @@ const ListEmployee = ({ listName, listPath }) => {
             if (response.status === 200) {
                 setLoading(false)
             }
-            setUserRows(response.data)
+            // setUserRows(response.data)
 
-    
-
+            setUserRows(response.data.filter(data => {
+                if (searchName === "")
+                    return data
+                else if (data.name.toLowerCase().includes(searchName.toLocaleLowerCase()))
+                    return data
+            }))
         }
         fetchData()
       
-    }, [listPath])
+    }, [listPath, searchName])
+
+    // useEffect(() => {
+    //     console.log("ListEmp", searchName)
+    //     setUserRows(userRows.filter(data => {
+    //         if (searchName === "")
+    //             return data
+    //         else if (data.name.toLowerCase().includes(searchName.toLocaleLowerCase()))
+    //             return data
+    //     }))
+    // }, [searchName])
 
     return (
         <div className="list">
-            <Sidebar />
+            <Sidebar/>
+            {console.log("Pora",searchName)}
             <div className="listContainer">
-                <Navbar />
+                <Navbar searchName={searchName} setSearchName={setSearchName}/>
                 <DatatableEmployee listName={listName} listPath={listPath} 
                 columns={employeeColumns} userRows={userRows} setUserRows={setUserRows}
-                loading={loading} setLoading={setLoading}/>
+                loading={loading} setLoading={setLoading}
+                searchName={searchName} setSearchName={setSearchName}/>
             </div>
         </div>
     )

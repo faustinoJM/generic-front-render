@@ -14,6 +14,16 @@ import { useTranslation } from 'react-i18next';
 const NewPosition = ({ inputs, title }) => {
     const navigate = useNavigate()
     const { t, i18n } = useTranslation();
+    const [setting, setSetting] = useState("")
+
+     useEffect(() => {
+        async function fetch() {
+            const response = await api.get("settings")
+            if (response.data)
+                setSetting(response.data)
+        }
+        fetch()
+    }, [])
 
     const onSubmit = async (values, actions) => {
         console.log(values)
@@ -24,22 +34,29 @@ const NewPosition = ({ inputs, title }) => {
         try {
         const response = await api.post('positions', {name})
         
-        if (response.status === 201)
-        Swal.fire(
-            'Sucesso!',
-            'Dados salvos com sucesso!',
-            'success'
-          )
+        if (response.status === 201) {
+            setting?.language_options === "pt" ?
+                Swal.fire(
+                    'Sucesso!',
+                    'Dados salvos com sucesso!',
+                    'success'
+                ) : Swal.fire(
+                    'Success!',
+                    'Data successfully saved',
+                    'success'
+                )
+        }
         actions.resetForm()
         navigate("/positions")
         } catch (err) {
         if (err.response.status === 400)
-        Swal.fire({
-                icon: 'error',
-                title: 'Erro!',
-                text: 'Cargo ja existe!!',
-                // footer: '<a href="">Why do I have this issue?</a>'
-              })
+        // Swal.fire({
+        //         icon: 'error',
+        //         title: 'Erro!',
+        //         text: 'Cargo ja existe!!',
+        //         // footer: '<a href="">Why do I have this issue?</a>'
+        //       })
+        errors.name = setting?.language_options === "pt" ? "Cargo ja existe!!" : "Position Already Exists!!"
         }
     }
 
@@ -48,6 +65,7 @@ const NewPosition = ({ inputs, title }) => {
         description: Yup.string().required("Descricao obrigatorio"),
 
     })
+
     const { values, errors, handleChange, touched, isSubmitting, handleBlur, handleSubmit} = useFormik({
         initialValues: {
             name: "",
@@ -57,7 +75,7 @@ const NewPosition = ({ inputs, title }) => {
         onSubmit 
     })
     console.log(errors)
-  
+
     return (
         <div className="new">
             <Sidebar />

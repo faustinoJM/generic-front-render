@@ -7,15 +7,37 @@ import DatatableListInput from "../../components/datatable/DatatableListPayrolls
 
 const payrollColumns = [
     { field: 'id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center',},
-    { field: 'month', headerName: 'Mes', width: 150,align:'center', headerAlign: 'center',},
+    { field: 'month', headerName: 'MES', width: 150,align:'center', headerAlign: 'center',},
     // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
-    { field: "year", headerName:"Ano", width: 180,  align:'center', headerAlign: 'center', },
-    { field: "total_employee", headerName:"Total Funcionarios", width: 180,  align:'center', headerAlign: 'center', },
+    { field: "year", headerName:"ANO", width: 180,  align:'center', headerAlign: 'center', },
+    { field: "total_employee", headerName:"TOTAL FUNCIONARIOS", width: 180,  align:'center', headerAlign: 'center', },
 ]
 
 const ListPayrolls = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await api.get("settings")
+            if (response.data) {
+
+                payrollColumns.map(data => {
+                    if (data.field === "month") {
+                        response.data.language_options === "en" ? data.headerName = "MONTH" : data.headerName = data.headerName
+                    }
+                    if (data.field === "year") {
+                        response.data.language_options === "en" ? data.headerName = "YEAR" : data.headerName = data.headerName
+                    }
+                    if (data.field === "total_employee") {
+                        response.data.language_options === "en" ? data.headerName = "TOTAL EMPLOYEES" : data.headerName = data.headerName
+                    }
+                })
+            }
+        }
+
+            fetchData()
+    }, [])
 
     useEffect(() => {
         async function fetchData() {

@@ -445,37 +445,47 @@ const PrintPayslip = ({componentRef, single}) => {
                                         <td></td>
                                         <td>{formatSalary().format(single.salary_base)}</td>
                                     </tr>
+                                    {setting?.column_overtime === "true" ?
                                     <tr>
                                         <th>Horas Extras - 50%</th>
                                         <td>{single.overtime50}</td>
                                         <td>{formatSalary().format(+single.totalOvertime50)}</td>
                                     </tr>
+                                    : ""
+                                    }
+                                    {setting?.column_overtime === "true" ?
                                     <tr>
                                         <th>Horas Extras - 100%</th>
                                         <td>{single.overtime100}</td>
                                         <td>{formatSalary().format(single.totalOvertime100)}</td>
                                     </tr>
+                                    : ""
+                                    }
+                                    {setting.column_subsidy === "true" ?
                                     <tr>
                                         <th>Subsidios</th>
                                         <td></td>
                                         <td>{formatSalary().format(single.subsidy)}</td>
                                     </tr>
+                                    : ""
+                                    }
+                                    {setting.column_bonus === "true" ? 
                                     <tr>
                                         <th>Bonus</th>
                                         <td></td>
                                         <td>{formatSalary().format(single.bonus)}</td>
                                     </tr>
+                                    : ""
+                                    }
+                                    {setting.column_absences === "true" ? 
                                     <tr>
                                         <th>Faltas</th>
                                         <td>{single.absences}</td>
                                         <td></td>
                                         <td>{formatSalary().format(single.total_absences)}</td>
                                     </tr>
-                                    {/* <tr>
-                                        <th>Outros Descontos</th>
-                                        <td></td>
-                                        <td></td>
-                                    </tr> */}
+                                    : ""
+                                    }
                                     <tr>
                                         <th>Salario Bruto</th>
                                         <td></td>
@@ -493,18 +503,24 @@ const PrintPayslip = ({componentRef, single}) => {
                                         <td style={{border: "none"}}></td>
                                         <td>{formatSalary().format(single.inss_employee)}</td>
                                     </tr>
+                                    {setting.column_cash_advances === "true" ?
                                     <tr>
                                         <th>Emprestimo</th>
                                         <td></td>
                                         <td style={{border: "none"}}></td>
                                         <td>{formatSalary().format(single.cash_advances)}</td>
                                     </tr>
+                                    : ""
+                                    }
+                                    {setting.column_syndicate === "true" ?
                                     <tr>
                                         <th>Sindicato</th>
                                         <td></td>
                                         <td style={{border: "none"}}></td>
                                         <td>{formatSalary().format(single.syndicate_employee)}</td>
                                     </tr>
+                                    : ""
+                                    }
                                     <tr>
                                         <th>Salario Liquido</th>
                                         <td style={{borderRight: "1px solid #FFF"}}></td>
@@ -615,32 +631,47 @@ const PrintPayslip = ({componentRef, single}) => {
                                         <td></td>
                                         <td>{formatSalary().format(single.salary_base)}</td>
                                     </tr>
+                                    {setting?.column_overtime === "true" ?
                                     <tr>
                                         <th>Horas Extras - 50%</th>
                                         <td>{single.overtime50}</td>
                                         <td>{formatSalary().format(+single.totalOvertime50)}</td>
                                     </tr>
+                                    : ""
+                                    }
+                                    {setting?.column_overtime === "true" ?
                                     <tr>
                                         <th>Horas Extras - 100%</th>
                                         <td>{single.overtime100}</td>
                                         <td>{formatSalary().format(single.totalOvertime100)}</td>
                                     </tr>
+                                    : ""
+                                    }
+                                    {setting.column_subsidy === "true" ?
                                     <tr>
                                         <th>Subsidios</th>
                                         <td></td>
                                         <td>{formatSalary().format(single.subsidy)}</td>
                                     </tr>
+                                    : ""
+                                    }
+                                    {setting.column_bonus === "true" ? 
                                     <tr>
                                         <th>Bonus</th>
                                         <td></td>
                                         <td>{formatSalary().format(single.bonus)}</td>
                                     </tr>
+                                    : ""
+                                    }
+                                    {setting.column_absences === "true" ? 
                                     <tr>
                                         <th>Faltas</th>
                                         <td>{single.absences}</td>
                                         <td></td>
                                         <td>{formatSalary().format(single.total_absences)}</td>
                                     </tr>
+                                    : ""
+                                    }
                                     <tr>
                                         <th>Salario Bruto</th>
                                         <td></td>
@@ -658,18 +689,24 @@ const PrintPayslip = ({componentRef, single}) => {
                                         <td style={{border: "none"}}></td>
                                         <td>{formatSalary().format(single.inss_employee)}</td>
                                     </tr>
+                                    {setting.column_cash_advances === "true" ?
                                     <tr>
                                         <th>Emprestimo</th>
                                         <td></td>
                                         <td style={{border: "none"}}></td>
                                         <td>{formatSalary().format(single.cash_advances)}</td>
                                     </tr>
+                                    : ""
+                                    }
+                                    {setting.column_syndicate === "true" ?
                                     <tr>
                                         <th>Sindicato</th>
                                         <td></td>
                                         <td style={{border: "none"}}></td>
                                         <td>{formatSalary().format(single.syndicate_employee)}</td>
                                     </tr>
+                                    : ""
+                                    }
                                     <tr>
                                         <th>Salario Liquido</th>
                                         <td style={{borderRight: "1px solid #FFF"}}></td>
@@ -766,3 +803,7 @@ const totalPrint = (printData) => {
 
     return totalRow
 }
+
+
+// {column_bonus}{column_subsidy}{column_absences}{column_cash_advances}
+// {column_overtime}

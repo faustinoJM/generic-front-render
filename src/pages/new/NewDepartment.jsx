@@ -13,6 +13,16 @@ import { useTranslation } from 'react-i18next';
 const NewDepartment = ({ inputs, title }) => {
     const navigate = useNavigate()
     const { t, i18n } = useTranslation();
+    const [setting, setSetting] = useState("")
+
+     useEffect(() => {
+        async function fetch() {
+            const response = await api.get("settings")
+            if (response.data)
+                setSetting(response.data)
+        }
+        fetch()
+    }, [])
 
      const onSubmit = async (values, actions) => {
         console.log(values)
@@ -20,16 +30,29 @@ const NewDepartment = ({ inputs, title }) => {
         const { name } = values
         console.log("submit")
         actions.resetForm()
-        const response = await api.post('departments', {name})
-        
-        if (response.status === 201)
-        Swal.fire(
-            'Sucesso!',
-            'Dados salvos com sucesso!',
-            'success'
-          )
-        actions.resetForm()
-        navigate("/departments")
+
+        try {
+            const response = await api.post('departments', {name})
+            
+            if (response.status === 201) {
+                setting?.language_options === "pt" ?
+                    Swal.fire(
+                        'Sucesso!',
+                        'Dados salvos com sucesso!',
+                        'success'
+                    ) : Swal.fire(
+                        'Success!',
+                        'Data successfully saved',
+                        'success'
+                    )
+            }
+            actions.resetForm()
+            navigate("/departments")
+        } catch (err) {
+            if (err.response.status === 400)
+            errors.name = setting?.language_options === "pt" ? "Departamento ja existe!!" : "Department Already Exists!!"
+        }
+       
      }
 
      const schema = Yup.object().shape({

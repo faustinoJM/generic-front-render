@@ -15,6 +15,7 @@ import { printPDF } from "../printPayroll/PrintPayroll";
 import {useQuery} from 'react-query'
 import axios from "axios";
 import { useTranslation } from 'react-i18next';
+import PrintPayslipBucket from "../printPayslip/PrintPayslipBucket";
 
 const formatSalary = () => {
     return new Intl.NumberFormat("en-US",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -39,45 +40,47 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     const [urlLogo, setUrlLogo] = useState(null);
     const { t, i18n } = useTranslation();
 
-    const handleSinglePrint = (year, month) => {
+    const handlePrintPayroll = (year, month) => {
       const fetch = async () => {
         
         const response = await api.get("settings")
        
+        if (data) {
         let printData = data.filter(data => data.year === year && data.month === month)
+          if(response.data)
             printPDF(printData, response.data, urlLogo)
+          }
       }
       fetch()
+    }
+
+    useEffect(() => {
+      async function fetchData() {
+          const response = await api.get("payroll")
+          setRows(response.data)
       }
+          fetchData()
+    }, [])
 
-      // useEffect(() => {
-      //   async function fetchData() {
-      //       console.log(printPayroll)
-      //       if(!(Object.keys(printPayroll).length === 0))
-      //        handlePrint()
-      //   }
-      //       fetchData()
-      //   }, [printPayroll])
+    useEffect(() => {
+      async function fetchData() {
+          console.log(printPayroll)
+          if(!(Object.keys(printPayroll).length === 0))
+            handlePrint()
+      }
+          fetchData()
+      }, [printPayroll])
 
-      const handlePrint = useReactToPrint({
+    const handlePrint = useReactToPrint({
         content: () => componentRef.current,
         documentTitle: 'emp-data',
         // onAfterPrint: () => alert('Print sucess')
     })
 
-      // const handleSinglePrint = (year, month) => {
-      //   api.get(`payrolls`)
-      //    .then(response => {setPrintPayroll(response.data.filter(data => data.year === year && data.month === month))})
-      // }
-
-    useEffect(() => {
-        async function fetchData() {
-            const response = await api.get("payroll")
-          
-            setRows(response.data)
-        }
-            fetchData()
-    }, [])
+    const handlePrintPayslip = (year, month) => {
+      api.get(`payrolls`)
+        .then(response => {setPrintPayroll(response.data.filter(data => data.year === year && data.month === month))})
+    }
 
 
     const submitByYear = async (e) => {
@@ -536,14 +539,15 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         { 
             field: "action", 
             headerName: "", 
-            width: 450, 
+            width: 550, 
             align: "center",
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        <Link to={`/${listPath}/output/${params.row.month}-${params.row.year}`} style={{textDecoration: "none"}}>
+                        <Link to={`/${listPath}/output/${params.row.id}`} style={{textDecoration: "none"}}>
                         {/* to={`/${listPath}/${params.row.id}`} */}
                         {/* {console.log(params.row.month+""+listPath)} */}
+                        {/* to={`/${listPath}/output/${params.row.month}-${params.row.year}`} */}
                                 <div className="viewButton">
                                     <VisibilityIcon /> {t("Datatable.1")}
                                 </div>
@@ -551,13 +555,16 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                         <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month)}>
                             <DescriptionIcon className="edIcon"/> {t("Datatable.4")}
                         </div>
-                        <div className="printButton" onClick={() => handleSinglePrint(params.row.year, params.row.month)}>
-                        {/* handleSinglePrint(params.row.year, params.row.month) */}
+                        <div className="printButton" onClick={() => handlePrintPayroll(params.row.year, params.row.month)}>
+                        {/* handlePrintPayroll(params.row.year, params.row.month) */}
                               <PrintIcon />  {t("Datatable.5")}
                             </div>
                         <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
                             <DeleteForeverIcon /> {t("Datatable.3")}
                         </div>
+                        <div className="printButton" onClick={() => handlePrintPayslip(params.row.year, params.row.month)}>
+                              <PrintIcon />  {t("Datatable.6")}
+                            </div>
                     </div>
                 )
             }
@@ -577,7 +584,8 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                             <option >2024</option>
                         </select>
                 */}
-                <PrintPayroll componentRef={componentRef} printData={printPayroll}/>
+                {/* <PrintPayroll componentRef={componentRef} printData={printPayroll}/> */}
+                <PrintPayslipBucket componentRef={componentRef} maumau={printPayroll} />
             </div>
             <DataGrid
             sx={{

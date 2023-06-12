@@ -12,6 +12,7 @@ import ddd from "./Duploica.xlsx"
 import axios from "axios"
 // import Excel from "exceljs/dist/es5/exceljs.browser";
 import { Workbook } from 'exceljs';
+import { mock } from "../../assets/mockData"
 
 
 
@@ -27,6 +28,7 @@ const payrollColumns = [
 const ListBanks = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
+    const [searchName, setSearchName] = useState("")
 
     useEffect(() => {
         async function fetchData() {
@@ -151,7 +153,20 @@ const ListBanks = ({ listName, listPath }) => {
             <div className="listContainer">
                 <Navbar />
                 <div>
-                    Banco
+                Banco
+                    <input type="text" placeholder="Search..."
+                    onChange={(event) => {
+                        setSearchName(event.target.value)
+                    }}
+                    />
+                    {mock.filter(data => {
+                        if (searchName === "")
+                            return data
+                        else if (data.name.toLowerCase().includes(searchName.toLocaleLowerCase()))
+                            return data
+                    }).map(data  => 
+                        <p>{data.name}</p>
+                        )}
                 </div>
                 {/* <DatatableResource listName={listName} listPath={listPath} columns={payrollColumns} 
                 userRows={userRows} setUserRows={setUserRows} 

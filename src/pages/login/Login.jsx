@@ -6,7 +6,7 @@ import * as Yup from "yup"
 import { Link, useNavigate } from "react-router-dom"
 import React, { useCallback, useRef, useState} from "react"
 import Input from "../../components/input/Input"
-import logo from "../../assets/elint01.PNG"
+import logo from "../../assets/elint-color.png"
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const Login = () => {
@@ -67,10 +67,17 @@ const Login = () => {
               Fale conosco
               <OpenInNewIcon />
               </Link>
-            <Link className="image" to="https://www.elint-systems.com">
+            {/* <Link className="image" to="https://www.elint-systems.com">
               <div className="">
                 <img src={logo} />
-              </div></Link>
+              </div>
+            </Link> */}
+            <div className="formContainer2">
+            <div className="image2">
+                <img src={logo} />
+                Elint Payroll
+              </div>
+           
             <Form className="formContainer" ref={formRef} onSubmit={handleSubmit} >
                 <div className="formInput">
                     <Input type="text" name="email" label="Usuario" loginError={loginError} />
@@ -85,6 +92,7 @@ const Login = () => {
                   <span className="newAccount"><Link to="/register">Criar nova conta?</Link></span>
                 </div>
             </Form>
+            </div>
         </div>
     )
 }

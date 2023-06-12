@@ -11,16 +11,17 @@ import DropDownProfile from "../dropdown/DropDownProfile";
 import { useState, useEffect, useRef } from "react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DropDownLang from "../dropdown/DropDownLang";
+import api from "../../services/api";
 // import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 
-const Navbar = () => {
+const Navbar = ({searchName, setSearchName}) => {
     const { t, i18n } = useTranslation();
     const [openProfile, setOpenProfile] = useState(false)
     const [openLang, setOpenLang] = useState(false)
     const menuRef = useRef()
     const [langOption, setLangOption] = useState("PT")
-
+    // const [searchName2, setSearchName2] = useState("")
 
     function handleLanguage(language) {
         // i18n.changeLanguage(language);
@@ -29,8 +30,16 @@ const Navbar = () => {
         // document.addEventListener("mouseenter", () => {
         //     setOpenLang((prev) => !prev)
         // })
-
     }
+
+    useEffect(() => {
+        const fetch = async () => {
+            const response = await api.get("settings")
+            if (response.data)
+                response.data.language_options === "pt" ? setLangOption("PT") : setLangOption("EN")
+        }
+        fetch()
+    }, [])
 
     useEffect(() => {
         let handler = (e) => {
@@ -50,7 +59,8 @@ const Navbar = () => {
         <div className="navbar" ref={menuRef}>
             <div className="wrapper">
                 <div className="search">
-                    <input type="text" placeholder="Pesquisar..." />
+                    <input type="text" placeholder="Pesquisar..." onChange={e => {setSearchName(e.target.value)}}/>
+                    {/* {console.log(searchName)} */}
                     <SearchOutlinedIcon className="icon" />
                 </div>
                 <div className="image" style={{color: "green"}}>

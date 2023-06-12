@@ -37,7 +37,7 @@ const keyToPropMap = {
     "Numero de Seg. Social": "social_security"
   };
 
-const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading}) => {
+const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading, searchName, setSearchName}) => {
     const { t, i18n } = useTranslation();
     const [excelFile, setExcelFile] = useState([]);
     const [excelError, setExcellError] = useState("")
@@ -45,9 +45,15 @@ const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows,
 //   const {data, error, isError, isLoading } = useQuery('payrollsOutput', fetchPrintData)
     
 
-  useEffect(() => {
-    
-  }, [loading])
+//   useEffect(() => {
+//         console.log("Datatable", searchName)
+//         setUserRows(userRows.filter(data => {
+//             if (searchName === "")
+//                 return data
+//             else if (data.name.toLowerCase().includes(searchName.toLocaleLowerCase()))
+//                 return data
+//         }))
+//   }, [searchName])
 
   useEffect(() => { 
     if (excelFile) {
@@ -174,13 +180,24 @@ const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows,
                     overflow: "unset"
                   },
                           
-                fontFamily:"Plus Jakarta Sans, sans-serif", color:'black'
+                fontFamily:"Plus Jakarta Sans, sans-serif", color:'black',
+
+                '& .MuiDataGrid-cell:nth-child(1)': {
+                    position:"sticky",
+                    left:"0",
+                    zIndex:"1",
+                    backgroundColor: "white",
+                    borderLeft: "0.2px solid lightGray",
+                    // borderRight: "1px solid black"
+                  },
              }}
-                 columnBuffer={columns.length}
+                columnBuffer={columns.length}
                 rows={userRows}
                 columns={columns.concat(actionColumn)}
                 pageSize={8}
                 rowsPerPageOptions={[8]}
+                showCellRightBorder={true}  
+                showColumnRightBorder={true}
                 // checkboxSelection
                 onCellEditCommit={onCellEditCommit}
                 autoHeight       
@@ -193,7 +210,8 @@ const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows,
                       columns: {
                         columnVisibilityModel: {
                             id: false,
-                            employee_id: false
+                            employee_id: false,
+                            employee_status: false
                           // Hide columns status and traderName, the other columns will remain visible
                         //   dependents: visible ? true : false,
                         //   action: false

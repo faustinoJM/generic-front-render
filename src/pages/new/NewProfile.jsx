@@ -1,7 +1,7 @@
 import "./newProfile.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { useNavigate } from "react-router-dom"
@@ -15,21 +15,36 @@ import { useTranslation } from 'react-i18next';
 const NewProfile = ({ inputs, title }) => {
      const [file, setFile] = useState("")
      const navigate = useNavigate()
+     const [setting, setSetting] = useState("")
+
+     useEffect(() => {
+        async function fetch() {
+            const response = await api.get("settings")
+            if (response.data)
+                setSetting(response.data)
+        }
+        fetch()
+    }, [])
 
      const onSubmit = async (values, actions) => {
         // console.log(values)
         // console.log(actions)
         // console.log("submit")
         actions.resetForm()
-        const response = await api.post('users', values)
-        if (response.status === 201)
-        Swal.fire(
-            'Sucesso!',
-            'Dados salvos com sucesso!',
-            'success'
-          )
-        actions.resetForm()
-        navigate("/profile")
+        try {
+            const response = await api.post('users', values)
+            if (response.status === 201)
+            Swal.fire(
+                'Sucesso!',
+                'Dados salvos com sucesso!',
+                'success'
+            )
+            actions.resetForm()
+            navigate("/profile")
+        } catch (err) {
+            if (err.response.status === 400)
+            errors.name = setting?.language_options === "pt" ? "Perfil ja existe!!" : "Profile Already Exists!!"
+        }
      }
 
      const schema = Yup.object().shape({

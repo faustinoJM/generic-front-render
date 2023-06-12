@@ -42,10 +42,10 @@ export function AuthProvider({ children }) {
       email,
       password
     })
-    api.defaults.headers = {
-      Authorization: 'Bearer ' + "Ziniznoas"
-    }
-    let rota = "https://outrageous-slug-windbreaker.cyclic.app"
+    // api.defaults.headers = {
+    //   Authorization: 'Bearer ' + "Ziniznoas"
+    // }
+    // let rota = "https://outrageous-slug-windbreaker.cyclic.app"
 
     // if (response.status === 200) {
     //   if (0 > 5)
@@ -56,9 +56,12 @@ export function AuthProvider({ children }) {
 
     const { refresh_token,  user } = response.data;
 
+    // api.defaults.headers = {
+    //   Authorization: `Bearer ${refresh_token}`
+    // }
     localStorage.setItem('@ConsulPayroll:refresh_token', refresh_token)
     localStorage.setItem('@ConsulPayroll:user', JSON.stringify(user))
-    localStorage.setItem('@ConsulPayroll:api', rota)
+    // localStorage.setItem('@ConsulPayroll:api', rota)
 
     
     setData({ refresh_token, user })

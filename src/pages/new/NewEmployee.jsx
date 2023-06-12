@@ -22,39 +22,61 @@ const NewEmployee = ({ inputs, title }) => {
      const [listPosition, setListPosition] = useState([])
      const navigate = useNavigate()
      const { t, i18n } = useTranslation();
-
+     const [setting, setSetting] = useState("")
 
      useEffect(() => {
+        async function fetch() {
+            const response = await api.get("settings")
+            if (response.data)
+                setSetting(response.data)
+        }
+        fetch()
+    }, [])
+
+    useEffect(() => {
        async function fetch() {
         const response = await api.get("departments")
         setListDepartment(response.data)
        } 
        fetch()
-     }, [])
+    }, [])
 
-     useEffect(() => {
+    useEffect(() => {
         async function fetch() {
          const response = await api.get("positions")
          setListPosition(response.data)
         } 
         fetch()
-      }, [])
+    }, [])
 
-     const onSubmit = async (values, actions) => {
+    const onSubmit = async (values, actions) => {
         console.log(values)
         console.log(actions)
         console.log("submit")
         actions.resetForm()
-        const response = await api.post('employees', values)
 
-        if (response.status === 201)
-        Swal.fire(
-            'Sucesso!',
-            'Dados salvos com sucesso!',
-            'success'
-          )
-        actions.resetForm()
-        navigate("/employees")
+        try {
+            const response = await api.post('employees', values)
+
+            if (response.status === 201) {
+                setting?.language_options === "pt" ?
+                    Swal.fire(
+                        'Sucesso!',
+                        'Dados salvos com sucesso!',
+                        'success'
+                    ) : Swal.fire(
+                        'Success!',
+                        'Data successfully saved',
+                        'success'
+                    )
+            }
+            actions.resetForm()
+            navigate("/employees")
+        } catch (err) {
+            if (err.response.status === 400)
+            errors.name = setting?.language_options === "pt" ? "Funcionario ja existe!!" : "Employee Already Exists!!"
+
+        }
      }
 
      const schema = Yup.object().shape({
@@ -139,7 +161,7 @@ const NewEmployee = ({ inputs, title }) => {
                                 <div className="formInput">
                                     <div className="formInput1">
                                         <label>{t("PersonalData.1")}</label>
-                                            <input className={`inputClass ${errors.name && touched.name? "" : ""}`} type="text" id="name" 
+                                            <input className={`inputClass ${errors.name && touched.name ? "input-error" : ""}`} type="text" id="name" 
                                                     value={values.name} onChange={handleChange} onBlur={handleBlur}/>
                                             {errors.name && touched.name && <p>{errors.name}</p>}
                                         <label>{t("PersonalData.2")}</label>
@@ -169,16 +191,16 @@ const NewEmployee = ({ inputs, title }) => {
                                             <select id="marital_status" name="marital_status" 
                                                     onChange={e => setFieldValue("marital_status", e.target.value)} onBlur={handleBlur}>
                                                 <option value="">{t("PersonalData.7")}</option>
-                                                <option value="Solteiro">Solteiro</option>
-                                                <option value="Casado">Casado</option>
+                                                <option value="Solteiro">{t("PersonalData.20")}</option>
+                                                <option value="Casado">{t("PersonalData.21")}</option>
                                             </select>
                                             {errors.marital_status && touched.marital_status && <p>{errors.marital_status}</p>}
                                         <label for="">{t("PersonalData.8")}:</label>
                                             <select id="gender" name="gender" 
                                                     onChange={e => setFieldValue("gender", e.target.value)} onBlur={handleBlur}>
                                                 <option value="">{t("PersonalData.9")}</option>
-                                                <option value="Masculino">Masculino</option>
-                                                <option value="Femenino">Femenino</option>
+                                                <option value="Masculino">{t("PersonalData.22")}</option>
+                                                <option value="Femenino">{t("PersonalData.23")}</option>
                                             </select>  
                                             {errors.gender && touched.gender && <p>{errors.gender}</p>}                                       
                                     </div>
@@ -214,8 +236,8 @@ const NewEmployee = ({ inputs, title }) => {
                                         <select id="syndicate" name="syndicate" 
                                                     onChange={e => setFieldValue("syndicate", e.target.value)} onBlur={handleBlur}>
                                             <option value="">{t("PersonalData.19")}</option>
-                                                <option value="true">Paga</option>
-                                                <option value="false">Nao Paga</option>
+                                                <option value="true">{t("PersonalData.24")}</option>
+                                                <option value="false">{t("PersonalData.25")}</option>
                                         </select>
                                         {errors.syndicate && touched.syndicate && <p>{errors.syndicate}</p>}
                                     </div>
@@ -282,8 +304,8 @@ const NewEmployee = ({ inputs, title }) => {
                                         <select id="employee_status" name="employee_status" 
                                                     onChange={e => setFieldValue("employee_status", e.target.value)} onBlur={handleBlur}>
                                             <option value="">{t("CompanyData.8")}</option>
-                                            <option value="Activo">Ativo</option>
-                                            <option value="Inactivo">Inactivo</option>
+                                            <option value="Activo">{t("CompanyData.11")}</option>
+                                            <option value="Inactivo">{t("CompanyData.12")}</option>
                                         </select>  
                                         {errors.employee_status && touched.employee_status && <p>{errors.employee_status}</p>}
                                 </div>
@@ -322,8 +344,8 @@ const NewEmployee = ({ inputs, title }) => {
                                     <select id="inss_status" name="inss_status" 
                                                 onChange={e => setFieldValue("inss_status", e.target.value)} onBlur={handleBlur}>
                                         <option value="">{t("FinancialData.6")}</option>
-                                            <option value="true">Paga</option>
-                                            <option value="false">Nao Paga</option>
+                                            <option value="true">{t("FinancialData.7")}</option>
+                                            <option value="false">{t("FinancialData.8")}</option>
                                     </select>            
                                     {errors.inss_status && touched.inss_status && <p>{errors.inss_status}</p>}
                             </div>

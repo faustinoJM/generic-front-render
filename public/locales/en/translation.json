@@ -79,8 +79,8 @@
         "21": "Married",
         "22": "Male",
         "23": "Female",
-        "24": "Pay",
-        "25": "No Pay"
+        "24": "Yes",
+        "25": "No"
     },
 
     "CompanyData": {
@@ -106,7 +106,9 @@
         "3": "NIB",
         "4": "Social Security Number",
         "5": "INSS Status",
-        "6": "Select INSS"
+        "6": "Select INSS",
+        "7": "Yes",
+        "8": "No"
     },
     
     "Save": {
@@ -123,7 +125,8 @@
         "2": "Edit",
         "3": "Remove",
         "4": "Export",
-        "5": "Print"
+        "5": "Print",
+        "6": "Printslip"
     },
 
     "Position": {
@@ -222,9 +225,29 @@
         "17": "Housing allowance",
         "18": "Medical allowance",
         "19": "Holiday Allowance",
-        "20": "Thirteenth Salary"
+        "20": "Thirteenth Salary",
+        "21": "Fourteenth Salary",
+        "22": "Show",
+        "23": "Hide"
     },
 
+    "Month": {
+        "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+        "5": "May",
+        "6": "June",
+        "7": "July",
+        "8": "August",
+        "9": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December",
+        "13": "Thirteenth Salary",
+        "14": "Fourteenth Salary"
+    },
+    
     "Exit": {
         "1": "Exit"
     }

@@ -9,9 +9,9 @@ import { useTranslation } from 'react-i18next';
 
 const formatSalary = () => {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
-  }
+}
 
-  export const vvisible = {
+export const vvisible = {
     employee_name: true,
     department_name: true,
     position_name: true,
@@ -19,6 +19,7 @@ const formatSalary = () => {
     overtime50: true,
     overtime100: true,
 }
+
 export const visible = {
     employee_name: true,
     department_name: true,
@@ -28,7 +29,7 @@ export const visible = {
     overtime100: true,
 }
 
-const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, loading, setLoading}) => {
+const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, loading, setLoading, searchName, setSearchName}) => {
     const [data2, setData2] = useState(userRows);
     // const [loading, setLoading] = useState(true)
     const [columnsVisible, setColumnsVisible] = useState(payrollInputColumns);
@@ -43,19 +44,6 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
             setColumnsVisible(columns)
         
     }, [settings])
-
-    // useEffect(() => {
-    //     // setLoading(true)
-    //         if (userRows.length > 0)
-    //         setLoading(false)
-    //         if (userRows.length <= 0)
-    //         setTimeout(() => {
-    //         setLoading(false)
-    //         }, 5000)
-            
-
-    //     }, [userRows])
-
 
   useEffect(() => {
         let monthGreater = 0
@@ -79,8 +67,16 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
     }, [userRows])
 
     useEffect(() => {
-        setUserRows(() => data2.filter(data => data.month === month && data.year === year))
-    }, [year, month])
+        // setUserRows(() => data2.filter(data => data.month === month && data.year === year))
+        let UserRowsbyYearMonth =  data2.filter(data => data.month === month && data.year === year)
+        setUserRows(UserRowsbyYearMonth.filter(data => {
+            if (searchName === "")
+                return data
+            else if (data.employee_name.toLowerCase().includes(searchName.toLocaleLowerCase()))
+                return data
+        }))
+
+    }, [year, month, searchName])
 
     useEffect(() => {
         async function fetchData() {
@@ -192,6 +188,14 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
                             <option >Outubro</option>
                             <option >Novembro</option>
                             <option >Dezembro</option>
+                            {settings?.column_salary_thirteenth === "true" ?
+                            <option>Decimo Terceirro Salario</option>  
+                            : ""  
+                            }
+                            {settings?.column_salary_fourteenth === "true" ?
+                            <option>Decimo Quarto Salario</option>  
+                            : ""  
+                            }
                         </select>
                 </div> 
                 <Link to={`/${listPath}/new`} className="link">

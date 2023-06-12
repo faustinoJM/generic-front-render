@@ -52,12 +52,18 @@ const SettingLogo = () => {
         else {
             response = await api.post("settings", { company_name: values.company_name})
         }
-        if (response.status === 201)
-        Swal.fire(
-            'Sucesso!',
-            'Dados salvos com sucesso!',
-            'success'
-          )
+        if (response.status === 201) {
+            setting?.language_options === "pt" ?
+            Swal.fire(
+                'Sucesso!',
+                'Dados salvos com sucesso!',
+                'success'
+            ) : Swal.fire(
+                'Success!',
+                'Data successfully saved',
+                'success'
+            )
+        }
         // actions.resetForm()
      }
 
