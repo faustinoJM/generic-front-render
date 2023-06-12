@@ -28,6 +28,17 @@ const Home = () => {
     const [payroll, setPayroll] = useState(null);
     const { t, i18n } = useTranslation();
 
+    const [setting, setSetting] = useState("")
+
+    useEffect(() => {
+       async function fetch() {
+           const response = await api.get("settings")
+           if (response.data)
+               setSetting(response.data)
+       }
+       fetch()
+   }, [])
+
     //Fetch api in serie and wait
     // useEffect(() => {
     //     async function fetch() {
@@ -131,7 +142,7 @@ const Home = () => {
                 </div>
                 <div className="charts">
                     <Piechart />
-                    <Chart aspect={ 2 / 1} title={`${t("Home.13")}`} dbData={payroll}/>
+                    <Chart aspect={ 2 / 1} title={`${t("Home.13")}`} dbData={payroll} setting={setting}/>
                 </div>
             </div>
         </div>

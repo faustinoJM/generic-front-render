@@ -18,7 +18,7 @@ const months = {
     "Dezembro": "Dez"
 };
   
-const Chart = ({ aspect, title, dbData }) => {
+const Chart = ({ aspect, title, dbData, setting }) => {
     const [data, setData] = useState([])
     const formatSalary = new Intl.NumberFormat("de-DE", {maximumFractionDigits: 2, minimumFractionDigits: 2})
 
@@ -45,11 +45,22 @@ const Chart = ({ aspect, title, dbData }) => {
             if (data)
                 data.Total += payroll.total_income;
         })
-        
-        setData(chartData)
+
+        if (setting) {
+            if (setting.language_options === "pt") {
+                setData(chartData) 
+            } else {
+                chartData.map(data => {
+                    data.name = monthPtEn[data.name]
+                })
+                setData(chartData)
+            }
+        } else 
+            setData(chartData)
         console.log(dbData)
 
     }, [dbData])
+    
     return (
         <div className="chart">
             <div className="title">{title}</div>
@@ -74,6 +85,20 @@ const Chart = ({ aspect, title, dbData }) => {
 
 export default Chart;
 
+const monthPtEn = {
+    "Jan": "Jan",
+    "Fev": "Feb",
+    "Mar": "Mar",
+    "Abr": "Apr",
+    "Mai": "May",
+    "Jun": "Jun",
+    "Jul": "Jul",
+    "Ago": "Aug",
+    "Set": "Sep",
+    "Out": "Oct",
+    "Nov": "Nov",
+    "Dez": "Dec",
+}
 
 // const data = [
 //     { name: "Jan", Total: 1200 },

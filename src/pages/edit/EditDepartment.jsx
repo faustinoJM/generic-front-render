@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import api from "../../services/api";
 import "react-datepicker/dist/react-datepicker.css"
 import { useTranslation } from 'react-i18next';
+import Swal from "sweetalert2";
 
 const EditDepartment = ({ inputs, title }) => {
     const navigate = useNavigate()
@@ -15,6 +16,17 @@ const EditDepartment = ({ inputs, title }) => {
     const id = Object.values(params)[0]
     const [data, setData] = useState({});
     const { t, i18n } = useTranslation();
+
+    const [setting, setSetting] = useState("")
+
+    useEffect(() => {
+       async function fetch() {
+           const response = await api.get("settings")
+           if (response.data)
+               setSetting(response.data)
+       }
+       fetch()
+   }, [])
 
     useEffect(() => {
         async function fetch() {
@@ -30,9 +42,27 @@ const EditDepartment = ({ inputs, title }) => {
         const { name } = values
         console.log("submit")
         actions.resetForm()
-        await api.put(`departments/${id}`, {name})
-        actions.resetForm()
-        navigate("/departments")
+        try {
+            const response = await api.put(`departments/${id}`, {name})
+            if (response.status === 204) {
+                setting?.language_options === "pt" ?
+                    Swal.fire(
+                        'Sucesso!',
+                        'Dados salvos com sucesso!',
+                        'success'
+                    ) : Swal.fire(
+                        'Success!',
+                        'Data successfully saved',
+                        'success'
+                    )
+            }
+            actions.resetForm()
+            navigate("/departments")
+        } catch (err) {
+            // if (err.response.status === 400)
+            errors.name = setting?.language_options === "pt" ? "Erro!!" : "Erro!!"
+
+        }
      }
 
      const schema = Yup.object().shape({

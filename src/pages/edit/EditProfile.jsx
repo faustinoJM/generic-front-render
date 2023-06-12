@@ -11,12 +11,23 @@ import { useNavigate, useParams } from "react-router-dom"
 import api from "../../services/api";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
+import Swal from "sweetalert2";
 
 
 const EditProfile = ({ inputs, title }) => {
      const [data, setData] = useState("")
      const navigate = useNavigate()
      const params = useParams()
+     const [setting, setSetting] = useState("")
+
+    useEffect(() => {
+       async function fetch() {
+           const response = await api.get("settings")
+           if (response.data)
+               setSetting(response.data)
+       }
+       fetch()
+   }, [])
 
      useEffect(() => {
         api.get("users").then((response => {
@@ -32,9 +43,27 @@ const EditProfile = ({ inputs, title }) => {
         // console.log(values)
         // console.log(actions)
         actions.resetForm()
-        await api.put(`users/${params.profileId}`, values)
-        actions.resetForm()
-        navigate("/profile")
+        try {
+            const response = await api.put(`users/${params.profileId}`, values)
+            if (response.status === 204) {
+                setting?.language_options === "pt" ?
+                    Swal.fire(
+                        'Sucesso!',
+                        'Dados salvos com sucesso!',
+                        'success'
+                    ) : Swal.fire(
+                        'Success!',
+                        'Data successfully saved',
+                        'success'
+                    )
+            }
+            actions.resetForm()
+            navigate("/profile")
+        } catch (err) {
+                // if (err.response.status === 400)
+                errors.name = setting?.language_options === "pt" ? "Erro!!" : "Erro!!"
+    
+        }
      }
 
      const schema = Yup.object().shape({

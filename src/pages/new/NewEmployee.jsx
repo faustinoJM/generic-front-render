@@ -4,8 +4,6 @@ import Navbar from "../../components/navbar/Navbar"
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
 import { useEffect, useState, useRef, useCallback } from "react"
 import { useFormik } from "formik"
-import { useField } from '@unform/core';
-import getValidateErrors from "../../utils/getValidationErrors"
 import * as Yup from "yup"
 import { useNavigate } from "react-router-dom"
 import api from "../../services/api";

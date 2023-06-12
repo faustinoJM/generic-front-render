@@ -842,24 +842,24 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                     <label>{t("PayrollList.6")}: </label>
                         <select id="month" name="month" value={month} onChange={e => submitByMonth(e.target.value)} >
                             <option value="">{t("PayrollList.8")}</option>
-                            <option >Janeiro</option>
-                            <option >Fevereiro</option>
-                            <option >Marco</option>
-                            <option >Abril</option>
-                            <option >Maio</option>
-                            <option >Junho</option>
-                            <option >Julho</option>
-                            <option >Agosto</option>
-                            <option >Setembro</option>
-                            <option >Outubro</option>
-                            <option >Novembro</option>
-                            <option >Dezembro</option>
+                            <option value={"Janeiro"}>{t("Month.1")}</option>
+                            <option value={"Fevereiro"}>{t("Month.2")}</option>
+                            <option value={"Marco"}>{t("Month.3")}</option>
+                            <option value={"Abril"}>{t("Month.4")}</option>
+                            <option value={"Maio"}>{t("Month.5")}</option>
+                            <option value={"Junho"}>{t("Month.6")}</option>
+                            <option value={"Julho"}>{t("Month.7")}</option>
+                            <option value={"Agosto"}>{t("Month.8")}</option>
+                            <option value={"Setembro"}>{t("Month.9")}</option>
+                            <option value={"Outubro"}>{t("Month.10")}</option>
+                            <option value={"Novembro"}>{t("Month.11")}</option>
+                            <option value={"Dezembro"}>{t("Month.12")}</option>
                             {settings?.column_salary_thirteenth === "true" ?
-                            <option>Decimo Terceirro Salario</option>  
+                            <option value={"Decimo Terceiro Salario"}>{t("Month.13")}</option>  
                             : ""  
                             }
                             {settings?.column_salary_fourteenth === "true" ?
-                            <option>Decimo Quarto Salario</option>  
+                            <option value={"Decimo Quarto Salario"}>{t("Month.14")}</option>  
                             : ""  
                             }
                         </select>

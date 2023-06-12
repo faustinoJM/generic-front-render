@@ -4,14 +4,12 @@ import Navbar from "../../components/navbar/Navbar"
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
 import { useEffect, useState, useRef, useCallback } from "react"
 import { useFormik } from "formik"
-import { useField } from '@unform/core';
-import getValidateErrors from "../../utils/getValidationErrors"
 import * as Yup from "yup"
 import { useNavigate, useParams } from "react-router-dom"
 import api from "../../services/api";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
-import SettingPayroll from "../settings/SettingPayroll";
+import Swal from "sweetalert2";
 import { useTranslation } from 'react-i18next';
 
 
@@ -23,6 +21,16 @@ const EditEmployee = ({ inputs, title }) => {
      const [data, setData] = useState({});
      const navigate = useNavigate()
      const params = useParams()
+     const [setting, setSetting] = useState("")
+
+     useEffect(() => {
+        async function fetch() {
+            const response = await api.get("settings")
+            if (response.data)
+                setSetting(response.data)
+        }
+        fetch()
+    }, [])
 
 
      useEffect(() => {
@@ -54,9 +62,28 @@ const EditEmployee = ({ inputs, title }) => {
       
      const onSubmit = async (values, actions) => {
         actions.resetForm()
-        await api.put(`employees/${params.employeeId}`, values)
-        actions.resetForm()
-        navigate("/employees")
+        try {
+            const response = await api.put(`employees/${params.employeeId}`, values)
+            if (response.status === 204) {
+                setting?.language_options === "pt" ?
+                    Swal.fire(
+                        'Sucesso!',
+                        'Dados salvos com sucesso!',
+                        'success'
+                    ) : Swal.fire(
+                        'Success!',
+                        'Data successfully saved',
+                        'success'
+                    )
+            }
+            actions.resetForm()
+            navigate("/employees")
+        } catch (err) {
+            // if (err.response.status === 400)
+            errors.name = setting?.language_options === "pt" ? "Erro!!" : "Erro!!"
+
+        }
+        
      }
 
      const schema = Yup.object().shape({
@@ -170,11 +197,11 @@ const EditEmployee = ({ inputs, title }) => {
                                             <select id="marital_status" name="marital_status" 
                                                     onChange={e => setFieldValue("marital_status", e.target.value)} onBlur={handleBlur}>
                                                 <option value="">{t("PersonalData.7")}</option>
-                                                {data.marital_status === "Solteiro" ? <option value="Solteiro" selected>Solteiro</option>
-                                                : <option value="Solteiro">Solteiro</option>
+                                                {data.marital_status === "Solteiro" ? <option value="Solteiro" selected>{t("PersonalData.20")}</option>
+                                                : <option value="Solteiro">{t("PersonalData.20")}</option>
                                                 }
-                                                {data.marital_status === "Casado" ? <option value="Casado" selected>Casado</option>
-                                                : <option value="Casado" selected>Casado</option>
+                                                {data.marital_status === "Casado" ? <option value="Casado" selected>{t("PersonalData.21")}</option>
+                                                : <option value="Casado" selected>{t("PersonalData.21")}</option>
                                                 }
                                             </select>
                                             {errors.marital_status && touched.marital_status && <p>{errors.marital_status}</p>}
@@ -182,11 +209,11 @@ const EditEmployee = ({ inputs, title }) => {
                                             <select id="gender" name="gender" 
                                                     onChange={e => setFieldValue("gender", e.target.value)} onBlur={handleBlur}>
                                                 <option value="">{t("PersonalData.9")}</option>
-                                               {data.gender === "Masculino" ? <option value="Masculino" selected>Masculino</option> 
-                                               : <option value="Masculino">Masculino</option> 
+                                               {data.gender === "Masculino" ? <option value="Masculino" selected>{t("PersonalData.22")}</option> 
+                                               : <option value="Masculino">{t("PersonalData.22")}</option> 
                                                }
-                                                {data.gender === "Femenino" ? <option value="Femenino" selected>Femenino</option> 
-                                                : <option value="Femenino">Femenino</option> 
+                                                {data.gender === "Femenino" ? <option value="Femenino" selected>{t("PersonalData.23")}</option> 
+                                                : <option value="Femenino">{t("PersonalData.23")}</option> 
                                                 }
                                             </select>  
                                             {errors.gender && touched.gender && <p>{errors.gender}</p>}                                       
@@ -223,10 +250,10 @@ const EditEmployee = ({ inputs, title }) => {
                                             <select id="syndicate_status" name="syndicate_status"
                                                     onChange={e => setFieldValue("syndicate_status", e.target.value)} onBlur={handleBlur}>
                                             <option value="">{t("PersonalData.19")}</option>
-                                                {data.syndicate_status === "true" ? <option value="true" selected>Paga</option>
-                                                : <option value="true" selected>Paga</option>}
-                                                {data.syndicate_status === "false" ? <option value="false" selected>Nao Paga</option>
-                                                : <option value="false" >Nao Paga</option>}
+                                                {data.syndicate_status === "true" ? <option value="true" selected>{t("PersonalData.24")}</option>
+                                                : <option value="true" selected>{t("PersonalData.24")}</option>}
+                                                {data.syndicate_status === "false" ? <option value="false" selected>{t("PersonalData.25")}</option>
+                                                : <option value="false" >{t("PersonalData.25")}</option>}
                                                 
                                         </select>
                                         {errors.syndicate_status && touched.syndicate_status && <p>{errors.syndicate_status}</p>}
@@ -294,11 +321,11 @@ const EditEmployee = ({ inputs, title }) => {
                                         <select id="employee_status" name="employee_status" 
                                                     onChange={e => setFieldValue("employee_status", e.target.value)} onBlur={handleBlur}>
                                             <option value="">{t("CompanyData.8")}</option>
-                                            {data.employee_status === "Activo" ? <option value="Activo" selected>Ativo</option> 
-                                            : <option value="Activo">Ativo</option>
+                                            {data.employee_status === "Activo" ? <option value="Activo" selected>{t("CompanyData.11")}</option> 
+                                            : <option value="Activo">{t("CompanyData.11")}</option>
                                             }
-                                            {data.employee_status === "Inactivo" ? <option value="Inactivo">Inactivo</option>
-                                            : <option value="Inactivo">Inactivo</option>
+                                            {data.employee_status === "Inactivo" ? <option value="Inactivo">{t("CompanyData.12")}</option>
+                                            : <option value="Inactivo">{t("CompanyData.12")}</option>
                                             }
                                         </select>  
                                         {errors.employee_status && touched.employee_status && <p>{errors.employee_status}</p>}
@@ -338,10 +365,10 @@ const EditEmployee = ({ inputs, title }) => {
                                 <select id="inss_status" name="inss_status" 
                                             onChange={e => setFieldValue("inss_status", e.target.value)} onBlur={handleBlur}>
                                     <option value="">{t("FinancialData.6")}</option>
-                                        {data.inss_status === "true" ? <option value="true" selected>Paga</option>
-                                        : <option value="true">Paga</option>}
-                                        {data.inss_status === "false" ? <option value="false" selected>Nao Paga</option>
-                                        : <option value="false">Nao Paga</option>}
+                                        {data.inss_status === "true" ? <option value="true" selected>{t("FinancialData.7")}</option>
+                                        : <option value="true">{t("FinancialData.7")}</option>}
+                                        {data.inss_status === "false" ? <option value="false" selected>{t("FinancialData.8")}</option>
+                                        : <option value="false">{t("FinancialData.8")}</option>}
                                 </select>            
                                 {errors.inss_status && touched.inss_status && <p>{errors.inss_status}</p>}
                             </div>

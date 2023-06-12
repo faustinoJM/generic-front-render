@@ -50,7 +50,6 @@ const Login = () => {
         }
         //add toast msg
          setLoginError(true)
-         console.log("Love sosa2")
   
         // addToast({
         //   type: "error",
@@ -84,7 +83,7 @@ const Login = () => {
                 </div>
                 <div className="formInput">
                     <Input type="password" name="password" label="Senha" loginError={loginError} />
-                    {loginError && (<div className="error">Email ou Senha incorrecta</div>)}
+                    {loginError && (<div className="error">Server Error!!</div>)}
                 </div>
                 <button type="submnit">Login</button>
                 <div className="register">
