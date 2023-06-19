@@ -169,12 +169,12 @@ const Sidebar = (d, f) => {
                         </NavLink>
                     </li>
                     
-                    <li>
+                    {/* <li>
                         <NavLink to="/resources/report" className="navLink" style={{textDecoration: "none"}}>
                             <DescriptionIcon className="icon" />
                             <span>Relatorio</span>
                         </NavLink>
-                    </li> 
+                    </li>  */}
                     {/* <li>   
                         <NavLink to="/cashadvances" className="navLink" style={{textDecoration: "none"}}>
                             <PointOfSaleOutlinedIcon className="icon" />

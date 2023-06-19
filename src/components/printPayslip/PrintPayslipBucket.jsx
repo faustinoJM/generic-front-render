@@ -10,7 +10,7 @@ const formatDate = () => {
     return new Intl.DateTimeFormat("pt-br", { dateStyle: 'long'})
 }
 
-const PrintPayslipBucket = ({componentRef, maumau}) => {
+const PrintPayslipBucket = ({componentRef, printData}) => {
     // const componentRef = useRef();
     const [companyName, setCompanyName] = useState("")
     const [setting, setSetting] = useState("")
@@ -20,7 +20,7 @@ const PrintPayslipBucket = ({componentRef, maumau}) => {
         async function fetch() {
             const response = await api.get("settings")
             // const responsePay = await api.get("payrolls")
-            // setmaumau(responsePay.data)
+            // setprintData(responsePay.data)
             if (response.data){
                 setSetting(response.data)
                 setCompanyName(response.data.company_name)
@@ -57,7 +57,7 @@ const PrintPayslipBucket = ({componentRef, maumau}) => {
                 </thead>
 
                 <tbody>
-                {maumau.map(single => 
+                {printData.map(single => 
                     <tr>
                         <td>
                             <div className="page">
@@ -412,7 +412,7 @@ const PrintPayslipBucket = ({componentRef, maumau}) => {
 export default PrintPayslipBucket
 
 
-// const PrintPayslipBucket = ({componentRef, maumau}) => {
+// const PrintPayslipBucket = ({componentRef, printData}) => {
 //     // const componentRef = useRef();
 //     const [companyName, setCompanyName] = useState("")
 //     const [setting, setSetting] = useState("")
@@ -422,7 +422,7 @@ export default PrintPayslipBucket
 //         async function fetch() {
 //             const response = await api.get("settings")
 //             // const responsePay = await api.get("payrolls")
-//             // setmaumau(responsePay.data)
+//             // setprintData(responsePay.data)
 //             if (response.data){
 //                 setSetting(response.data)
 //                 setCompanyName(response.data.company_name)
@@ -459,7 +459,7 @@ export default PrintPayslipBucket
 //                 </thead>
 
 //                 <tbody>
-//                 {maumau.map(single => 
+//                 {printData.map(single => 
 //                     <tr>
 //                         <td>
 //                             <div className="page">
