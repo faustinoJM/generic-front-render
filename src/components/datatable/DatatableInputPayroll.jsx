@@ -80,12 +80,13 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
 
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get("payrolls/input")
+            // const response = await api.get("payrolls/input")
+            const response = await api.get("payrolls")
 
             response.data.map((data) => {
                 data.salary_base = formatSalary().format(data.salary_base)
-                data.overtime50 = formatSalary().format(data.overtime50)
-                data.overtime100 = formatSalary().format(data.overtime100)
+                // data.overtime50 = formatSalary().format(data.overtime50)
+                // data.overtime100 = formatSalary().format(data.overtime100)
                 data.subsidy = formatSalary().format(data.subsidy)
                 data.bonus = formatSalary().format(data.bonus)
                 data.cash_advances = formatSalary().format(data.cash_advances)
@@ -106,7 +107,8 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
     async function fetchData() {
         const yearsArray = []
         let years = 0;
-        const response = await api.get("payrolls/input")
+        // const response = await api.get("payrolls/input")
+        const response = await api.get("payrolls")
 
         response.data.map(data => {
             if (years !== +(data.year))

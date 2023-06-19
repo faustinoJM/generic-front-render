@@ -4,6 +4,8 @@ import Navbar from "../../components/navbar/Navbar"
 import { useEffect, useState } from "react"
 import api from "../../services/api"
 import DatatableInputPayroll from "../../components/datatable/DatatableInputPayroll"
+import { Link, useParams } from "react-router-dom"
+
 
 const payrollInputColumns = [
     { field: 'employee_id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center', hide: true},
@@ -50,6 +52,7 @@ const ListInputPayroll = ({ listName, listPath }) => {
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true)
     const [searchName, setSearchName] = useState("")
+    const params = useParams()
 
     useEffect(() => {
         async function fetchData() {
@@ -147,15 +150,15 @@ const ListInputPayroll = ({ listName, listPath }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get("payrolls/input")
+            const response = await api.get(`payrolls/input/${params.payrollId}`)
              console.log(listPath)
              console.log(response.data)
             //  console.log(response.data.data)
 
              response.data.map((data) => {
                 data.salary_base = formatSalary().format(data.salary_base)
-                data.overtime50 = formatSalary().format(data.overtime50)
-                data.overtime100 = formatSalary().format(data.overtime100)
+                // data.overtime50 = formatSalary().format(data.overtime50)
+                // data.overtime100 = formatSalary().format(data.overtime100)
                 data.subsidy = formatSalary().format(data.subsidy)
                 data.bonus = formatSalary().format(data.bonus)
                 data.cash_advances = formatSalary().format(data.cash_advances)

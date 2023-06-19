@@ -10,6 +10,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PrintIcon from '@mui/icons-material/Print';
 import DescriptionIcon from '@mui/icons-material/Description';
+import EditIcon from '@mui/icons-material/Edit';
 import PrintPayroll from "../printPayroll/PrintPayroll";
 import { printPDF } from "../printPayroll/PrintPayroll";
 import {useQuery} from 'react-query'
@@ -222,6 +223,11 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
           let total_absences = 0
           let total_bonus = 0
           let total_backpay = 0
+          let total_overtime50 = 0
+          let total_overtime100 = 0
+          let total_base_day = 0
+          let total_base_hour = 0
+          
 
           excelPayroll2.map(data => {
               salary_liquid = salary_liquid + data.salary_liquid
@@ -243,30 +249,35 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
               total_absences += data.total_absences
               total_bonus += data.bonus
               total_backpay += data.backpay
+              total_overtime50 += data.overtime50
+              total_overtime100 += data.overtime100
+              total_absences += data.absences
+              total_base_day += data.base_day
+              total_base_hour += data.base_hour
 
-              data.salary_base = formatSalary().format(data.salary_base)
-              data.salary_liquid = formatSalary().format(data.salary_liquid)
-              data.total_income = formatSalary().format(data.total_income)
-              data.irps = formatSalary().format(data.irps)
-              data.inss_employee = formatSalary().format(data.inss_employee)
-              data.subsidy = formatSalary().format(data.subsidy)
-              data.bonus = formatSalary().format(data.bonus)
-              data.cash_advances = formatSalary().format(data.cash_advances)
-              data.syndicate_employee = formatSalary().format(data.syndicate_employee)
-              data.backpay = formatSalary().format(data.backpay)
-              data.total_absences = formatSalary().format(data.total_absences)
-              data.total_overtime = formatSalary().format(data.total_overtime)
-              data.inss_company = formatSalary().format(data.inss_company)
-              data.total_inss = formatSalary().format(data.total_inss)
+              // data.salary_base = formatSalary().format(data.salary_base)
+              // data.salary_liquid = formatSalary().format(data.salary_liquid)
+              // data.total_income = formatSalary().format(data.total_income)
+              // data.irps = formatSalary().format(data.irps)
+              // data.inss_employee = formatSalary().format(data.inss_employee)
+              // data.subsidy = formatSalary().format(data.subsidy)
+              // data.bonus = formatSalary().format(data.bonus)
+              // data.cash_advances = formatSalary().format(data.cash_advances)
+              // data.syndicate_employee = formatSalary().format(data.syndicate_employee)
+              // data.backpay = formatSalary().format(data.backpay)
+              // data.total_absences = formatSalary().format(data.total_absences)
+              // data.total_overtime = formatSalary().format(data.total_overtime)
+              // data.inss_company = formatSalary().format(data.inss_company)
+              // data.total_inss = formatSalary().format(data.total_inss)
               data.nib = String(data.nib)
-              data.base_day = formatSalary().format(data.base_day)
-              data.base_hour =  formatSalary().format(data.base_hour)
-              data.subsidy_transport = formatSalary().format(data.subsidy_transport) 
-              data.subsidy_food = formatSalary().format(data.subsidy_food) 
-              data.subsidy_residence = formatSalary().format(data.subsidy_residence) 
-              data.subsidy_medical = formatSalary().format(data.subsidy_medical) 
-              data.subsidy_vacation = formatSalary().format(data.subsidy_vacation) 
-              data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
+              // data.base_day = formatSalary().format(data.base_day)
+              // data.base_hour =  formatSalary().format(data.base_hour)
+              // data.subsidy_transport = formatSalary().format(data.subsidy_transport) 
+              // data.subsidy_food = formatSalary().format(data.subsidy_food) 
+              // data.subsidy_residence = formatSalary().format(data.subsidy_residence) 
+              // data.subsidy_medical = formatSalary().format(data.subsidy_medical) 
+              // data.subsidy_vacation = formatSalary().format(data.subsidy_vacation) 
+              // data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
           })
 
           // loop through data and add each one to worksheet
@@ -276,14 +287,14 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         });
           
          worksheet.addRow({
-          salary_liquid:  formatSalary().format(salary_liquid), 
-          salary_base:  formatSalary().format(salary_base), 
-          total_income: formatSalary().format(total_income),
-          inss_employee: formatSalary().format(inss_employee),
-          inss_company: formatSalary().format(inss_company),
-          total_inss: formatSalary().format(total_inss),
-          irps: formatSalary().format(irps),
-          total_inss: formatSalary().format(total_inss), 
+          salary_liquid:  salary_liquid, 
+          salary_base:  salary_base, 
+          total_income: total_income,
+          inss_employee: inss_employee,
+          inss_company: inss_company,
+          total_inss: total_inss,
+          irps: irps,
+          total_inss: total_inss, 
           employee_id: "",
           employee_name: "TOTAL",
           dependents: "",
@@ -293,25 +304,25 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
           year: "", 
           nib: "",
           social_security: "",
-          overtime50: "", 
-          overtime100: "", 
-          total_overtime: formatSalary().format(total_overtime), 
-          absences: "", 
-          total_absences: formatSalary().format(total_absences), 
-          cash_advances: formatSalary().format(total_cash_advances), 
-          syndicate_employee: formatSalary().format(total_syndicate_employee),
-          subsidy: formatSalary().format(total_subsidy), 
-          bonus: formatSalary().format(total_bonus), 
-          backpay: formatSalary().format(total_backpay), 
+          overtime50: total_overtime50, 
+          overtime100: total_overtime100, 
+          total_overtime: total_overtime, 
+          absences: total_absences, 
+          total_absences: total_absences, 
+          cash_advances: total_cash_advances, 
+          syndicate_employee: total_syndicate_employee,
+          subsidy: total_subsidy, 
+          bonus: total_bonus, 
+          backpay: total_backpay, 
           month_total_workdays: "",
           day_total_workhours: "",
-          base_day: "",
-          base_hour: "",
-          subsidy_food: formatSalary().format(total_subsidy_food),
-          subsidy_residence: formatSalary().format(total_subsidy_residence),
-          subsidy_medical: formatSalary().format(total_subsidy_medical),
-          subsidy_vacation: formatSalary().format(total_subsidy_vacation),
-          salary_thirteenth: formatSalary().format(total_salary_thirteenth),
+          base_day: total_base_day,
+          base_hour: total_base_hour,
+          subsidy_food: total_subsidy_food,
+          subsidy_residence: total_subsidy_residence,
+          subsidy_medical: total_subsidy_medical,
+          subsidy_vacation: total_subsidy_vacation,
+          salary_thirteenth: total_salary_thirteenth,
           
 
 
@@ -319,6 +330,32 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
       });
      
       worksheet.lastRow.font = { bold: true };
+
+      worksheet.getCell('L4').numFmt = '# ?/?'; //#,##0.00
+      worksheet.getColumn(9).numFmt = "#,##0.00"
+      worksheet.getColumn(10).numFmt = "#,##0.00"
+      worksheet.getColumn(11).numFmt = "#,##0.00"
+      worksheet.getColumn(12).numFmt = "#,##0.00"
+      worksheet.getColumn(13).numFmt = "#,##0.00"
+      worksheet.getColumn(14).numFmt = "#,##0.00"
+      worksheet.getColumn(15).numFmt = "#,##0.00"
+      worksheet.getColumn(16).numFmt = "#,##0.00"
+      worksheet.getColumn(17).numFmt = "#,##0.00"
+      // worksheet.getColumn(18).numFmt = "#,##0.00"
+      // worksheet.getColumn(19).numFmt = "#,##0.00"
+      worksheet.getColumn(20).numFmt = "#,##0.00"
+      // worksheet.getColumn(21).numFmt = "#,##0.00"
+      worksheet.getColumn(22).numFmt = "#,##0.00"
+      worksheet.getColumn(23).numFmt = "#,##0.00"
+      worksheet.getColumn(24).numFmt = "#,##0.00"
+      worksheet.getColumn(25).numFmt = "#,##0.00"
+      worksheet.getColumn(26).numFmt = "#,##0.00"
+      worksheet.getColumn(27).numFmt = "#,##0.00"
+      worksheet.getColumn(28).numFmt = "#,##0.00"
+      worksheet.getColumn(29).numFmt = "#,##0.00"
+      worksheet.getColumn(30).numFmt = "#,##0.00"
+      worksheet.getColumn(31).numFmt = "#,##0.00"
+      worksheet.getColumn(32).numFmt = "#,##0.00"
 
         // loop through all of the rows and set the outline style.
         worksheet.eachRow({ includeEmpty: false }, row => {
@@ -572,27 +609,31 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        <Link to={`/${listPath}/output/${params.row.id}`} style={{textDecoration: "none"}}>
-                        {/* to={`/${listPath}/${params.row.id}`} */}
-                        {/* {console.log(params.row.month+""+listPath)} */}
-                        {/* to={`/${listPath}/output/${params.row.month}-${params.row.year}`} */}
-                                <div className="viewButton">
-                                    <VisibilityIcon /> {t("Datatable.1")}
-                                </div>
+                        <Link to={`/${listPath}/input/${params.row.id}`} style={{textDecoration: "none"}}>
+                          <div className="editButton">
+                              <EditIcon /> {t("Datatable.2")}
+                          </div>
                         </Link>
+                        <div className="printButton" onClick={() => handlePrintPayroll(params.row.year, params.row.month)}>
+                            {/* handlePrintPayroll(params.row.year, params.row.month) */}
+                              <PrintIcon />  {t("Datatable.5")}
+                          </div>
                         <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month, setting)}>
                             <DescriptionIcon className="edIcon"/> {t("Datatable.4")}
                         </div>
-                        <div className="printButton" onClick={() => handlePrintPayroll(params.row.year, params.row.month)}>
-                        {/* handlePrintPayroll(params.row.year, params.row.month) */}
-                              <PrintIcon />  {t("Datatable.5")}
-                            </div>
+                        <Link to={`/${listPath}/output/${params.row.id}`} style={{textDecoration: "none"}}>
+                          {/* to={`/${listPath}/${params.row.id}`} */}
+                          {/* to={`/${listPath}/output/${params.row.month}-${params.row.year}`} */}
+                          <div className="viewButton">
+                              <VisibilityIcon /> {t("Datatable.1")}
+                          </div>
+                        </Link>
                         <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
                             <DeleteForeverIcon /> {t("Datatable.3")}
                         </div>
                         <div className="printButton" onClick={() => handlePrintPayslip(params.row.id, params.row.year, params.row.month)}>
                               <PrintIcon />  {t("Datatable.6")}
-                            </div>
+                        </div>
                     </div>
                 )
             }
@@ -868,6 +909,11 @@ const returnTotalRow = (printData) => {
   let total_subsidy_residence =  0
   let total_subsidy_medical =  0
   let total_subsidy_vacation =  0
+  let total_overtime50 = 0
+  let total_overtime100 = 0
+  let total_absences = 0
+  let total_base_day = 0
+  let total_base_hour = 0
   
   totalLength = printData.map((data, index) => {
       total_liquid += (+data.salary_liquid)
@@ -888,6 +934,11 @@ const returnTotalRow = (printData) => {
       total_subsidy_residence += (+data.subsidy_residence)
       total_subsidy_medical += (+data.subsidy_medical)
       total_subsidy_vacation += (+data.subsidy_vacation)
+      total_overtime50 += (+data.overtime50)
+      total_overtime100 += (+data.overtime100)
+      total_absences += (+data.absences)
+      total_base_day += (+data.base_day)
+      total_base_hour += (+data.base_hour)
   })
   
   const totalRow = [{

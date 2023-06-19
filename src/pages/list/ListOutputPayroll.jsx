@@ -60,6 +60,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true)
+    const [active, setActive] = useState(true)
     const params = useParams()
     const [searchName, setSearchName] = useState("")
 
@@ -179,7 +180,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
         }, [])
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get(`${listPath}`)
+            const response = await api.get(`${listPath}/output/${params.payrollId}`)
 
             let totalLiquid = 0
             let totalBase = 0
@@ -197,7 +198,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
             let total_total_overtime = 0
             let total_syndicate_employee = 0
 
-            response.data = response.data.filter(data => data.payroll_id === params.payrollId)
+            // response.data = response.data.filter(data => data.payroll_id === params.payrollId)
 
             totalLength = response.data.map((data, index) => {
                 totalLiquid += (+data.salary_liquid)
@@ -283,12 +284,12 @@ const ListOutputPayroll = ({ listName, listPath }) => {
     return (
         <div className="list">
             {/* {console.log(userRows)} */}
-            <Sidebar />
+            <Sidebar active={active} setActiv={setActive}/>
             <div className="listContainer">
                 <Navbar searchName={searchName} setSearchName={setSearchName}/>
                 <DatatableOutputPayroll listName={listName} listPath={listPath} 
                     columns={payrollOutputColumns} userRows={userRows} setUserRows={setUserRows} 
-                    loading={loading} setLoading={setLoading} settings={settings} 
+                    active={loading} setLoading={setLoading} settings={settings} 
                     payrollId={params.payrollId}
                     searchName={searchName} setSearchName={setSearchName}
                     />
