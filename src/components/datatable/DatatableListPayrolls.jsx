@@ -77,9 +77,9 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         // onAfterPrint: () => alert('Print sucess')
     })
 
-    const handlePrintPayslip = (year, month) => {
-      api.get(`payrolls`)
-        .then(response => {setPrintPayroll(response.data.filter(data => data.year === year && data.month === month))})
+    const handlePrintPayslip = (id, year, month) => {
+      api.get(`payrolls/output/${id}`)
+        .then(response => {setPrintPayroll(response.data)})
     }
 
 
@@ -590,7 +590,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                         <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
                             <DeleteForeverIcon /> {t("Datatable.3")}
                         </div>
-                        <div className="printButton" onClick={() => handlePrintPayslip(params.row.year, params.row.month)}>
+                        <div className="printButton" onClick={() => handlePrintPayslip(params.row.id, params.row.year, params.row.month)}>
                               <PrintIcon />  {t("Datatable.6")}
                             </div>
                     </div>

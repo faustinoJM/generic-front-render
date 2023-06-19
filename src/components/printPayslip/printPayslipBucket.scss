@@ -44,15 +44,21 @@
     .nameAdress{
         display: flex;
         flex-direction: column;
+        // border: 1px solid red;
         
+        span {
+          font-size: 14px;
+        } 
     }
 
     .logo-print {
         // border: 1px solid red;
+        display: flex;
+        align-items: center;
 
         img {
             width: 120px;
-            height: 100px;
+            height: 85px;
             // border: 1px solid green;
             // border-radius: %;
             // object-fit: cover;
@@ -64,6 +70,7 @@
   .employeeData {
     display: flex;
     flex-direction: column;
+    margin-bottom: 5px;
     // background: green; /* for demo */
 
     .idRecibo{
@@ -99,6 +106,7 @@
             }
         }
     }
+
     .tableEmployeeData {
       font-size: 10px;
       table, th, td {
@@ -129,15 +137,20 @@
   }
 
   .footer {
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     flex-direction: column;
     // gap: 5px;
     // border: 1px solid green;
 
     .signature {
+      font-size: 16px;
       display: flex;
       justify-content: space-between;
+    }
+
+    .date {
+      font-size: 12px;
     }
 
     .comment {

@@ -177,7 +177,7 @@ const PrintPayslip = ({componentRef, single}) => {
             <div ref={componentRef} style={{}} className="componentRef">
                 <div className="containerPrintSlip">
                     
-                    <div className="printSlip1">
+                    <div className="printSlip-1" style={{height: "500px", padding: "0 25px"}}>
                         <div className="logo_and_adress">
                             <div className="nameAdress">
                                 <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
@@ -349,22 +349,19 @@ const PrintPayslip = ({componentRef, single}) => {
                                     <span className="linha">___________________________</span>
                                 </div>
                             </div>
-                            <div>
+                            <div className="date">
                                 <span>{setting.language_options ===  "pt" ? "Data: " : "Date: "}</span>
                                 <span>{setting.language_options ===  "pt" ? formatDate("pt-br").format(date) : formatDate("en-uk").format(date)}</span>
                             </div>
-                            {/* <div>
-                                <span>Local: </span>
-                                <span>{
-                                    setting.company_city  && setting.company_province? setting.company_city+", "+setting.company_province  : "_______________________"
-                                }
-                                </span>
-                            </div> */}
-                            
+                            <div className="comment">
+                                <span>{setting?.payslip_comment ?? ""}</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="printSlip2">
+                    <hr style={{}}/>
+
+                    <div className="printSlip-2" style={{height: "500px", padding: "0 25px"}}>
                         <div className="logo_and_adress">
                             <div className="nameAdress">
                                 <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
@@ -535,9 +532,13 @@ const PrintPayslip = ({componentRef, single}) => {
                                     <span className="linha">___________________________</span>
                                 </div>
                             </div>
-                            <div>
+                            <div className="date">
                                 <span>{setting.language_options ===  "pt" ? "Data: " : "Date: "}</span>
-                                <span>{setting.language_options ===  "pt" ? formatDate("pt-br").format(date) : formatDate("en-uk").format(date)}</span>                            </div>
+                                <span>{setting.language_options ===  "pt" ? formatDate("pt-br").format(date) : formatDate("en-uk").format(date)}</span>
+                            </div>
+                            <div className="comment">
+                                <span>{setting?.payslip_comment ?? ""}</span>
+                            </div>
                         </div>
                     </div>
 

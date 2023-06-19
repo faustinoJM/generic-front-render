@@ -61,10 +61,10 @@ const PrintPayslipBucket = ({componentRef, printData}) => {
                     <tr>
                         <td>
                             <div className="page">
-                                <div className="print-top" style={{height: "450px", padding: "5px 25px"}}>
+                                <div className="print-top" style={{height: "480px", padding: "0 25px"}}>
                                     <div className="logo-and-adress">
                                         <div className="nameAdress">
-                                            <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
+                                            <h2>{setting?.company_name ?? "Elint Payroll"}</h2>
                                             <span>{setting?.company_address ?? "Av. Kruss Gomes"}</span>
                                             <span>{setting?.company_city ?? "Beira"}</span>
                                             <span>{setting?.company_province ?? "Sofala"}</span>
@@ -104,7 +104,7 @@ const PrintPayslipBucket = ({componentRef, printData}) => {
                                                 <tr>
                                                     <th>Cargo:</th>
                                                     <td>{single.position_name}</td>
-                                                    <th>Nr. Contribuinte:</th>
+                                                    <th>Nr. NUIT:</th>
                                                     <td>{single.nuit}</td>
                                                 </tr>
                                                 <tr>
@@ -117,7 +117,6 @@ const PrintPayslipBucket = ({componentRef, printData}) => {
                                         </div> 
                                     </div>
 
-                                    <br/>
                                     <hr style={{border: "0", height: "1px", background: "lightgray"}}/>
 
                                     <div className="employePayment">
@@ -213,7 +212,7 @@ const PrintPayslipBucket = ({componentRef, printData}) => {
                                                 <span className="linha">___________________________</span>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div className="date">
                                             <span>{setting.language_options ===  "pt" ? "Data: " : "Date: "}</span>
                                             <span>{setting.language_options ===  "pt" ? formatDate("pt-br").format(date) : formatDate("en-uk").format(date)}</span>
                                         </div>
@@ -225,10 +224,10 @@ const PrintPayslipBucket = ({componentRef, printData}) => {
                                 
                                 <hr style={{border: "0", borderBottom: "1px solid black", width: "800px"}}></hr>
 
-                                <div className="print-down" style={{height: "500px", padding: "5px 25px"}}>
+                                <div className="print-down" style={{height: "480px", padding: "0 25px"}}>
                                     <div className="logo-and-adress">
                                         <div className="nameAdress">
-                                            <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
+                                            <h2>{setting?.company_name ?? "Elint Payroll"}</h2>
                                             <span>{setting?.company_address ?? "Av. Kruss Gomes"}</span>
                                             <span>{setting?.company_city ?? "Beira"}</span>
                                             <span>{setting?.company_province ?? "Sofala"}</span>
@@ -268,7 +267,7 @@ const PrintPayslipBucket = ({componentRef, printData}) => {
                                                 <tr>
                                                     <th>Cargo:</th>
                                                     <td>{single.position_name}</td>
-                                                    <th>Nr. Contribuinte:</th>
+                                                    <th>Nr. NUIT:</th>
                                                     <td>{single.nuit}</td>
                                                 </tr>
                                                 <tr>
@@ -281,7 +280,6 @@ const PrintPayslipBucket = ({componentRef, printData}) => {
                                         </div> 
                                     </div>
 
-                                    <br/>
                                     <hr style={{border: "0", height: "1px", background: "lightgray"}}/>
 
                                     <div className="employePayment">
@@ -377,7 +375,7 @@ const PrintPayslipBucket = ({componentRef, printData}) => {
                                                 <span className="linha">___________________________</span>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div className="date">
                                             <span>{setting.language_options ===  "pt" ? "Data: " : "Date: "}</span>
                                             <span>{setting.language_options ===  "pt" ? formatDate("pt-br").format(date) : formatDate("en-uk").format(date)}</span>
                                         </div>
@@ -464,7 +462,7 @@ export default PrintPayslipBucket
 //                         <td>
 //                             <div className="page">
 //                                 <div className="nameAdress">
-//                                     <h1>{setting?.company_name ?? "Elint Payroll"}</h1>
+//                                     <h2>{setting?.company_name ?? "Elint Payroll"}</h2>
 //                                     <span>{setting?.company_address ?? "Av. Kruss Gomes"}</span>
 //                                     <span>{setting?.company_city ?? "Beira"}</span>
 //                                 </div>
