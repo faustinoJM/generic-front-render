@@ -613,7 +613,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                         </select>
                 */}
                 {/* <PrintPayroll componentRef={componentRef} printData={printPayroll}/> */}
-                <PrintPayslipBucket componentRef={componentRef} maumau={printPayroll} />
+                <PrintPayslipBucket componentRef={componentRef} printData={printPayroll} />
             </div>
             <DataGrid
             sx={{
