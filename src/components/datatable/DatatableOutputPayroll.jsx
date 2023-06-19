@@ -43,8 +43,10 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
 
 
     useEffect(() => {
-      setYear(userRows[0]?.year)
-      setMonth(userRows[0]?.month)
+      if (userRows.length > 0) {
+        setYear(userRows[0]?.year)
+        setMonth(userRows[0]?.month)
+      }
        
     }, [userRows])
 
@@ -75,7 +77,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
         async function fetchData() {
             let years = 0;
             const yearsArray = []
-            const response = await api.get("payrolls")
+            const response = await api.get("payroll")
 
             response.data.map(data => {
                 if (years !== +(data.year))
@@ -201,7 +203,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
 
       })
       // let kkk = data2.filter(row => (row.month === e) && (row.year === +year) )
-      setUserRows(filteredRows.concat(totalRow))
+      // setUserRows(filteredRows.concat(totalRow))
       
       console.log("filteredRows", filteredRows)
       // setLoading(false)
