@@ -1,22 +1,27 @@
-import "./listPayrolls.scss"
+import "./listAbsences.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
+import Datatable from "../../components/datatable/Datatable"
 import { useEffect, useState } from "react"
 import api from "../../services/api"
-import DatatableListInput from "../../components/datatable/DatatableListPayrolls"
+import Register from "../register/Register"
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import DatatableResourceAbsences from "../../components/datatableResources/DatatableResourceAbsences"
+import DatatableVacation from "../../components/datatableResources/DatatableVacation"
+
 
 const payrollColumns = [
     { field: 'id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center',},
     { field: 'month', headerName: 'MES', width: 150,align:'center', headerAlign: 'center',},
     // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
     { field: "year", headerName:"ANO", width: 180,  align:'center', headerAlign: 'center', },
-    { field: "total_employee", headerName:"TOTAL FUNCIONARIOS", width: 180,  align:'center', headerAlign: 'center', },
+    { field: "total", headerName:"TOTAL FUNCIONARIOS", width: 180,  align:'center', headerAlign: 'center', },
+ 
 ]
 
-const ListPayrolls = ({ listName, listPath }) => {
+const ListVacation = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
-    const [setting, setSetting] = useState(null)
 
     useEffect(() => {
         async function fetchData() {
@@ -30,11 +35,10 @@ const ListPayrolls = ({ listName, listPath }) => {
                     if (data.field === "year") {
                         response.data.language_options === "en" ? data.headerName = "YEAR" : data.headerName = data.headerName
                     }
-                    if (data.field === "total_employee") {
+                    if (data.field === "total") {
                         response.data.language_options === "en" ? data.headerName = "TOTAL EMPLOYEES" : data.headerName = data.headerName
                     }
                 })
-                setSetting(response.data)
             }
         }
 
@@ -43,14 +47,14 @@ const ListPayrolls = ({ listName, listPath }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get(`payroll`)
+            const response = await api.get(`${listPath}`)
              console.log(listPath)
-             console.log(response.data)
 
-            if (response.status === 200) {
+             if (response.status === 200) {
                 setLoading(false)
             }
             setUserRows(response.data)
+
         }
         fetchData()
       
@@ -61,17 +65,16 @@ const ListPayrolls = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <DatatableListInput listName={listName} listPath={listPath} columns={payrollColumns} 
-                userRows={userRows} setUserRows={setUserRows}
-                loading={loading} setLoading={setLoading}
-                setting={setting} setSetting={setSetting}/>
+                {/* <ChakraProvider>
+                    <Register />
+                </ChakraProvider> */}
+
+                <DatatableVacation listName={listName} listPath={listPath} columns={payrollColumns} 
+                userRows={userRows} setUserRows={setUserRows} 
+                loading={loading} setLoading={setLoading}/>
             </div>
         </div>
     )
 }
 
-function formatSalary() {
-    return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
-  }
-
-export default ListPayrolls
+export default ListVacation

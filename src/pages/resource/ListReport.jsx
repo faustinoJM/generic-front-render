@@ -4,6 +4,7 @@ import Navbar from "../../components/navbar/Navbar"
 import Datatable from "../../components/datatable/Datatable"
 import { useEffect, useState } from "react"
 import api from "../../services/api"
+import PrintZ from "./Print"
 
 const payrollColumns = [
     { field: 'id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center',},
@@ -17,6 +18,7 @@ const payrollColumns = [
 const ListReport = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
+    const [single, setSingle] = useState({})
 
     useEffect(() => {
         async function fetchData() {
@@ -25,6 +27,9 @@ const ListReport = ({ listName, listPath }) => {
 
              if (response.status === 200) {
                 setLoading(false)
+                setSingle(response.data[0])
+                console.log("mes", response.data)
+                console.log("kkk", response.data[0])
             }
             setUserRows(response.data)
 
@@ -38,6 +43,7 @@ const ListReport = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
+                <PrintZ single={single}/>
                 {/* <DatatableResource listName={listName} listPath={listPath} columns={payrollColumns} 
                 userRows={userRows} setUserRows={setUserRows} 
                 loading={loading} setLoading={setLoading}/> */}

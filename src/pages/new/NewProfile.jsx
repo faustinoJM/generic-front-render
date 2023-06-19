@@ -16,6 +16,7 @@ const NewProfile = ({ inputs, title }) => {
      const [file, setFile] = useState("")
      const navigate = useNavigate()
      const [setting, setSetting] = useState("")
+     const { t, i18n } = useTranslation();
 
      useEffect(() => {
         async function fetch() {
@@ -78,10 +79,10 @@ const NewProfile = ({ inputs, title }) => {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="bottom">
-                            <h2>Dados Pessoias</h2>
+                            <h2>{t("NewProfile.1")}</h2>
                             <div className="formInput00">
                                 <div className="formInput111">
-                                    <label>Nome</label>
+                                    <label>{t("NewProfile.2")}</label>
                                         <input className={`inputClass`} type="text" id="name" 
                                             value={values.name} onChange={handleChange} onBlur={handleBlur}/>
                                             {errors.name && touched.name && <p>{errors.name}</p>}
@@ -89,7 +90,7 @@ const NewProfile = ({ inputs, title }) => {
                                         <input className="inputClass" type="text" id="email"
                                             value={values.email} onChange={handleChange} onBlur={handleBlur}/>
                                             {errors.email && touched.email && <p>{errors.email}</p>} 
-                                    <label>Password</label>
+                                    <label>{t("NewProfile.4")}</label>
                                         <input className="inputClass" type="text" id="password"
                                             value={values.password} onChange={handleChange} onBlur={handleBlur}/>
                                             {errors.password && touched.password && <p>{errors.password}</p>}
@@ -101,7 +102,7 @@ const NewProfile = ({ inputs, title }) => {
                             </div>
                     </div>
                     <div className="bottomForm2">
-                        <button disabled={isSubmitting} type="submit" className="buttonClass">Cadastrar</button>
+                        <button disabled={isSubmitting} type="submit" className="buttonClass">{t("NewProfile.5")}</button>
                     </div>
                 </form>  
             </div>

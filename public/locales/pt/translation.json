@@ -16,7 +16,8 @@
         "14": "Faltas",
         "15": "USUARIO",
         "16": "Definições",
-        "17": "Sair"
+        "17": "Sair",
+        "18": "Ferias"
     },
 
     "Home": {
@@ -228,7 +229,8 @@
         "20": "Decimo Terceiro Salario",
         "21": "Decimo Quarto Salario",
         "22": "Activo",
-        "23": "Inactivo"
+        "23": "Inactivo",
+        "24": "Comentario no Recibo"
     },
 
     "Month": {
@@ -246,6 +248,26 @@
         "12": "Dezembro",
         "13": "Decimo Terceiro Salario",
         "14": "Decimo Quarto Salario"
+    },
+
+    "Profile": {
+        "1": "Perfil",
+        "2": "Adicionar Novo",
+        "3": "Lista de Usuario",
+        "4": "Nome",
+        "5": "Email",
+        "6": "Editar",
+        "7": "Remover"
+    },
+
+    "NewProfile": {
+        "1": "Dados Pessoias",
+        "2": "Nome",
+        "3": "Email",
+        "4": "Senha",
+        "5": "Cadastrar",
+        "6": "Nova Senha",
+        "7": "Actualizar"
     },
 
     "Exit": {

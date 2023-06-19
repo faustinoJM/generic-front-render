@@ -5,11 +5,14 @@ import { useEffect, useState } from "react"
 import DatePicker from "react-datepicker";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
     const [profile, setProfile] = useState([]);
+    const { t, i18n } = useTranslation();
+
     useEffect(() => {
-        api.get("users").then((response) => setProfile(response.data))
+        api.get("users/company").then((response) => setProfile(response.data))
     }, [])
 
     function handleDelete(id) {
@@ -24,21 +27,21 @@ const Profile = () => {
                 <Navbar />
                 <div className="settingDiv">
                     <div className="title">
-                        Perfil
+                        {t("Profile.1")}
                         <Link to={'new'} className="link">
-                            Adicionar Novo
+                            {t("Profile.2")}
                         </Link>
                     </div>
                 </div>
                 <div className="profileDiv">
                     <div className="title">
-                        Lista de Usuario
+                        {t("Profile.3")}
                     </div>
                     <table className="profileTab">
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Nome</th>
+                                <th>{t("Profile.4")}</th>
                                 <th>Email</th>
                                 {/* <th>Password</th> */}
                                 <th></th>
@@ -54,9 +57,9 @@ const Profile = () => {
                                 <td>
                                     <div className="cellAction">
                                         <Link to={`${data.id}`}>
-                                            <div className="editButton">Editar</div>
+                                            <div className="editButton">{t("Profile.6")}</div>
                                         </Link>
-                                        <div onClick={() => handleDelete(data.id)} className="deleteButton">Remover</div>
+                                        <div onClick={() => handleDelete(data.id)} className="deleteButton">{t("Profile.7")}</div>
                                     </div>
                                 </td>
                             </tr>

@@ -12,6 +12,7 @@ import api from "../../services/api";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 
 const EditProfile = ({ inputs, title }) => {
@@ -19,6 +20,7 @@ const EditProfile = ({ inputs, title }) => {
      const navigate = useNavigate()
      const params = useParams()
      const [setting, setSetting] = useState("")
+     const { t, i18n } = useTranslation();
 
     useEffect(() => {
        async function fetch() {
@@ -98,10 +100,10 @@ const EditProfile = ({ inputs, title }) => {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="bottom">
-                            <h2>Dados Pessoias</h2>
+                            <h2>{t("NewProfile.1")}</h2>
                             <div className="formInput00">
                                 <div className="formInput111">
-                                    <label>Nome</label>
+                                    <label>{t("NewProfile.2")}</label>
                                         <input className={`inputClass`} type="text" id="name" 
                                             defaultValue={data.name} onChange={handleChange} onBlur={handleBlur}/>
                                             {errors.name && touched.name && <p>{errors.name}</p>}
@@ -109,7 +111,7 @@ const EditProfile = ({ inputs, title }) => {
                                         <input className="inputClass" type="text" id="email"
                                             defaultValue={data.email} onChange={handleChange} onBlur={handleBlur}/>
                                             {errors.email && touched.email && <p>{errors.email}</p>} 
-                                    <label>Novo Password</label>
+                                    <label>{t("NewProfile.6")}</label>
                                         <input className="inputClass" type="text" id="password"
                                             defaultValue={values.password} onChange={handleChange} onBlur={handleBlur}/>
                                             {errors.password && touched.password && <p>{errors.password}</p>}
@@ -121,7 +123,7 @@ const EditProfile = ({ inputs, title }) => {
                             </div>
                     </div>
                     <div className="bottomForm2">
-                        <button disabled={isSubmitting} type="submit" className="buttonClass">Actualizar</button>
+                        <button disabled={isSubmitting} type="submit" className="buttonClass">{t("NewProfile.7")}</button>
                     </div>
                 </form>  
             </div>

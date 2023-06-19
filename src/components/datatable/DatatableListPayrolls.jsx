@@ -30,7 +30,7 @@ async function fetchPrintData(){
     return data
 }
 
-const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading }) => {
+const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading, setting, setSetting }) => {
     const workbook = new exceljs.Workbook();
     const [rows, setRows] = useState([]);
     const [year, setYear] = useState(0);
@@ -90,7 +90,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         
     }
 
-    const exportExcelFile = useCallback(async (year, month) => {
+    const exportExcelFile = useCallback(async (year, month, setting) => {
       // console.log("1z",year, month)
       // console.log("2z", excelPayroll)
       const response = await api.get("payrolls")
@@ -113,10 +113,10 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         // merge by start row, start column, end row, end column (equivalent to K10:M12)
         worksheet.mergeCells(1,1,2,header3.length);
         // worksheet.mergeCells('A1', 'J2');
-        worksheet.getCell('A1').value = 'Elint Payroll'
+        worksheet.getCell('A1').value = setting?.company_name ?? 'Elint Payroll'
 
         //add header
-        worksheet.addRow(header2);
+        worksheet.addRow(header2(setting));
 
         //merge header with subheader row
         worksheet.mergeCells(3,12,3,24);
@@ -138,27 +138,27 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         worksheet.mergeCells('Y3', 'Y4');
 
         //add subheader values(remuneracoes header)
-        worksheet.getCell('L4').value = "Subsidio de Alimentacao"
-        worksheet.getCell('M4').value = "Subsidio de Residencia"
-        worksheet.getCell('N4').value = "Subsidio Medico"
-        worksheet.getCell('O4').value = "Subsidio de Ferias"
-        worksheet.getCell('P4').value = "Outros Subsidio"
+        worksheet.getCell('L4').value = setting.language_options  === "pt" ? "Subsidio de Alimentacao" : "Food Allowance"
+        worksheet.getCell('M4').value = setting.language_options  === "pt" ? "Subsidio de Residencia" : "Housing Allowance"
+        worksheet.getCell('N4').value = setting.language_options  === "pt" ? "Subsidio Medico" : "Medical Allowance"
+        worksheet.getCell('O4').value = setting.language_options  === "pt" ? "Subsidio de Ferias" : "Vacation Allowance"
+        worksheet.getCell('P4').value = setting.language_options  === "pt" ? "Outros Subsidio" : "Other Subsidy"
         worksheet.getCell('Q4').value = "Bonus"
-        worksheet.getCell('R4').value = "Horas Extras 50"
-        worksheet.getCell('S4').value = "Horas Extras 100"
-        worksheet.getCell('T4').value = "Total Horas Extras"
-        worksheet.getCell('U4').value = "Faltas"
-        worksheet.getCell('V4').value = "Total desconto por Faltas"
-        worksheet.getCell('W4').value = "Retroativos"
-        worksheet.getCell('X4').value = "Decimo terceiro Sal."
+        worksheet.getCell('R4').value = setting.language_options  === "pt" ? "Horas Extras 50" : "Overtime 50"
+        worksheet.getCell('S4').value = setting.language_options  === "pt" ? "Horas Extras 100" : "Overtime 100"
+        worksheet.getCell('T4').value = setting.language_options  === "pt" ? "Total Horas Extras" : "Total Overtime"
+        worksheet.getCell('U4').value = setting.language_options  === "pt" ? "Faltas" : "Absences"
+        worksheet.getCell('V4').value = setting.language_options  === "pt" ? "Total desconto por Faltas" : "Total discount for absences"
+        worksheet.getCell('W4').value = setting.language_options  === "pt" ? "Retroativos" : "Backpay"
+        worksheet.getCell('X4').value = setting.language_options  === "pt" ? "Decimo terceiro Sal." : "Thirteenth Salary"
 
         //add subheader values(descontos header)
         worksheet.getCell('Z4').value = "INSS (3%)"
         worksheet.getCell('AA4').value = "INSS (4%)"
         worksheet.getCell('AB4').value = "INSS Total"
         worksheet.getCell('AC4').value = "IRPS"
-        worksheet.getCell('AD4').value = "Sindicato"
-        worksheet.getCell('AE4').value = "Emprestimo"
+        worksheet.getCell('AD4').value = setting.language_options  === "pt" ? "Sindicato" : "Syndicate"
+        worksheet.getCell('AE4').value = setting.language_options  === "pt" ? "Emprestimo" : "Cash Advances"
 
         // worksheet.addRow(header3);
 
@@ -213,6 +213,15 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
           let total_syndicate_employee = 0
           let total_subsidy = 0
           let irps = 0
+          let total_subsidy_food =  0
+          let total_subsidy_residence =  0
+          let total_subsidy_medical =  0
+          let total_subsidy_vacation =  0
+          let total_salary_thirteenth = 0
+          let total_overtime = 0
+          let total_absences = 0
+          let total_bonus = 0
+          let total_backpay = 0
 
           excelPayroll2.map(data => {
               salary_liquid = salary_liquid + data.salary_liquid
@@ -225,6 +234,15 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
               total_cash_advances = total_cash_advances + data.cash_advances
               total_subsidy = total_subsidy + data.subsidy
               total_syndicate_employee += data.syndicate_employee
+              total_subsidy_food += data.subsidy_food
+              total_subsidy_residence += data.subsidy_residence
+              total_subsidy_medical += data.subsidy_medical
+              total_subsidy_vacation += data.subsidy_vacation
+              total_salary_thirteenth += data.salary_thirteenth
+              total_overtime += data.total_overtime
+              total_absences += data.total_absences
+              total_bonus += data.bonus
+              total_backpay += data.backpay
 
               data.salary_base = formatSalary().format(data.salary_base)
               data.salary_liquid = formatSalary().format(data.salary_liquid)
@@ -243,6 +261,12 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
               data.nib = String(data.nib)
               data.base_day = formatSalary().format(data.base_day)
               data.base_hour =  formatSalary().format(data.base_hour)
+              data.subsidy_transport = formatSalary().format(data.subsidy_transport) 
+              data.subsidy_food = formatSalary().format(data.subsidy_food) 
+              data.subsidy_residence = formatSalary().format(data.subsidy_residence) 
+              data.subsidy_medical = formatSalary().format(data.subsidy_medical) 
+              data.subsidy_vacation = formatSalary().format(data.subsidy_vacation) 
+              data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
           })
 
           // loop through data and add each one to worksheet
@@ -271,23 +295,27 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
           social_security: "",
           overtime50: "", 
           overtime100: "", 
-          total_overtime: "", 
+          total_overtime: formatSalary().format(total_overtime), 
           absences: "", 
-          total_absences: "", 
+          total_absences: formatSalary().format(total_absences), 
           cash_advances: formatSalary().format(total_cash_advances), 
           syndicate_employee: formatSalary().format(total_syndicate_employee),
           subsidy: formatSalary().format(total_subsidy), 
-          bonus: "", 
-          backpay: "", 
+          bonus: formatSalary().format(total_bonus), 
+          backpay: formatSalary().format(total_backpay), 
           month_total_workdays: "",
           day_total_workhours: "",
           base_day: "",
           base_hour: "",
-          subsidy_food: "",
-          subsidy_residence: "",
-          subsidy_medical: "",
-          subsidy_vacation: "",
-          salary_thirteenth: "",
+          subsidy_food: formatSalary().format(total_subsidy_food),
+          subsidy_residence: formatSalary().format(total_subsidy_residence),
+          subsidy_medical: formatSalary().format(total_subsidy_medical),
+          subsidy_vacation: formatSalary().format(total_subsidy_vacation),
+          salary_thirteenth: formatSalary().format(total_salary_thirteenth),
+          
+
+
+
       });
      
       worksheet.lastRow.font = { bold: true };
@@ -552,7 +580,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                                     <VisibilityIcon /> {t("Datatable.1")}
                                 </div>
                         </Link>
-                        <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month)}>
+                        <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month, setting)}>
                             <DescriptionIcon className="edIcon"/> {t("Datatable.4")}
                         </div>
                         <div className="printButton" onClick={() => handlePrintPayroll(params.row.year, params.row.month)}>
@@ -662,44 +690,86 @@ const columnsExcel = [
 
     ]
 
+const header2 = (setting) => {
+  const header2 = [
+    // "Id",
+    setting.language_options === "pt" ? "Nome" : "Name",
+    setting.language_options === "pt" ? "Dependentes" : "Dependents",
+    setting.language_options === "pt" ? "Cargo": "Position",
+    setting.language_options === "pt" ? "Departamento" : "Department",
+    setting.language_options === "pt" ? "Mes" : "Month",
+    setting.language_options === "pt" ? "Ano" : "Year",
+    setting.language_options === "pt" ? "Total dias de Trabalho" : "Total workdays",
+    setting.language_options === "pt" ? "Total horas de Trabalho" : "Total workhours",
+    setting.language_options === "pt" ? "Salario Base" : "Base Salary", 
+    setting.language_options === "pt" ? "Base diaria" : "Daily basis", 
+    setting.language_options === "pt" ? "Base Hora" : "Hourly basis", 
+    setting.language_options === "pt" ? "Remuneracaoes" : "Income",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    setting.language_options === "pt" ? "Salario Bruto" : "Gross Salary", 
+    setting.language_options === "pt" ? "Descontos" : "Deduction", 
+    "", 
+    "", 
+    "",
+    "",
+    "",
+    setting.language_options === "pt" ? "Salario Liquido" : "Liquid Salary", 
+    "NIB",
+    setting.language_options === "pt" ? "Num. Seg" : "Social Sec. Num.",
+  ]
 
-const header2 = [
-  // "Id",
-  "Nome",
-  "Dependentes",
-  "Cargo",
-  "Departamento",
-  "Mes",
-  "Ano",
-  "Total dias de Trabalho",
-  "total horas de Trabalho",
-  "Salario Base", 
-  "Base diaria", 
-  "Base Hora", 
-  "Remuneracaoes",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "Salario Bruto", 
-  "Descontos", 
-  "", 
-  "", 
-  "",
-  "",
-  "",
-  "Salario Liquido", 
-  "NIB",
-  "Num. Seg",
-]
+  return header2
+}
+
+// const header2 = [
+//   // "Id",
+//   "Nome",
+//   "Dependentes",
+//   "Cargo",
+//   "Departamento",
+//   "Mes",
+//   "Ano",
+//   "Total dias de Trabalho",
+//   "total horas de Trabalho",
+//   "Salario Base", 
+//   "Base diaria", 
+//   "Base Hora", 
+//   "Remuneracaoes",
+//   "",
+//   "",
+//   "",
+//   "",
+//   "",
+//   "",
+//   "",
+//   "",
+//   "",
+//   "",
+//   "",
+//   "",
+//   "Salario Bruto", 
+//   "Descontos", 
+//   "", 
+//   "", 
+//   "",
+//   "",
+//   "",
+//   "Salario Liquido", 
+//   "NIB",
+//   "Num. Seg",
+// ]
+
 
 const header3 = [
   // "Id",
@@ -794,13 +864,17 @@ const returnTotalRow = (printData) => {
   let total_backpay = 0
   let total_total_absences = 0
   let total_total_overtime = 0
+  let total_subsidy_food =  0
+  let total_subsidy_residence =  0
+  let total_subsidy_medical =  0
+  let total_subsidy_vacation =  0
   
   totalLength = printData.map((data, index) => {
       total_liquid += (+data.salary_liquid)
       total_base += (+data.salary_base)
       total_gross += (+data.total_income)
       total_Irps += (+data.irps)
-      total_Inss += (+data.inss_company) + (+data.inss_employee)
+      total_Inss += (+data.total_inss)
       total_InssCompany += (+data.inss_company)
       total_InssEmployee += (+data.inss_employee)
       total_cash_advances += (+data.cash_advances)
@@ -810,6 +884,10 @@ const returnTotalRow = (printData) => {
       total_backpay += (+data.backpay)
       total_total_absences += (+data.total_absences)
       total_total_overtime += (+data.total_overtime)
+      total_subsidy_food += (+data.subsidy_food)
+      total_subsidy_residence += (+data.subsidy_residence)
+      total_subsidy_medical += (+data.subsidy_medical)
+      total_subsidy_vacation += (+data.subsidy_vacation)
   })
   
   const totalRow = [{
@@ -829,6 +907,10 @@ const returnTotalRow = (printData) => {
           "subsidy": total_subsidy, 
           "bonus": total_bonus, 
           "backpay": total_backpay, 
+          "subsidy_food": total_subsidy_food,
+          "subsidy_residence": total_subsidy_residence,
+          "subsidy_medical": total_subsidy_medical,
+          "subsidy_vacation": total_subsidy_vacation,
           }]
       
       return totalRow

@@ -30,11 +30,35 @@
   page-break-after: always;
   width: 100%;
 
-  .nameAdress {
+  // .nameAdress {
+  //   display: flex;
+  //   flex-direction: column;
+  //   // background: red; /* for demo */
+  //   margin-bottom: 10px;
+  // }
+  .logo-and-adress {
     display: flex;
-    flex-direction: column;
-    // background: red; /* for demo */
-    margin-bottom: 10px;
+    flex-direction:  row;
+    justify-content: space-between;
+    // border: 1px solid yellow;
+    .nameAdress{
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .logo-print {
+        // border: 1px solid red;
+
+        img {
+            width: 120px;
+            height: 100px;
+            // border: 1px solid green;
+            // border-radius: %;
+            // object-fit: cover;
+            justify-self: center;
+        }
+    }
   }
 
   .employeeData {
@@ -48,7 +72,7 @@
         // background: green; /* for demo */
 
         .id{
-            align-self: center;
+            align-self: end;
             // margin-top: 25px;
             margin-right: 10px;
 
@@ -76,6 +100,7 @@
         }
     }
     .tableEmployeeData {
+      font-size: 10px;
       table, th, td {
         border: 1px solid black;
         border-collapse: collapse;
@@ -92,11 +117,34 @@
   }
   
   .employePayment {
+    font-size: 10px;
+    // border: 1px solid red;
+
     th{
       width: 200px;
     }td{
       width: 200px;
       text-align: center;
+    }
+  }
+
+  .footer {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    // gap: 5px;
+    // border: 1px solid green;
+
+    .signature {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .comment {
+      display: flex;
+      justify-content: center;
+      font-style: italic;
+      font-size: 10px;
     }
   }
 }

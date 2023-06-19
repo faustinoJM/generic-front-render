@@ -168,13 +168,13 @@ const Sidebar = (d, f) => {
                             <span>{t('Sidebar.14')}</span>
                         </NavLink>
                     </li>
-                    {/* 
+                    
                     <li>
                         <NavLink to="/resources/report" className="navLink" style={{textDecoration: "none"}}>
                             <DescriptionIcon className="icon" />
                             <span>Relatorio</span>
                         </NavLink>
-                    </li>  */}
+                    </li> 
                     {/* <li>   
                         <NavLink to="/cashadvances" className="navLink" style={{textDecoration: "none"}}>
                             <PointOfSaleOutlinedIcon className="icon" />

@@ -21,7 +21,6 @@ const Navbar = ({searchName, setSearchName}) => {
     const [openLang, setOpenLang] = useState(false)
     const menuRef = useRef()
     const [langOption, setLangOption] = useState("PT")
-    // const [searchName2, setSearchName2] = useState("")
 
     function handleLanguage(language) {
         // i18n.changeLanguage(language);
@@ -35,8 +34,10 @@ const Navbar = ({searchName, setSearchName}) => {
     useEffect(() => {
         const fetch = async () => {
             const response = await api.get("settings")
-            if (response.data)
+            if (response.data) {
                 response.data.language_options === "pt" ? setLangOption("PT") : setLangOption("EN")
+                i18n.changeLanguage(response.data.language_options)
+            }
         }
         fetch()
     }, [])
@@ -97,9 +98,9 @@ const Navbar = ({searchName, setSearchName}) => {
                         <ChatBubbleOutlineOutlinedIcon className="icon" />
                         <div className="counter">2</div>
                     </div> */}
-                    <div className="item dropdown" onClick={() => setOpenProfile("")}>
+                    <div className="item dropdown" onClick={() => setOpenProfile(prev => !prev)}>
                         <AccountCircleIcon className="icon"/>
-                        {openProfile ? <DropDownProfile />  : ""}
+                        {openProfile ? <DropDownProfile/>  : ""}
                     </div>
                     
                    

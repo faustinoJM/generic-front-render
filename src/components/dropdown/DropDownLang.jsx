@@ -21,7 +21,7 @@ const DropDownLang = ({setOpenLang, setLangOption}) => {
     return (
         <div className='flex flex-col dropDownLang'>
             <span onClick={() => handleLanguage("pt")} >Portugues</span>
-            <span onClick={() => handleLanguage("en")} >Ingles</span>
+            <span onClick={() => handleLanguage("en")} >English</span>
             {/* <ul>
                 <li>Profile</li>
                 <li>Setting</li>

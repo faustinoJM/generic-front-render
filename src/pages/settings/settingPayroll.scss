@@ -43,16 +43,13 @@
     
         }
 
-        .folhaDiv{
+        .payroll-worktime {
             -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
             box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
             padding: 10px;
             margin: 20px;
+            // border: 1px solid red;
 
-            p {
-                color: crimson;
-            }
-           
             h2 {
                 margin-bottom: 5px;
             }
@@ -71,22 +68,76 @@
                 }
             }
 
-            .divSelect {
-                display: flex;
-                flex-direction: column;
+        }
 
-                label {
-                    width: 180px;
-                    display: inline-block;
+        .wrapper-folhaDiv {
+            display: flex;
+            .folhaDiv{
+                -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+                box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+                padding: 10px;
+                margin: 20px;
+                min-width: 300px;
+                // border: 1px solid green;
+    
+                p {
+                    color: crimson;
                 }
+               
+                h2 {
+                    margin-bottom: 5px;
+                }
+                 div {
+                    display: flex;
+                    flex-direction: row;
+                    margin-bottom: 10px;
+                    // border: 1px solid blue;
+                    justify-content: space-between;
+    
+                    label {
+                        margin-right: 10px;
+                        width: 230px;
+                    }
+    
+                    input {
+                        width: 20%;
+                    }
+                }
+    
+                .divSelect {
+                    display: flex;
+                    flex-direction: column;
+    
+                    label {
+                        width: 180px;
+                        display: inline-block;
+                    }
+    
+                    select {
+                        margin-right: 10px;
+                        // width: 200px;
+                        // height: 20px;
+                    }
+                }
+                   
+            }
 
-                select {
-                    // width: 200px;
-                    // height: 20px;
+            .folhaDiv2{
+                -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+                box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+                padding: 10px;
+                margin: 20px;
+                // border: 1px solid green;
+                height: fit-content;
+
+                div {
+                    display: flex;
+                    flex-direction: column;
                 }
             }
-               
+
         }
+        
 
         .buttonDiv{
             -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);

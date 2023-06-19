@@ -10,8 +10,8 @@ import cons from "./coons.jpeg"
 const formatSalary = () => {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
   }
-const formatDate = () => {
-    return new Intl.DateTimeFormat("pt-br", { dateStyle: 'long'})
+const formatDate = (language) => {
+    return new Intl.DateTimeFormat(language, { dateStyle: 'long'})
   }
 
 export function printPDF(printData, settingData, urlLogo) {  
@@ -105,13 +105,18 @@ export function printPDF(printData, settingData, urlLogo) {
           }
         
         let headerCompanyName = [
-            {text: settingData ? settingData.company_name : "Elint Payroll", style: "tableHeader", colSpan: 11 + total, alignment: "center"},
+            {text: settingData ? settingData.company_name : "Elint Payroll", style: "tableHeader", colSpan: 9 + total, alignment: "center"},
             {}, //employee name
-            {}, //position name
-            {}, //department name
-            {}, //salary base
+        
         ]
 
+        if (settingData.column_position_name === "true")
+            headerCompanyName.push({}) //position name
+        if (settingData.column_department_name === "true")
+            headerCompanyName.push({}) //department name
+
+        headerCompanyName.push({}) //salary base
+        
         if (settingData.column_subsidy === "true")
             headerCompanyName.push({})
 
@@ -151,28 +156,36 @@ export function printPDF(printData, settingData, urlLogo) {
         for (const property in settingData) {
             if (property === ketToPropColumn4[property] && settingData[property] === "true"){
                 total++;
-                console.log("15958",property)
+                // console.log("15958",property)
             }
           }
 
         for (const property in settingData) {
             if (property === ketToPropColumn2[property] && settingData[property] === "true"){
                 total2++;
-                console.log("8989",property)
+                // console.log("8989",property)
             }
         }
           
         const header1 = [
             {text: "Num", style: "tableHeader", rowSpan: 2, alignment: "center"},
-            {text: "Nome", style: "tableHeader", rowSpan: 2, alignment: "center"},
-            {text: "Cargo", style: "tableHeader", rowSpan: 2, alignment: "center"},
-            {text: "Departamento", style: "tableHeader", rowSpan: 2, alignment: "center"},
-            {text: "Salario base", style: "tableHeader", rowSpan: 2, alignment: "center"},
+            {text: settingData.language_options === "pt" ? "Nome" : "Name", style: "tableHeader", rowSpan: 2, alignment: "center"},
+            // {text: settingData.language_options === "pt" ? "Cargo" : "Position", style: "tableHeader", rowSpan: 2, alignment: "center"},
+            // {text: settingData.language_options === "pt" ?  "Departamento" : "Department", style: "tableHeader", rowSpan: 2, alignment: "center"},
+            // {text: settingData.language_options === "pt" ?  "Salario base" : "Base Salary", style: "tableHeader", rowSpan: 2, alignment: "center"},
             // {text: "Remuneracoes", style: "tableHeader", colSpan: total, alignment: "center"}
         ]
+        if (settingData.column_position_name === "true")
+            header1.push({text: settingData.language_options === "pt" ? "Cargo" : "Position", style: "tableHeader", rowSpan: 2, alignment: "center"})
+
+        if (settingData.column_department_name === "true")
+            header1.push({text: settingData.language_options === "pt" ?  "Departamento" : "Department", style: "tableHeader", rowSpan: 2, alignment: "center"})
+        
+        header1.push({text: settingData.language_options === "pt" ?  "Salario base" : "Base Salary", style: "tableHeader", rowSpan: 2, alignment: "center"},)
+
         if (settingData.column_subsidy === "true" || settingData.column_bonus === "true" ||
             settingData.column_overtime === "true" || settingData.column_absences === "true")
-            header1.push({text: "Remuneracoes", style: "tableHeader", colSpan: total, alignment: "center"})
+            header1.push({text: settingData.language_options === "pt" ? "Remuneracoes" : "Remuneration", style: "tableHeader", colSpan: total, alignment: "center"})
 
         if (settingData.column_subsidy === "true" && total > 1)
             header1.push({})
@@ -187,8 +200,8 @@ export function printPDF(printData, settingData, urlLogo) {
         //     header1.push({})
 
         header1.push(
-            {text: "Salario Bruto", style: "tableHeader", rowSpan: 2, alignment: "center"},
-            {text: "Descontos", style: "tableHeader", colSpan: 4 + total2, alignment: "center"}, //INSS 3%
+            {text: settingData.language_options === "pt" ? "Salario Bruto" : "Gross Salary", style: "tableHeader", rowSpan: 2, alignment: "center"},
+            {text: settingData.language_options === "pt" ? "Descontos" : "Deduction", style: "tableHeader", colSpan: 4 + total2, alignment: "center"}, //INSS 3%
             {}, //INSS 4%
             {}, //Total
             {}, //INSS IRPS
@@ -199,7 +212,7 @@ export function printPDF(printData, settingData, urlLogo) {
         if (settingData.column_syndicate === "true")
             header1.push({})
 
-        header1.push({text: "Salario Liquido", style: "tableHeader", rowSpan: 2, alignment: "center"})
+        header1.push({text: settingData.language_options === "pt" ? "Salario Liquido" : "Liquid Salary", style: "tableHeader", rowSpan: 2, alignment: "center"})
 
         return header1
     }
@@ -208,18 +221,22 @@ export function printPDF(printData, settingData, urlLogo) {
         let subHeader = [
             {}, //Num 
             {}, //Nome 
-            {}, //Cargo 
-            {}, //Departamento 
-            {}, //Salario Base
         ]
+        if (settingData.column_position_name === "true")
+            subHeader.push({}) //position name
+        if (settingData.column_department_name === "true")
+            subHeader.push({}) //department name
+
+        subHeader.push({}) //salary base
+
         if (settingData.column_subsidy === "true")
-            subHeader.push({text: "Subsidio", style: "tableHeader", alignment: "center"})
+            subHeader.push({text: settingData.language_options === "pt" ? "Subsidio" : "Subsidy", style: "tableHeader", alignment: "center"})
         if (settingData.column_bonus === "true")
-            subHeader.push({text: "Bonus", style: "tableHeader", alignment: "center"}) //Remuneracoes
+            subHeader.push({text: settingData.language_options === "pt" ? "Bonus" : "Bonus", style: "tableHeader", alignment: "center"}) //Remuneracoes
         if (settingData.column_overtime === "true")
-            subHeader.push({text: "Horas Extras", style: "tableHeader", alignment: "center"})
+            subHeader.push({text: settingData.language_options === "pt" ?  "Horas Extras" : "Overtime" , style: "tableHeader", alignment: "center"})
         if (settingData.column_absences === "true")
-            subHeader.push({text: "Faltas", style: "tableHeader", alignment: "center"})
+            subHeader.push({text: settingData.language_options === "pt" ? "Faltas" : "Absences", style: "tableHeader", alignment: "center"})
 
         subHeader.push(
             {},// Salario Bruto
@@ -230,9 +247,9 @@ export function printPDF(printData, settingData, urlLogo) {
             ) 
 
         if (settingData.column_cash_advances === "true")
-            subHeader.push({text: "Emprestimos", style: "tableHeader", alignment: "center"})
+            subHeader.push({text: settingData.language_options === "pt" ?  "Emprestimos" : "Cash Advances", style: "tableHeader", alignment: "center"})
         if (settingData.column_syndicate === "true") 
-            subHeader.push({text: "Sindicato", style: "tableHeader", alignment: "center"})
+            subHeader.push({text: settingData.language_options === "pt" ?  "Sindicato" : "Syndicate", style: "tableHeader", alignment: "center"})
         
         subHeader.push({}) //Salario Liquido
 
@@ -243,10 +260,15 @@ export function printPDF(printData, settingData, urlLogo) {
         let rowData = [
             {text: index + 1, fontSize: 10, margin: [0, 2, 0, 2]},
             {text: data.employee_name, fontSize: 10, margin: [0, 2, 0, 2]},
-            {text: data.position_name, fontSize: 10, margin: [0, 2, 0, 2]},
-            {text: data.department_name, fontSize: 10, margin: [0, 2, 0, 2]},
-            {text: data.salary_base, fontSize: 10, margin: [0, 2, 0, 2]},
         ]
+
+        if (settingData.column_position_name === "true")
+            rowData.push({text: data.position_name, fontSize: 10, margin: [0, 2, 0, 2]})
+
+        if (settingData.column_department_name === "true")
+            rowData.push({text: data.department_name, fontSize: 10, margin: [0, 2, 0, 2]})
+
+        rowData.push({text: data.salary_base, fontSize: 10, margin: [0, 2, 0, 2]})
 
         if (settingData.column_subsidy === "true")
             rowData.push({text: data.subsidy, fontSize: 10, margin: [0, 2, 0, 2], alignment: data.subsidy === "-" ? "center" : "left"})
@@ -289,7 +311,9 @@ export function printPDF(printData, settingData, urlLogo) {
                 { width: '*', text: '' },
                 {
                     width: 'auto',
+                    // margin: [20, 0, 20, 0],
                     table: {
+                        dontBreakRows: true,
                         headerRows: 3,
                         body: [
                             // [
@@ -349,11 +373,12 @@ export function printPDF(printData, settingData, urlLogo) {
                 body: [
                   [
                     [
-                        {text: '\nAssinatura \n________________________', alignment: "left"},
-                        {text: `\nData: ${formatDate().format(new Date())}`, alignment: "left"}
+                        {text: `\n${settingData.language_options === "pt" ? "Assinatura" : "Signature"} \n________________________`, alignment: "left"},
+                        // {text: `\nData: ${formatDate("pt-br").format(new Date())}`, alignment: "left"}
+                        {text: settingData.language_options === "pt" ? ("\nData: "+formatDate("pt-br").format(new Date()) ): ("\nDate: "+formatDate("en-uk").format(new Date())), alignment: "left"}
                     ],
                     [
-                        {text: '\nAssinatura \n________________________', alignment: "left"},
+                        {text: `\n${settingData.language_options === "pt" ? "Assinatura" : "Signature"} \n________________________`, alignment: "left"},
                         // {text: `\nData: ${formatDate().format(new Date())}`, alignment: "left"}
                     ]
                   ]
@@ -619,14 +644,24 @@ const totalPrint = (printData, settingData) => {
         total_total_overtime += (+data.total_overtime)
     })
     
+    let totalColspan = 0
+    if (settingData.column_position_name === "true")
+        totalColspan += 1
+    if (settingData.column_department_name === "true")
+        totalColspan += 1
+
     const totalRow = [
         {text: totalLength.length + 1, fontSize: 10, margin: [0, 2, 0, 2]},
-        {text: "Total", fontSize: 10, margin: [0, 2, 0, 2], alignment: "center", colSpan: 3},
-        {},
-        {},
-        {text: formatSalary().format(totalBase), fontSize: 10, margin: [0, 2, 0, 2]},
+        {text: "Total", fontSize: 10, margin: [0, 2, 0, 2], colSpan: 1 + totalColspan, alignment: "center",},
         ]
 
+        if (settingData.column_position_name === "true")
+            totalRow.push({})
+        if (settingData.column_department_name === "true")
+            totalRow.push({})
+
+        totalRow.push({text: formatSalary().format(totalBase), fontSize: 10, margin: [0, 2, 0, 2]})
+        
         if (settingData.column_subsidy === "true")
             totalRow.push({text: formatSalary().format(total_subsidy), fontSize: 10, margin: [0, 2, 0, 2]})
             
@@ -718,6 +753,8 @@ const returnTotalRow = (printData) => {
     }
 
     const ketToPropColumn = {
+        "column_position_name": "column_position_name",
+        "column_department_name": "column_department_name",
         "column_subsidy": "column_subsidy",
         "column_bonus": "column_bonus",
         "column_overtime": "column_overtime",

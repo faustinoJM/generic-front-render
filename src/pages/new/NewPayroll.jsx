@@ -33,7 +33,7 @@ const NewPayroll = ({ inputs, title }) => {
             }
             fetchSettings()
         // }
-    }, [data])
+    }, [])
 
     useEffect(() => {
         setErrorPayroll(false)

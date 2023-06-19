@@ -16,7 +16,8 @@
         "14": "Absences",
         "15": "USER",
         "16": "Settings",
-        "17": "Exit"
+        "17": "Exit",
+        "18": "Vacation"
     },
 
     "Home": {
@@ -228,7 +229,9 @@
         "20": "Thirteenth Salary",
         "21": "Fourteenth Salary",
         "22": "Show",
-        "23": "Hide"
+        "23": "Hide",
+        "24": "Payslip comment"
+
     },
 
     "Month": {
@@ -247,7 +250,27 @@
         "13": "Thirteenth Salary",
         "14": "Fourteenth Salary"
     },
-    
+
+    "Profile": {
+        "1": "Profile",
+        "2": "Add New",
+        "3": "User List",
+        "4": "Name",
+        "5": "Email",
+        "6": "Edit",
+        "7": "Remove"
+    },
+
+    "NewProfile": {
+        "1": "Personal Data",
+        "2": "Name",
+        "3": "Email",
+        "4": "Password",
+        "5": "Save",
+        "6": "Nova Senha",
+        "7": "Update"
+    },
+
     "Exit": {
         "1": "Exit"
     }
