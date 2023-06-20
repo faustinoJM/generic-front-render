@@ -604,7 +604,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         { 
             field: "action", 
             headerName: "", 
-            width: 550, 
+            width: 600, 
             align: "center",
             renderCell: (params) => {
                 return (
