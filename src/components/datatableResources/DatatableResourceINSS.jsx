@@ -6,13 +6,10 @@ import { useReactToPrint } from "react-to-print";
 import exceljs from 'exceljs';
 import { saveAs } from 'file-saver';
 import api from "../../services/api";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import PrintIcon from '@mui/icons-material/Print';
 import DescriptionIcon from '@mui/icons-material/Description';
-import PrintPayroll from "../printPayroll/PrintPayroll";
-import { printPDF } from "../printPayroll/PrintPayroll";
-import { useQuery } from 'react-query'
+import EditIcon from '@mui/icons-material/Edit';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import PrintINSS from "../printResources/PrintINSS";
 import { useTranslation } from 'react-i18next';
 
@@ -29,14 +26,13 @@ async function fetchPrintData(){
     return data
 }
 
-const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading }) => {
+const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading, settings, setSettings}) => {
     const workbook = new exceljs.Workbook();
-    const [rows, setRows] = useState([]);
     const [year, setYear] = useState(0);
     const componentRef = useRef();
     const [single, setSingle] = useState([]);
     const { t, i18n } = useTranslation();
-    const {data, error, isError, isLoading } = useQuery('payrolls', fetchPrintData)
+    // const {data, error, isError, isLoading } = useQuery('payrolls', fetchPrintData)
 
     useEffect(() => {
         async function fetchData() {
@@ -46,45 +42,6 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
         }
         fetchData()
     }, [single])
-
-    useEffect(() => {
-        async function fetchData() {
-            const response = await api.get("payrolls")
-            let id = ""
-            let incrment = 0
-            let mes = "";
-            let ano = 0;
-            let total = 0;
-            let newPayroll = [];
-            
-            response.data.map((data, index) => {
-                // data.id = index + 1
-            
-                if (!(mes === data.month && ano === +data.year)) {
-                    // delete data
-                    
-                    total = response.data.filter(data1 => data.month === data1.month && +data.year === +data1.year).length
-                    id = data.id = index + 1
-                    
-                    // total = total + index
-                    // newPayroll.push(data)
-                    let alreadyExists = newPayroll.find(data2 => data.month === data2.month && data.year === +data2.year)
-                    if (!alreadyExists) {
-                        incrment += 1; 
-                        newPayroll.push({id: incrment, month: data.month, year: data.year, total: total })
-                    }
-                }
-                mes = data.month
-                ano = data.year
-                
-            })
-
-            setRows(newPayroll)
-    
-        }
-            fetchData()
-    }, [])
-
 
     const submitByYear = async (e) => {
         setYear(e)
@@ -98,18 +55,37 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
         // onAfterPrint: () => alert('Print sucess')
     })
 
-    const handleSinglePrint = (id) => {
-        api.get(`payrolls`)
-         .then(response => {setSingle(response.data)})
-        // api.get(`payrolls`)
-        //  .then(response => {printPayslipBucket(response.data)})
-        // console.log(single)
+    const handleTxt = async (id) => {
+        const response = await api.get(`payrolls/output/${id}`)
+        let sismo_txt = ""
+
+        response.data.map(data => {
+          let event_date = formatDate.format(new Date(data.inss_event_date))
+          let event_date_txt = event_date.split("/")
+          data.inss_event = data.absences <= 0 && data.inss_event === 10 ? "" : data.inss_event//(data.inss_event < 0 ? '10' : data.inss_event)
+          // let event = data.inss_event > 0 ?  data.inss_event : data.absences > 0 ? 10 : ""
+          event_date_txt = +data.inss_event > 0 ? `${event_date_txt[0]}${event_date_txt[1]}${event_date_txt[2]}` : ""
+          // console.log("event",event, (data.absences < 0))
+          
+          // data.inss_event_date = data?.inss_event > 0 ? event_date : ""
+          data.days = 30 - (+data.absences)
+          data.inss_event = data.inss_event > 0 ? data.inss_event : ""
+          sismo_txt = sismo_txt + `${data.social_security};${data.days};${+data.total_income * 100};${data.inss_event};${event_date_txt}\n`
+      })
+        const element = document.createElement("a")
+        const file = new Blob([sismo_txt], {
+          type: "text/plain;charset-utf-8",
+        });
+        element.href = URL.createObjectURL(file);
+        element.download = "SismoTxt.txt";
+        document.body.appendChild(element)
+        element.click();
     }
 
-    const exportExcelFile = useCallback(async (year, month) => {
-      const response = await api.get("payrolls")
+    const exportExcelFile = useCallback(async (id, settings) => {
+      const response = await api.get(`payrolls/output/${id}`)
 
-      const excelPayroll = response.data.filter(row => (row.year === +year) && (row.month === month))
+      const excelPayroll = response.data ///filter(row => (row.year === +year) && (row.month === month))
 
       const workSheetName = 'Worksheet-1';
       const workBookName = 'Elint-Systems-Payroll';
@@ -125,7 +101,7 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
         // merge by start row, start column, end row, end column (equivalent to K10:M12)
         worksheet.mergeCells(1,1,2,keycolumns.length);
         // worksheet.mergeCells('A1', 'J2');
-        worksheet.getCell('A1').value = 'INSS Elint Payroll'
+        worksheet.getCell('A1').value = `${settings?.company_name ? settings.company_name : "INSS Elint Payroll"}`
 
         //add header
         worksheet.addRow(header2);
@@ -169,6 +145,12 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
           let total_syndicate_employee = 0
 
           excelPayroll.map(data => {
+              let event_date = formatDate.format(new Date(data.inss_event_date))
+              let event_date_txt = event_date.split("/")
+              event_date_txt = +data.inss_event > 0 ? `${event_date_txt[0]}${event_date_txt[1]}${event_date_txt[2]}` : ""
+              let subsidy = data.subsidy + data.subsidy_food + data.subsidy_medical 
+                          + data.subsidy_residence + data.subsidy_vacation + data.total_overtime
+
               salary_liquid = salary_liquid + data.salary_liquid
               salary_base = salary_base + data.salary_base
               total_income = total_income + data.total_income
@@ -177,23 +159,24 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
               irps = irps + data.irps
               total_inss = total_inss + data.total_inss
               total_cash_advances = total_cash_advances + data.cash_advances
-              total_subsidy = total_subsidy + data.subsidy
+              total_subsidy = total_subsidy + data.subsidy + data.subsidy_food + data.subsidy_medical 
+                              + data.subsidy_residence + data.subsidy_vacation + data.total_overtime
               total_bonus +=  data.bonus
               total_backpay += data.backpay
               total_total_absences += data.total_absences
               total_total_overtime += data.total_overtime
               total_syndicate_employee += data.syndicate_employee
 
-              data.event = ""
-              data.event_date = ""
+              // data.inss_event
+              data.inss_event_date = data?.inss_event ? event_date : ""
               data.days = 30 - (+data.absences)
-              data.sismo_txt = `${data.social_security};${data.days};${+data.total_income * 100};${data.event};${data.event_date}`
-              data.salary_base = formatSalary().format(data.salary_base)
+              data.sismo_txt = `${data.social_security};${data.days};${+data.total_income * 100};${data?.inss_event ?? ""};${event_date_txt}`
+              data.salary_base = formatSalary().format(data.salary_base - data.total_absences)
               data.salary_liquid = formatSalary().format(data.salary_liquid)
               data.total_income = formatSalary().format(data.total_income)
               data.irps = formatSalary().format(data.irps)
               data.inss_employee = formatSalary().format(data.inss_employee)
-              data.subsidy = formatSalary().format(data.subsidy)
+              data.subsidy = formatSalary().format(subsidy)
               data.bonus = formatSalary().format(data.bonus)
               data.cash_advances = formatSalary().format(data.cash_advances)
               data.backpay = formatSalary().format(data.backpay)
@@ -249,8 +232,8 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
           subsidy: formatSalary().format(total_subsidy),
           bonus: formatSalary().format(total_bonus),
           total_income: formatSalary().format(total_income),
-          event: "",
-          event_date: "",
+          inss_event: "",
+          inss_event_date: "",
           inss_company: formatSalary().format(inss_company),
           inss_employee: formatSalary().format(inss_employee),
           total_inss: formatSalary().format(total_inss),
@@ -344,18 +327,17 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        {/* <Link to={`/${listPath}/output/${params.row.month}-${params.row.year}`} style={{textDecoration: "none"}}>
-                                <div className="viewButton">
-                                    <VisibilityIcon /> Ver
+                        <Link to={`/${listPath}/social-security/${params.row.id}`} style={{textDecoration: "none"}}>
+                                <div className="editButton">
+                                    <EditIcon /> {t("Datatable.2")}
                                 </div>
-                        </Link> */}
-                        <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month)}>
+                        </Link>
+                        <div className="printButton" onClick={() => handleTxt(params.row.id)}>
+                            <StickyNote2Icon />  TXT
+                        </div>
+                        <div className="editButton" onClick={() => exportExcelFile(params.row.id, settings)}>
                             <DescriptionIcon className="edIcon"/> {t("Datatable.4")}
                         </div>
-                        {/* <div className="printButton" onClick={() => handleSinglePrint(params.row.id)}>
-                            <PrintIcon />  Imprimir
-                        </div> */}
-                        
                     </div>
                 )
             }
@@ -384,7 +366,7 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
                 showCellRightBorder={true}
                 showColumnRightBorder={true}
                 columnBuffer={columns.length}
-                rows={rows}
+                rows={userRows}
                 columns={columns.concat(actionColumn)}
                 pageSize={9}
                 rowsPerPageOptions={[9]}
@@ -429,8 +411,8 @@ export default DatatableResourceINSS;
       {key: "subsidy"},
       {key: "bonus"},
       {key: "total_income"},
-      {key: "event"},
-      {key: "event_date"},
+      {key: "inss_event"},
+      {key: "inss_event_date"},
       {key: "inss_employee"},
       {key: "inss_company"},
       {key: "total_inss"},

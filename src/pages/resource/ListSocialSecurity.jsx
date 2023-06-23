@@ -11,13 +11,15 @@ const payrollColumns = [
     { field: 'month', headerName: 'MES', width: 150,align:'center', headerAlign: 'center',},
     // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
     { field: "year", headerName:"ANO", width: 180,  align:'center', headerAlign: 'center', },
-    { field: "total", headerName:"TOTAL FUNCIONARIOS", width: 180,  align:'center', headerAlign: 'center', },
+    { field: "total_employee", headerName:"TOTAL FUNCIONARIOS", width: 180,  align:'center', headerAlign: 'center', },
  
 ]
 
 const ListSocialSecurity = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
+    const [settings, setSettings] = useState({});
+
 
     useEffect(() => {
         async function fetchData() {
@@ -35,6 +37,7 @@ const ListSocialSecurity = ({ listName, listPath }) => {
                         response.data.language_options === "en" ? data.headerName = "TOTAL EMPLOYEES" : data.headerName = data.headerName
                     }
                 })
+                setSettings(response.data)
             }
         }
 
@@ -43,10 +46,9 @@ const ListSocialSecurity = ({ listName, listPath }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get(`${listPath}`)
-             console.log(listPath)
+            const response = await api.get(`payroll`)
 
-             if (response.status === 200) {
+            if (response.status === 200) {
                 setLoading(false)
             }
             setUserRows(response.data)
@@ -54,7 +56,7 @@ const ListSocialSecurity = ({ listName, listPath }) => {
         }
         fetchData()
       
-    }, [listPath])
+    }, [])
 
     return (
         <div className="list">
@@ -62,7 +64,7 @@ const ListSocialSecurity = ({ listName, listPath }) => {
             <div className="listContainer">
                 <Navbar />
                 <DatatableResourceINSS listName={listName} listPath={listPath} columns={payrollColumns} 
-                userRows={userRows} setUserRows={setUserRows} 
+                userRows={userRows} setUserRows={setUserRows} settings={settings} setSettings={setSettings}
                 loading={loading} setLoading={setLoading}/>
             </div>
         </div>

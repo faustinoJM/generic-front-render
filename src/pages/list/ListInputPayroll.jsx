@@ -150,7 +150,13 @@ const ListInputPayroll = ({ listName, listPath }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get(`payrolls/input/${params.payrollId}`)
+            // const response = await api.get(`payrolls/input/${params.payrollId}`)
+            let response 
+            if (params.payrollId)
+                response = await api.get(`payrolls/input/${params.payrollId}`)
+            else 
+                response = await api.get(`payrolls`)
+                
              console.log(listPath)
              console.log(response.data)
             //  console.log(response.data.data)

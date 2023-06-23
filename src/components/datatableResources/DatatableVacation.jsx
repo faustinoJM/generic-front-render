@@ -32,59 +32,12 @@ async function fetchPrintData(){
 
 const DatatableVacation = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading }) => {
     const workbook = new exceljs.Workbook();
-    const [rows, setRows] = useState([]);
     const [year, setYear] = useState(0);
     const componentRef = useRef();
     const [single, setSingle] = useState([]);
     const { t, i18n } = useTranslation();
     const {data, error, isError, isLoading } = useQuery('payrolls', fetchPrintData)
 
-    useEffect(() => {
-        async function fetchData() {
-            console.log(single)
-            if(!(Object.keys(single).length === 0))
-                handlePrint()
-        }
-        fetchData()
-    }, [single])
-
-    useEffect(() => {
-        async function fetchData() {
-            const response = await api.get("payrolls")
-            let id = ""
-            let incrment = 0
-            let mes = "";
-            let ano = 0;
-            let total = 0;
-            let newPayroll = [];
-            
-            response.data.map((data, index) => {
-                // data.id = index + 1
-            
-                if (!(mes === data.month && ano === +data.year)) {
-                    // delete data
-                    
-                    total = response.data.filter(data1 => data.month === data1.month && +data.year === +data1.year).length
-                    id = data.id = index + 1
-                    
-                    // total = total + index
-                    // newPayroll.push(data)
-                    let alreadyExists = newPayroll.find(data2 => data.month === data2.month && data.year === +data2.year)
-                    if (!alreadyExists) {
-                        incrment += 1; 
-                        newPayroll.push({id: incrment, month: data.month, year: data.year, total: total })
-                    }
-                }
-                mes = data.month
-                ano = data.year
-                
-            })
-
-            setRows(newPayroll)
-    
-        }
-            fetchData()
-    }, [])
 
 
     const submitByYear = async (e) => {
@@ -93,22 +46,8 @@ const DatatableVacation = ({ listName, listPath, columns, userRows, setUserRows,
         // console.log(data.filter(row => row.year === +e))
     }
 
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-        documentTitle: 'INSS-data',
-        // onAfterPrint: () => alert('Print sucess')
-    })
-
-    const handleSinglePrint = (id) => {
-        api.get(`payrolls`)
-         .then(response => {setSingle(response.data)})
-        // api.get(`payrolls`)
-        //  .then(response => {printPayslipBucket(response.data)})
-        // console.log(single)
-    }
-
-    const exportExcelFile = useCallback(async (year, month) => {
-      const response = await api.get("payrolls")
+    const exportExcelFile = useCallback(async (id) => {
+      const response = await api.get(`employees`)
 
       const excelPayroll = response.data //.filter(row => (row.year === +year) && (row.month === month))
 
@@ -126,7 +65,7 @@ const DatatableVacation = ({ listName, listPath, columns, userRows, setUserRows,
         // merge by start row, start column, end row, end column (equivalent to K10:M12)
         worksheet.mergeCells(1,1,2,keycolumns.length);
         // worksheet.mergeCells('A1', 'J2');
-        worksheet.getCell('A1').value = 'Mapa de Faltas Elint Payroll'
+        worksheet.getCell('A1').value = 'Mapa de Ferias Elint Payroll'
 
         //add header
         worksheet.addRow(header2);
@@ -154,57 +93,12 @@ const DatatableVacation = ({ listName, listPath, columns, userRows, setUserRows,
       //   });
         // console.log(excelPayroll)
          //add row 
-          const employeeAbsences = []
-          excelPayroll.map(data => {
-              let employee_name = data.employee_name
-              let month = data.month
-              let absences = data.absences
-              employeeAbsences.push({employee_name, month, absences 
-              })
-             
-          })
-
-          const employeeMonthFinal = []
-          employeeAbsences.map((data) => {
-            let employee_name = data.employee_name
-            let month = data.month
-            let name = employeeAbsences.filter(data => data.name === employee_name)
-
-            let alreadyExists = employeeMonthFinal.find((data) => data.employee_name === employee_name)
-
-            if (!alreadyExists) {
-              employeeMonthFinal.push({
-                employee_name,
-                [keyToPropMonth2[month]]: data.absences,
-              })
-            } else {
-              employeeMonthFinal.map(data2 => {
-                if (data2.employee_name === alreadyExists.employee_name)
-                  data2[keyToPropMonth2[month]] = data.absences
-              })
-              // employeeMonthFinal[employee_name].keyToPropMonth2[data.month] = data.absences
-              console.log(employeeMonthFinal)
-            }
-          })
-          console.log(employeeAbsences)
-          console.log(employeeMonthFinal)
           
          // loop through data and add each one to worksheet
-         employeeMonthFinal.forEach(singleData => {
+         excelPayroll.forEach(singleData => {
           worksheet.addRow({
-            employee_name: singleData.employee_name,
-            month1: singleData.month1 ?? "-",
-            month2: singleData.month2 ?? "-",
-            month3: singleData.month3 ?? "-",
-            month4: singleData.month4 ?? "-",
-            month5: singleData.month5 ?? "-",
-            month6: singleData.month6 ?? "-",
-            month7: singleData.month7 ?? "-",
-            month8: singleData.month8 ?? "-",
-            month9: singleData.month9 ?? "-",
-            month10: singleData.month10 ?? "-",
-            month11: singleData.month11 ?? "-",
-            month12: singleData.month12 ?? "-",
+            name: singleData.name,
+            vacation: singleData.vacation ?? 0,
           });
         });
      
@@ -297,7 +191,7 @@ const DatatableVacation = ({ listName, listPath, columns, userRows, setUserRows,
                                 <VisibilityIcon /> Ver
                             </div>
                         </Link> */}
-                        <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month)}>
+                        <div className="editButton" onClick={() => exportExcelFile(params.row.id)}>
                             <DescriptionIcon className="edIcon"/> {t("Datatable.4")}
                         </div>
                         {/* <div className="printButton" onClick={() => handleSinglePrint(params.row.id)}>
@@ -331,7 +225,7 @@ const DatatableVacation = ({ listName, listPath, columns, userRows, setUserRows,
                 showCellRightBorder={true}
                 showColumnRightBorder={true}
                 columnBuffer={columns.length}
-                rows={rows}
+                rows={userRows}
                 columns={columns.concat(actionColumn)}
                 pageSize={9}
                 rowsPerPageOptions={[9]}
@@ -352,34 +246,12 @@ export default DatatableVacation;
 
     const header2 = [
       "Nome do Funcionario",
-      "Janeiro",
-      "Fevereiro",
-      "Marco",
-      "Abril",
-      "Maio",
-      "Junho",
-      "Julho", 
-      "Agosto",
-      "Setembro",
-      "Outubro",
-      "Novembro",
-      "Dezembro"
+      "Dias de Ferias",
     ]
 
     const keycolumns = [
-      {key: "employee_name"},
-      {key: "month1"},
-      {key: "month2"},
-      {key: "month3"},
-      {key: "month4"},
-      {key: "month5"},
-      {key: "month6"},
-      {key: "month7"},
-      {key: "month8"},
-      {key: "month9"},
-      {key: "month10"},
-      {key: "month11"},
-      {key: "month12"},
+      {key: "name"},
+      {key: "vacation"},
     ]
 
 const keyToPropMonth = {

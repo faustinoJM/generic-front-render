@@ -15,7 +15,7 @@ const payrollColumns = [
     { field: 'month', headerName: 'MES', width: 150,align:'center', headerAlign: 'center',},
     // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
     { field: "year", headerName:"ANO", width: 180,  align:'center', headerAlign: 'center', },
-    { field: "total", headerName:"TOTAL FUNCIONARIOS", width: 180,  align:'center', headerAlign: 'center', },
+    { field: "total_employee", headerName:"TOTAL FUNCIONARIOS", width: 180,  align:'center', headerAlign: 'center', },
  
 ]
 
@@ -47,7 +47,7 @@ const ListVacation = ({ listName, listPath }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get(`${listPath}`)
+            const response = await api.get("payroll")
              console.log(listPath)
 
              if (response.status === 200) {

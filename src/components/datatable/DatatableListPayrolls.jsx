@@ -48,6 +48,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
        
         if (data) {
         let printData = data.filter(data => data.year === year && data.month === month)
+        printData = printData.sort((a, b) => a.employee_name.toLowerCase() > b.employee_name.toLowerCase() ? 1 : -1);
           if(response.data)
             printPDF(printData, response.data, urlLogo)
           }

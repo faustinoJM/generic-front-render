@@ -6,12 +6,8 @@ import { useReactToPrint } from "react-to-print";
 import exceljs from 'exceljs';
 import { saveAs } from 'file-saver';
 import api from "../../services/api";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import PrintIcon from '@mui/icons-material/Print';
+import EditIcon from '@mui/icons-material/Edit';
 import DescriptionIcon from '@mui/icons-material/Description';
-import PrintPayroll from "../printPayroll/PrintPayroll";
-import { printPDF } from "../printPayroll/PrintPayroll";
 import { useQuery } from 'react-query'
 import PrintINSS from "../printResources/PrintINSS";
 import { useTranslation } from 'react-i18next';
@@ -32,79 +28,15 @@ async function fetchPrintData(){
 
 const DatatableResourceAbsences = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading }) => {
     const workbook = new exceljs.Workbook();
-    const [rows, setRows] = useState([]);
     const [year, setYear] = useState(0);
     const componentRef = useRef();
-    const [single, setSingle] = useState([]);
     const { t, i18n } = useTranslation();
     const {data, error, isError, isLoading } = useQuery('payrolls', fetchPrintData)
-
-    useEffect(() => {
-        async function fetchData() {
-            console.log(single)
-            if(!(Object.keys(single).length === 0))
-                handlePrint()
-        }
-        fetchData()
-    }, [single])
-
-    useEffect(() => {
-        async function fetchData() {
-            const response = await api.get("payrolls")
-            let id = ""
-            let incrment = 0
-            let mes = "";
-            let ano = 0;
-            let total = 0;
-            let newPayroll = [];
-            
-            response.data.map((data, index) => {
-                // data.id = index + 1
-            
-                if (!(mes === data.month && ano === +data.year)) {
-                    // delete data
-                    
-                    total = response.data.filter(data1 => data.month === data1.month && +data.year === +data1.year).length
-                    id = data.id = index + 1
-                    
-                    // total = total + index
-                    // newPayroll.push(data)
-                    let alreadyExists = newPayroll.find(data2 => data.month === data2.month && data.year === +data2.year)
-                    if (!alreadyExists) {
-                        incrment += 1; 
-                        newPayroll.push({id: incrment, month: data.month, year: data.year, total: total })
-                    }
-                }
-                mes = data.month
-                ano = data.year
-                
-            })
-
-            setRows(newPayroll)
-    
-        }
-            fetchData()
-    }, [])
-
 
     const submitByYear = async (e) => {
         setYear(e)
         // setUserRows(data2.filter(row => (row.year === +e) && (row.month === month)))
         // console.log(data.filter(row => row.year === +e))
-    }
-
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-        documentTitle: 'INSS-data',
-        // onAfterPrint: () => alert('Print sucess')
-    })
-
-    const handleSinglePrint = (id) => {
-        api.get(`payrolls`)
-         .then(response => {setSingle(response.data)})
-        // api.get(`payrolls`)
-        //  .then(response => {printPayslipBucket(response.data)})
-        // console.log(single)
     }
 
     const exportExcelFile = useCallback(async (year, month) => {
@@ -292,11 +224,11 @@ const DatatableResourceAbsences = ({ listName, listPath, columns, userRows, setU
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        {/* <Link to={`/${listPath}/output/${params.row.month}-${params.row.year}`} style={{textDecoration: "none"}}>
-                            <div className="viewButton">
-                                <VisibilityIcon /> Ver
-                            </div>
-                        </Link> */}
+                        <Link to={`/resources/absences/${params.row.id}`} style={{textDecoration: "none"}}>
+                                <div className="viewButton">
+                                    <EditIcon /> {t("Datatable.2")}
+                                </div>
+                        </Link>
                         <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month)}>
                             <DescriptionIcon className="edIcon"/> {t("Datatable.4")}
                         </div>
@@ -312,7 +244,6 @@ const DatatableResourceAbsences = ({ listName, listPath, columns, userRows, setU
         <div className="datatable">
             <div className="datatableTitle">
                 {t("AbsencesList.1")}
-                <PrintINSS componentRef={componentRef} single={single}/>
             </div>
             <DataGrid
             sx={{
@@ -331,7 +262,7 @@ const DatatableResourceAbsences = ({ listName, listPath, columns, userRows, setU
                 showCellRightBorder={true}
                 showColumnRightBorder={true}
                 columnBuffer={columns.length}
-                rows={rows}
+                rows={userRows}
                 columns={columns.concat(actionColumn)}
                 pageSize={9}
                 rowsPerPageOptions={[9]}

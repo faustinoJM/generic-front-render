@@ -15,6 +15,7 @@ import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import CreditCardOffOutlinedIcon from '@mui/icons-material/CreditCardOffOutlined';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import WorkOffIcon from '@mui/icons-material/WorkOff';
 import ElderlyIcon from '@mui/icons-material/Elderly';
 import DescriptionIcon from '@mui/icons-material/Description';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
@@ -168,7 +169,18 @@ const Sidebar = ({active, setActive}) => {
                             <span>{t('Sidebar.14')}</span>
                         </NavLink>
                     </li>
-                    
+                    <li>
+                        <NavLink to="/resources/vacation" className="navLink" style={{textDecoration: "none"}}>
+                            <WorkOffIcon className="icon" />
+                            <span>{t('Sidebar.18')}</span>
+                        </NavLink>
+                    </li>  
+                    <li>
+                        <NavLink to="/resources/bank" className="navLink" style={{textDecoration: "none"}}>
+                            <AccountBalanceIcon className="icon" />
+                            <span>{t('Sidebar.19')}</span>
+                        </NavLink>
+                    </li> 
                     {/* <li>
                         <NavLink to="/resources/report" className="navLink" style={{textDecoration: "none"}}>
                             <DescriptionIcon className="icon" />

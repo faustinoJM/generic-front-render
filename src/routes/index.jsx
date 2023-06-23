@@ -30,6 +30,9 @@ import ListAbsences from '../pages/resource/ListAbsences';
 import ListReport from '../pages/resource/ListReport';
 import Register from '../pages/register/Register';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import ListInputINSS from '../pages/resource/ListInputINSS';
+import ListVacation from '../pages/resource/ListVacation';
+import ListInputAbsences from '../pages/resource/ListInputAbsences';
 
 export default function Routers() {
 
@@ -74,10 +77,13 @@ export default function Routers() {
         <Route path="new" element={<RouteAuth isPrivate={true}><NewPayroll title="Adicionar nova Folha" /></RouteAuth>} />
       </Route>
       <Route path="resources">
-        <Route path="social-security" element={<RouteAuth isPrivate={true}><ListSocialSecurity listName={"Lista Folhas Para INSS"} listPath={"payrolls"}/> </RouteAuth>} />
-        <Route path="banks" element={<RouteAuth isPrivate={true}><ListBanks listName={"Lista Folhas Para  Bancos"} listPath={"payrolls"}/></RouteAuth>} />
+        <Route path="social-security" element={<RouteAuth isPrivate={true}><ListSocialSecurity listName={"Lista Folhas Para INSS"} listPath={"resources"}/> </RouteAuth>} />
+        <Route path="social-security/:payrollId" element={<RouteAuth isPrivate={true}><ListInputINSS listName={"Folha para INSS"} listPath={"resources"}/> </RouteAuth>} />
         <Route path="absences" element={<RouteAuth isPrivate={true}><ListAbsences listName={"Lista de Faltas"} listPath={"payrolls"}/></RouteAuth>} />
+        <Route path="absences/:payrollId" element={<RouteAuth isPrivate={true}><ListInputAbsences listName={"Lista de Faltas"} listPath={"payrolls"}/></RouteAuth>} />
         <Route path="report" element={<RouteAuth isPrivate={true}><ListReport listName={"Lista de Relatorios"} listPath={"payrolls"}/></RouteAuth>} />
+        <Route path="vacation" element={<RouteAuth isPrivate={true}><ListVacation listName={"Mapa de Ferias"} listPath={"payrolls"}/></RouteAuth>} />
+        <Route path="bank" element={<RouteAuth isPrivate={true}><ListBanks listName={"Lista Folhas Para Bancos"} listPath={"payrolls"}/></RouteAuth>} />
       </Route>
       <Route path="profile">
         <Route index element={<RouteAuth isPrivate={true}><Profile listName={"Perfil"} listPath={"profile"}/></RouteAuth>} />

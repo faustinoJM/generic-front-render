@@ -169,8 +169,8 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                     }
                     })
 
-                    console.log("Input", payrollOutputColumns)
-                    console.log("Input", params.payrollId)
+                    console.log("output", payrollOutputColumns)
+                    console.log("output", params.payrollId)
 
                 setSettings(response.data)
             }
@@ -181,6 +181,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
     useEffect(() => {
         async function fetchData() {
             const response = await api.get(`${listPath}/output/${params.payrollId}`)
+            console.log("output2", response.data)
 
             let totalLiquid = 0
             let totalBase = 0
@@ -275,6 +276,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                 else if (data.employee_name.toLowerCase().includes(searchName.toLocaleLowerCase()))
                     return data
             }).concat(totalRow))
+            console.log("output", response.data)
 
         }
         fetchData()
