@@ -11,6 +11,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import PrintIcon from '@mui/icons-material/Print';
 import DescriptionIcon from '@mui/icons-material/Description';
 import PrintPayroll from "../printPayroll/PrintPayroll";
+import EditIcon from '@mui/icons-material/Edit';
 import { printPDF } from "../printPayroll/PrintPayroll";
 import { useQuery } from 'react-query'
 import PrintINSS from "../printResources/PrintINSS";
@@ -186,11 +187,11 @@ const DatatableVacation = ({ listName, listPath, columns, userRows, setUserRows,
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        {/* <Link to={`/${listPath}/output/${params.row.month}-${params.row.year}`} style={{textDecoration: "none"}}>
-                            <div className="viewButton">
-                                <VisibilityIcon /> Ver
-                            </div>
-                        </Link> */}
+                         <Link to={`/resources/vacation/${params.row.id}`} style={{textDecoration: "none"}}>
+                                <div className="printButton">
+                                    <EditIcon /> {t("Datatable.2")}
+                                </div>
+                        </Link>
                         <div className="editButton" onClick={() => exportExcelFile(params.row.id)}>
                             <DescriptionIcon className="edIcon"/> {t("Datatable.4")}
                         </div>

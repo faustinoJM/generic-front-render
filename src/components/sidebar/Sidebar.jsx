@@ -138,12 +138,12 @@ const Sidebar = ({active, setActive}) => {
                             <span>{t('Sidebar.9')}</span>
                         </NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                         <NavLink to="/payrolls/input" className="navLink" style={{textDecoration: "none"}}>
                             <PointOfSaleOutlinedIcon className="icon" />
                             <span>{t('Sidebar.10')}</span>
                         </NavLink>
-                    </li>
+                    </li> */}
                     <li>
                         <NavLink to="/payrolls/list" className={`navLink ${active ? "active" : ""}`} style={{textDecoration: "none"}}>
                             <PaymentOutlinedIcon className="icon" />

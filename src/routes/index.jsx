@@ -33,6 +33,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import ListInputINSS from '../pages/resource/ListInputINSS';
 import ListVacation from '../pages/resource/ListVacation';
 import ListInputAbsences from '../pages/resource/ListInputAbsences';
+import ListInputVacation from '../pages/resource/ListInputVacation';
 
 export default function Routers() {
 
@@ -83,6 +84,7 @@ export default function Routers() {
         <Route path="absences/:payrollId" element={<RouteAuth isPrivate={true}><ListInputAbsences listName={"Lista de Faltas"} listPath={"payrolls"}/></RouteAuth>} />
         <Route path="report" element={<RouteAuth isPrivate={true}><ListReport listName={"Lista de Relatorios"} listPath={"payrolls"}/></RouteAuth>} />
         <Route path="vacation" element={<RouteAuth isPrivate={true}><ListVacation listName={"Mapa de Ferias"} listPath={"payrolls"}/></RouteAuth>} />
+        <Route path="vacation/:payrollId" element={<RouteAuth isPrivate={true}><ListInputVacation listName={"Mapa de Ferias"} listPath={"payrolls"}/></RouteAuth>} />
         <Route path="bank" element={<RouteAuth isPrivate={true}><ListBanks listName={"Lista Folhas Para Bancos"} listPath={"payrolls"}/></RouteAuth>} />
       </Route>
       <Route path="profile">

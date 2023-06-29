@@ -58,6 +58,8 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
     const handleTxt = async (id) => {
         const response = await api.get(`payrolls/output/${id}`)
         let sismo_txt = ""
+        let date_sismo = formatDate.format(new Date()).split("/")
+        let sismo_name = `Company_NUIT${date_sismo[1]}${date_sismo[2]}`
 
         response.data.map(data => {
           let event_date = formatDate.format(new Date(data.inss_event_date))
@@ -65,19 +67,21 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
           data.inss_event = data.absences <= 0 && data.inss_event === 10 ? "" : data.inss_event//(data.inss_event < 0 ? '10' : data.inss_event)
           // let event = data.inss_event > 0 ?  data.inss_event : data.absences > 0 ? 10 : ""
           event_date_txt = +data.inss_event > 0 ? `${event_date_txt[0]}${event_date_txt[1]}${event_date_txt[2]}` : ""
+          data.salary_base = (+data.salary_base + data.total_overtime - data.total_absences).toFixed(2)
+          data.subsidy = data.subsidy + data.subsidy_food + data.subsidy_medical + data.subsidy_residence + data.subsidy_vacation  
           // console.log("event",event, (data.absences < 0))
           
           // data.inss_event_date = data?.inss_event > 0 ? event_date : ""
           data.days = 30 - (+data.absences)
           data.inss_event = data.inss_event > 0 ? data.inss_event : ""
-          sismo_txt = sismo_txt + `${data.social_security};${data.days};${+data.total_income * 100};${data.inss_event};${event_date_txt}\n`
+          sismo_txt = sismo_txt + `${data.social_security};${data.days};${(data.salary_base * 100).toFixed(0)};${+data.subsidy * 100};${+data.bonus * 100};${data.inss_event};${event_date_txt};\n`
       })
         const element = document.createElement("a")
         const file = new Blob([sismo_txt], {
           type: "text/plain;charset-utf-8",
         });
         element.href = URL.createObjectURL(file);
-        element.download = "SismoTxt.txt";
+        element.download = sismo_name;
         document.body.appendChild(element)
         element.click();
     }
@@ -148,8 +152,6 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
               let event_date = formatDate.format(new Date(data.inss_event_date))
               let event_date_txt = event_date.split("/")
               event_date_txt = +data.inss_event > 0 ? `${event_date_txt[0]}${event_date_txt[1]}${event_date_txt[2]}` : ""
-              let subsidy = data.subsidy + data.subsidy_food + data.subsidy_medical 
-                          + data.subsidy_residence + data.subsidy_vacation + data.total_overtime
 
               salary_liquid = salary_liquid + data.salary_liquid
               salary_base = salary_base + data.salary_base
@@ -168,31 +170,11 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
               total_syndicate_employee += data.syndicate_employee
 
               // data.inss_event
+              data.salary_base = (+data.salary_base + data.total_overtime - data.total_absences).toFixed(2)
+              data.subsidy = data.subsidy + data.subsidy_food + data.subsidy_medical + data.subsidy_residence + data.subsidy_vacation
               data.inss_event_date = data?.inss_event ? event_date : ""
               data.days = 30 - (+data.absences)
-              data.sismo_txt = `${data.social_security};${data.days};${+data.total_income * 100};${data?.inss_event ?? ""};${event_date_txt}`
-              data.salary_base = formatSalary().format(data.salary_base - data.total_absences)
-              data.salary_liquid = formatSalary().format(data.salary_liquid)
-              data.total_income = formatSalary().format(data.total_income)
-              data.irps = formatSalary().format(data.irps)
-              data.inss_employee = formatSalary().format(data.inss_employee)
-              data.subsidy = formatSalary().format(subsidy)
-              data.bonus = formatSalary().format(data.bonus)
-              data.cash_advances = formatSalary().format(data.cash_advances)
-              data.backpay = formatSalary().format(data.backpay)
-              data.total_absences = formatSalary().format(data.total_absences)
-              data.total_overtime = formatSalary().format(data.total_overtime)
-              data.inss_company = formatSalary().format(data.inss_company)
-              data.total_inss = formatSalary().format(data.total_inss)
-              data.overtime50 = formatSalary().format(data.overtime50)
-              data.overtime100 = formatSalary().format(data.overtime100)
-              data.base_day = formatSalary().format(data.base_day)
-              data.base_hour =  formatSalary().format(data.base_hour)
-              data.subsidy_food = formatSalary().format(data.subsidy_food)
-              data.subsidy_residence = formatSalary().format(data.subsidy_residence)
-              data.subsidy_medical = formatSalary().format(data.subsidy_medical)
-              data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
-              data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
+              data.sismo_txt = `${data.social_security};${data.days};${+(data.salary_base * 100).toFixed(0)};${+data.subsidy * 100};${+data.bonus * 100};${data?.inss_event ?? ""};${event_date_txt}`
               data.nib = String(data.nib)
               data.birth_date = ""
               
@@ -203,45 +185,29 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
           });
           
          worksheet.addRow({
-          employee_id: "",
-          employee_name: "TOTAL",
-          dependents: "",
-          position_name: "", 
-          department_name: "",  
-          month: "", 
-          year: "", 
-          nib: "",
-          social_security: "",
-          overtime50: "", 
-          overtime100: "", 
-          total_overtime: formatSalary().format(total_total_overtime), 
-          absences: "", 
-          total_absences: formatSalary().format(total_total_absences), 
-          cash_advances: formatSalary().format(total_cash_advances), 
-          syndicate_employee: formatSalary().format(total_syndicate_employee),
-          subsidy: formatSalary().format(total_subsidy), 
-          bonus: "", 
-          backpay: formatSalary().format(total_backpay), 
-          salary_liquid:  formatSalary().format(salary_liquid), 
-
           social_security: "TOTAL",  
           employee_name: "",
           days: "",
           birth_date: "",
-          salary_base:  formatSalary().format(salary_base), 
-          subsidy: formatSalary().format(total_subsidy),
-          bonus: formatSalary().format(total_bonus),
-          total_income: formatSalary().format(total_income),
+          salary_base:  salary_base, 
+          subsidy: total_subsidy,
+          bonus: total_bonus,
+          total_income: total_income,
           inss_event: "",
           inss_event_date: "",
-          inss_company: formatSalary().format(inss_company),
-          inss_employee: formatSalary().format(inss_employee),
-          total_inss: formatSalary().format(total_inss),
-
-
+          inss_company: inss_company,
+          inss_employee: inss_employee,
+          total_inss: total_inss,
           // total_bonus
         });
         worksheet.lastRow.font = { bold: true };
+        worksheet.getColumn(5).numFmt = "#,##0.00"
+        worksheet.getColumn(6).numFmt = "#,##0.00"
+        worksheet.getColumn(7).numFmt = "#,##0.00"
+        worksheet.getColumn(8).numFmt = "#,##0.00"
+        worksheet.getColumn(11).numFmt = "#,##0.00"
+        worksheet.getColumn(12).numFmt = "#,##0.00"
+        worksheet.getColumn(13).numFmt = "#,##0.00"
 
         // loop through all of the rows and set the outline style.
         worksheet.eachRow({ includeEmpty: false }, row => {
