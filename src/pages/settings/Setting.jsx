@@ -56,6 +56,7 @@ const Setting = () => {
             company_contact: setting.company_contact,
             company_email: setting.company_email,
             company_website: setting.company_website,
+            company_nuit: setting.company_nuit,
             company_fax: setting.company_fax,
             company_address: setting.company_address,
             company_province: setting.company_province,
@@ -108,6 +109,11 @@ const Setting = () => {
                                 <label>{t("SettingCompany.5")}</label>
                                 <input type="text" value={setting.company_email} id="company_email"
                                     defaultValue={setting.company_email} onChange={handleChange} onBlur={handleBlur}/>
+                            </div>
+                            <div>
+                                <label>{t("SettingCompany.13")}</label>
+                                <input type="number" value={setting.company_nuit} id="company_nuit"
+                                    defaultValue={setting.company_nuit} onChange={handleChange} onBlur={handleBlur}/>
                             </div>
                             <div>
                                 <label>{t("SettingCompany.6")}</label>

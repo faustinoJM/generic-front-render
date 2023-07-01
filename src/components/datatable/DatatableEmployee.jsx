@@ -10,6 +10,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {useQuery} from 'react-query'
 import { useTranslation } from 'react-i18next';
+import Swal from "sweetalert2";
 
 const keyToPropMap = {
     "Nome": "name",
@@ -67,7 +68,7 @@ const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows,
             api.get("employees").then((response) => setUserRows(response.data))
         }
         if (data.length > 0)
-            api.post("payrolls/excel/import", data).then((response) => {
+            api.post("employees/excel/import", data).then((response) => {
                 if (response.status === 201){
                     //timer setUserRows
                     console.log("maumau")
@@ -109,9 +110,17 @@ const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows,
     }
     }
 
-    const handleDelete = async (id, router) => {
-    await api.delete(`${router}/${id}`)
-    setUserRows(userRows.filter(item => item.id !== id))
+    const handleDelete = (id, router) => {
+    api.delete(`${router}/${id}`).then(() => {
+            setUserRows(userRows.filter(item => item.id !== id))
+        }).catch((err) => {
+            Swal.fire({
+                icon: 'error',
+                title: `Error ${err.response.status}`,
+                text: err.response.data.message,
+                // footer: '<a href="">Why do I have this issue?</a>'
+            })
+        })
     } 
 
     const onCellEditCommit = ({ id, field, value }) => {

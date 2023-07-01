@@ -61,7 +61,7 @@ const EditEmployee = ({ inputs, title }) => {
       }, [params])
       
      const onSubmit = async (values, actions) => {
-        actions.resetForm()
+        // actions.resetForm()
         try {
             const response = await api.put(`employees/${params.employeeId}`, values)
             if (response.status === 204) {
@@ -80,7 +80,16 @@ const EditEmployee = ({ inputs, title }) => {
             navigate("/employees")
         } catch (err) {
             // if (err.response.status === 400)
-            errors.name = setting?.language_options === "pt" ? "Erro!!" : "Erro!!"
+            // errors.name = setting?.language_options === "pt" ? "Erro!!" : "Erro!!"
+            if (err.response.status === 401) {
+                errors.name = `Error ${err.response.status} ${err.response.data.message}`
+                Swal.fire({
+                    icon: 'error',
+                    title: `Error ${err.response.status}`,
+                    text: err.response.data.message,
+                    // footer: '<a href="">Why do I have this issue?</a>'
+                })
+            }
 
         }
         
@@ -112,6 +121,8 @@ const EditEmployee = ({ inputs, title }) => {
         nib: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro").required("Numero de NIB obrigatorio"),
         social_security: Yup.number().positive("Deve ser numero positivo").integer("Deve ser numero inteiro").required("Numero de INSS obrigatorio"),
         inss_status: Yup.string().required("Estado INSS Obrigatorio"),
+        employee_loan: Yup.number().typeError("Emprestimo deve ser um numero").min(0, "Emprestimo deve ser maior ou igual  zero"),
+        loan_deduction: Yup.number().typeError("Deducao deve ser um numero").min(0, "Deducao deve ser maior ou igual a zero")
 
     })
     const { values, errors, handleChange, touched, isSubmitting, handleBlur, handleSubmit, setFieldValue} = useFormik({
@@ -143,6 +154,8 @@ const EditEmployee = ({ inputs, title }) => {
             nib: data.nib,
             social_security: data.social_security,
             inss_status: data.inss_status,
+            employee_loan: data.employee_loan,
+            loan_deduction: data.loan_deduction
         },
         validationSchema: schema,
         enableReinitialize: true,
@@ -339,7 +352,17 @@ const EditEmployee = ({ inputs, title }) => {
                                         <input className="inputClass" type="text"  id="subsidy"
                                                  defaultValue={data.subsidy} onChange={handleChange} onBlur={handleBlur}/>
                                                   {errors.subsidy && touched.subsidy && <p>{errors.subsidy}</p>}
-                                </div>                            
+                                </div>
+                                <div className="formInput2">
+                                    <label>{t("CompanyData.13")}</label>
+                                        <input className="inputClass" type="text" id="employee_loan"
+                                                 defaultValue={data.employee_loan} onChange={handleChange} onBlur={handleBlur}/>
+                                                  {errors.employee_loan && touched.employee_loan && <p>{errors.employee_loan}</p>}   
+                                    <label>{t("CompanyData.14")}</label>
+                                        <input className="inputClass" type="text"  id="loan_deduction"
+                                                 defaultValue={data.loan_deduction} onChange={handleChange} onBlur={handleBlur}/>
+                                                  {errors.loan_deduction && touched.loan_deduction && <p>{errors.loan_deduction}</p>}
+                                </div>                              
                             </div>
                         </div>
                         <div className="bottomForm12">

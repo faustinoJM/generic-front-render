@@ -44,9 +44,9 @@ const EditProfile = ({ inputs, title }) => {
      const onSubmit = async (values, actions) => {
         // console.log(values)
         // console.log(actions)
-        actions.resetForm()
+        // actions.resetForm()
         try {
-            const response = await api.put(`users/${params.profileId}`, values)
+            const response = await api.put(`users/company/${params.profileId}`, values)
             if (response.status === 204) {
                 setting?.language_options === "pt" ?
                     Swal.fire(
@@ -62,8 +62,15 @@ const EditProfile = ({ inputs, title }) => {
             actions.resetForm()
             navigate("/profile")
         } catch (err) {
-                // if (err.response.status === 400)
-                errors.name = setting?.language_options === "pt" ? "Erro!!" : "Erro!!"
+            if (err.response.status === 401) {
+                errors.name = `Error ${err.response.status} ${err.response.data.message}`
+                Swal.fire({
+                    icon: 'error',
+                    title: `Error ${err.response.status}`,
+                    text: err.response.data.message,
+                    // footer: '<a href="">Why do I have this issue?</a>'
+                  })
+            }
     
         }
      }

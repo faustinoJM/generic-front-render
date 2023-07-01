@@ -11,10 +11,11 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import PrintIcon from '@mui/icons-material/Print';
 import DescriptionIcon from '@mui/icons-material/Description';
 import EditIcon from '@mui/icons-material/Edit';
-import PrintPayroll from "../printPayroll/PrintPayroll";
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockIcon from '@mui/icons-material/Lock';
 import { printPDF } from "../printPayroll/PrintPayroll";
 import {useQuery} from 'react-query'
-import axios from "axios";
+import Swal from "sweetalert2";
 import { useTranslation } from 'react-i18next';
 import PrintPayslipBucket from "../printPayslip/PrintPayslipBucket";
 
@@ -31,12 +32,12 @@ async function fetchPrintData(){
     return data
 }
 
-const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading, setting, setSetting }) => {
+const DatatableListInput = ({ listName, listPath, columns, setColumns, userRows, setUserRows, loading, setLoading, setting, setSetting }) => {
     const workbook = new exceljs.Workbook();
-    const [rows, setRows] = useState([]);
     const [year, setYear] = useState(0);
     const componentRef = useRef();
     const [printPayroll, setPrintPayroll] = useState([]);
+    const [lockPayroll, setLockPayroll] = useState("");
     const {data, error, isError, isLoading } = useQuery('payrolls', fetchPrintData)
     const [urlLogo, setUrlLogo] = useState(null);
     const { t, i18n } = useTranslation();
@@ -58,20 +59,16 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
 
     useEffect(() => {
       async function fetchData() {
-          const response = await api.get("payroll")
-          setRows(response.data)
-      }
-          fetchData()
-    }, [])
-
-    useEffect(() => {
-      async function fetchData() {
           console.log(printPayroll)
           if(!(Object.keys(printPayroll).length === 0))
             handlePrint()
       }
           fetchData()
       }, [printPayroll])
+
+      useEffect(() => {
+        setLockPayroll(userRows)
+      }, [userRows])
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -84,12 +81,20 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         .then(response => {setPrintPayroll(response.data)})
     }
 
+    const handleLockPayroll = async (id, payroll_status) => {
+      payroll_status = payroll_status === "true" ? "false" : "true" 
+      const payroll = await api.put(`payroll/${id}`, { payroll_status })
+      const response = await api.get("payroll")
+      //   .then(response => {setPrintPayroll(response.data)})
+      // console.log({ payroll_status: payroll_status, payroll })
+      // setUserRows(prev => prev)
+      setUserRows(response.data)
+    }
 
     const submitByYear = async (e) => {
         setYear(e)
         // setUserRows(data2.filter(row => (row.year === +e) && (row.month === month)))
         // console.log(data.filter(row => row.year === +e))
-        
     }
 
     const exportExcelFile = useCallback(async (year, month, setting) => {
@@ -575,11 +580,19 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
     //     }
     //   }, []);
 
-    const handleDelete = async (id) => {
+    const handleDelete = (id) => {
         // console.log("aaa"+router)
         // await api.delete('payrolls', { data: { year, month }})
-        await api.delete(`payroll/${id}`)
-        setRows(rows.filter(item => !(id === item.id)))
+        api.delete(`payroll/${id}`).then(() => {
+          setUserRows(userRows.filter(item => !(id === item.id)))
+        }).catch((err) => {
+          Swal.fire({
+            icon: 'error',
+            title: `Error ${err.response.status}`,
+            text: err.response.data.message,
+            // footer: '<a href="">Why do I have this issue?</a>'
+          })
+        })
 
         // setRows(rows.filter(item => !(month === item.month && +year === +item.year)))
     } 
@@ -605,16 +618,19 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
         { 
             field: "action", 
             headerName: "", 
-            width: 600, 
-            align: "center",
+            width: 680, 
+            align: "left",
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
+                      {params.row.payroll_status !==  "true" ? 
                         <Link to={`/${listPath}/input/${params.row.id}`} style={{textDecoration: "none"}}>
                           <div className="editButton">
                               <EditIcon /> {t("Datatable.2")}
                           </div>
                         </Link>
+                        : null
+                        }
                         <div className="printButton" onClick={() => handlePrintPayroll(params.row.year, params.row.month)}>
                             {/* handlePrintPayroll(params.row.year, params.row.month) */}
                               <PrintIcon />  {t("Datatable.5")}
@@ -635,6 +651,22 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                         <div className="printButton" onClick={() => handlePrintPayslip(params.row.id, params.row.year, params.row.month)}>
                               <PrintIcon />  {t("Datatable.6")}
                         </div>
+                        <div className={params.row.payroll_status !==  "true" ? "editButton" : "deleteButton"} onClick={() => handleLockPayroll(params.row.id, params.row.payroll_status)}>
+                              {params.row.payroll_status !== "true" ? 
+                              <><LockOpenIcon /> {t("Datatable.7")}</>
+                              : <><LockIcon /> {t("Datatable.8")}</>
+                              }
+                        </div>
+                        {/* <select className={params.row.payroll_status !==  "true" ? "editButton" : "deleteButton"} onChange={() => handleLockPayroll(params.row.id, params.row.payroll_status)}>
+                        {params.row.payroll_status !== "true" ? 
+                        <option selected><LockOpenIcon />Aberto</option>
+                         : <option><LockOpenIcon />Aberto</option>
+                            }
+                            {params.row.payroll_status === "true" ? 
+                          <option selected><LockIcon />Fechado</option>
+                        : <option ><LockIcon />Fechado</option>
+                            }
+                        </select> */}
                     </div>
                 )
             }
@@ -674,7 +706,7 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                 showCellRightBorder={true}
                 showColumnRightBorder={true}
                 columnBuffer={columns.length}
-                rows={rows}
+                rows={userRows}
                 columns={columns.concat(actionColumn)}
                 pageSize={9}
                 rowsPerPageOptions={[9]}
@@ -682,6 +714,11 @@ const DatatableListInput = ({ listName, listPath, columns, userRows, setUserRows
                 onCellEditCommit={onCellEditCommit}
                 autoHeight    
                 loading={loading}
+                initialState={{
+                  sorting: {
+                      sortModel: [{ field: 'month', sort: 'asc' }],
+                    },
+                }}
   
                 // showCellRightBorder={true}  
            

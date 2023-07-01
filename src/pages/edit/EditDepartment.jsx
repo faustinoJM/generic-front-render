@@ -41,7 +41,8 @@ const EditDepartment = ({ inputs, title }) => {
      const onSubmit = async (values, actions) => {
         const { name } = values
         console.log("submit")
-        actions.resetForm()
+        // actions.resetForm()
+
         try {
             const response = await api.put(`departments/${id}`, {name})
             if (response.status === 204) {
@@ -59,15 +60,24 @@ const EditDepartment = ({ inputs, title }) => {
             actions.resetForm()
             navigate("/departments")
         } catch (err) {
-            // if (err.response.status === 400)
-            errors.name = setting?.language_options === "pt" ? "Erro!!" : "Erro!!"
+            if (err.response.status === 401) {
+                errors.name = `Error ${err.response.status} ${err.response.data.message}`
+                Swal.fire({
+                    icon: 'error',
+                    title: `Error ${err.response.status}`,
+                    text: err.response.data.message,
+                    // footer: '<a href="">Why do I have this issue?</a>'
+                  })
+            }
+
+            // errors.name = setting?.language_options === "pt" ? "Erro!!" : "Erro!!"
 
         }
      }
 
      const schema = Yup.object().shape({
         name: Yup.string().required('Nome Obrigatorio'),
-        description: Yup.string().required("Descricao obrigatorio"),
+        description: Yup.string(),
 
     })
     const { values, errors, handleChange, touched, isSubmitting, handleBlur, handleSubmit} = useFormik({

@@ -17,6 +17,7 @@ const ListPayrolls = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
     const [setting, setSetting] = useState(null)
+    const [columns,  setColumns] = useState(payrollColumns)
 
     useEffect(() => {
         async function fetchData() {
@@ -61,7 +62,7 @@ const ListPayrolls = ({ listName, listPath }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <DatatableListInput listName={listName} listPath={listPath} columns={payrollColumns} 
+                <DatatableListInput listName={listName} listPath={listPath} columns={columns} setColumns={setColumns} 
                 userRows={userRows} setUserRows={setUserRows}
                 loading={loading} setLoading={setLoading}
                 setting={setting} setSetting={setSetting}/>

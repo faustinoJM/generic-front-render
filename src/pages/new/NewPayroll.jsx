@@ -74,6 +74,16 @@ const NewPayroll = ({ inputs, title }) => {
         } catch (err) {
             if (err.response.status === 400)
                 errors.month = setting?.language_options === "pt" ? "Mes ja cadastrado!!" : "Month already registered!!!"
+            
+            if (err.response.status === 401) {
+                errors.month = `Error ${err.response.status} ${err.response.data.message}`
+                Swal.fire({
+                    icon: 'error',
+                    title: `Error ${err.response.status}`,
+                    text: err.response.data.message,
+                    // footer: '<a href="">Why do I have this issue?</a>'
+                  })
+            }
             // Swal.fire({
             //     icon: 'error',
             //     title: 'Mes ja Cadastrado...',

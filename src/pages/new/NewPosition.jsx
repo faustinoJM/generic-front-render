@@ -57,6 +57,17 @@ const NewPosition = ({ inputs, title }) => {
         //         // footer: '<a href="">Why do I have this issue?</a>'
         //       })
         errors.name = setting?.language_options === "pt" ? "Cargo ja existe!!" : "Position Already Exists!!"
+        
+        if (err.response.status === 401) {
+            errors.name = `Error ${err.response.status} ${err.response.data.message}`
+            Swal.fire({
+                icon: 'error',
+                title: `Error ${err.response.status}`,
+                text: err.response.data.message,
+                // footer: '<a href="">Why do I have this issue?</a>'
+              })
+        }
+        
         }
     }
 

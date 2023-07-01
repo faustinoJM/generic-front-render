@@ -98,7 +98,9 @@
         "9": "Base Salary",
         "10": "Subsidy",
         "11": "Active",
-        "12": "Inactive"
+        "12": "Inactive",
+        "13": "Loan",
+        "14": "Deduction"
     },
 
     "FinancialData": {
@@ -128,7 +130,9 @@
         "3": "Remove",
         "4": "Export",
         "5": "Print",
-        "6": "Printslip"
+        "6": "Printslip",
+        "7": "Open",
+        "8": "Closed"
     },
 
     "Position": {
@@ -198,7 +202,8 @@
         "9": "Province",
         "10": "City",
         "11": "Postal Code",
-        "12": "Country"
+        "12": "Country",
+        "13": "Company NUIT"
     },
 
     "SettingLogo": {
@@ -231,7 +236,8 @@
         "21": "Fourteenth Salary",
         "22": "Show",
         "23": "Hide",
-        "24": "Payslip comment"
+        "24": "Payslip comment",
+        "25": "Loan"
 
     },
 

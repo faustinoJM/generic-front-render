@@ -16,8 +16,12 @@ const Profile = () => {
     }, [])
 
     function handleDelete(id) {
-        api.delete(`users/${id}`).then(() => {})
-        setProfile(() => profile.filter((data) => data.id !== id))
+        api.delete(`users/company/${id}`).then(() => {
+            setProfile(() => profile.filter((data) => data.id !== id))
+        }).catch(err => {
+            console.log("sd09s", err)
+        }) 
+        
     }
 
     return (

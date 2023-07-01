@@ -83,6 +83,7 @@
         "23": "Femenino",
         "24": "Paga",
         "25": "Nao Paga"
+       
     },
 
     "CompanyData": {
@@ -98,7 +99,9 @@
         "9": "Salario Base",
         "10": "Subsidio",
         "11": "Activo",
-        "12": "Inactivo"
+        "12": "Inactivo",
+        "13": "Emprestimo",
+        "14": "Deducao"
     },
 
     "FinancialData": {
@@ -128,7 +131,9 @@
         "3": "Remover",
         "4": "Exportar",
         "5": "Imprimir",
-        "6": "Recibo"
+        "6": "Recibo",
+        "7": "Aberto",
+        "8": "Fechado"
     },
 
     "Position": {
@@ -198,7 +203,8 @@
         "9": "Provincia",
         "10": "Cidade",
         "11": "Codigo Postal",
-        "12": "Pais"
+        "12": "Pais",
+        "13": "NUIT da Empresa"
     },
 
     "SettingLogo": {
@@ -231,7 +237,8 @@
         "21": "Decimo Quarto Salario",
         "22": "Activo",
         "23": "Inactivo",
-        "24": "Comentario no Recibo"
+        "24": "Comentario no Recibo",
+        "25": "Emprestimo Longo Prazo"
     },
 
     "Month": {

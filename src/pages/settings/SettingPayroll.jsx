@@ -82,7 +82,8 @@ const SettingPayroll = () => {
             column_subsidy_vacation: setting.column_subsidy_vacation,
             column_salary_thirteenth: setting.column_salary_thirteenth,
             column_salary_fourteenth: setting.column_salary_fourteenth,
-            payslip_comment: setting.payslip_comment
+            payslip_comment: setting.payslip_comment,
+            column_loan: setting.column_loan
         },
         validationSchema: schema,
         enableReinitialize: true,
@@ -216,6 +217,18 @@ const SettingPayroll = () => {
                                         <option value="true">{t("SettingPayroll.22")}</option> 
                                         }
                                         {setting.column_syndicate === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                        <option value="false">{t("SettingPayroll.23")}</option> 
+                                        }
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>{t("SettingPayroll.25")}</label>
+                                    <select id="column_loan" name="column_loan"
+                                            onChange={e => setFieldValue("column_loan", e.target.value)} onBlur={handleBlur}>
+                                        {setting.column_loan === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                        <option value="true">{t("SettingPayroll.22")}</option> 
+                                        }
+                                        {setting.column_loan === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
                                         <option value="false">{t("SettingPayroll.23")}</option> 
                                         }
                                     </select>

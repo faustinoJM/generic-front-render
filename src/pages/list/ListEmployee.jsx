@@ -101,7 +101,7 @@ const ListEmployee = ({ listName, listPath }) => {
             if (response.status === 200) {
                 setLoading(false)
             }
-            // setUserRows(response.data)
+            console.log(response.data)
 
             setUserRows(response.data.filter(data => {
                 if (searchName === "")

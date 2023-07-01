@@ -24,12 +24,12 @@ const NewDepartment = ({ inputs, title }) => {
         fetch()
     }, [])
 
-     const onSubmit = async (values, actions) => {
+    const onSubmit = async (values, actions) => {
         console.log(values)
         console.log(actions)
         const { name } = values
         console.log("submit")
-        actions.resetForm()
+        // actions.resetForm()
 
         try {
             const response = await api.post('departments', {name})
@@ -50,7 +50,16 @@ const NewDepartment = ({ inputs, title }) => {
             navigate("/departments")
         } catch (err) {
             if (err.response.status === 400)
-            errors.name = setting?.language_options === "pt" ? "Departamento ja existe!!" : "Department Already Exists!!"
+                errors.name = setting?.language_options === "pt" ? "Departamento ja existe!!" : "Department Already Exists!!"
+            if (err.response.status === 401) {
+                errors.name = `Error ${err.response.status} ${err.response.data.message}`
+                Swal.fire({
+                    icon: 'error',
+                    title: `Error ${err.response.status}`,
+                    text: err.response.data.message,
+                    // footer: '<a href="">Why do I have this issue?</a>'
+                  })
+            }
         }
        
      }

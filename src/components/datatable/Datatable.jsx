@@ -2,7 +2,7 @@ import "./datatable.scss";
 import { DataGrid, GridToolbar} from '@mui/x-data-grid';
 // import { userColumns, userRows } from "../../datatablesource";
 import { Link } from "react-router-dom"
-import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import api from "../../services/api";
 import { read, utils, writeFileXLSX } from 'xlsx';
 import EditIcon from '@mui/icons-material/Edit';
@@ -15,9 +15,17 @@ const Datatable = ({ listName, listPath, columns, userRows, setUserRows, loading
     const { t, i18n } = useTranslation();
 
 
-    const handleDelete = async (id, router) => {
-    await api.delete(`${router}/${id}`)
-    setUserRows(userRows.filter(item => item.id !== id))
+    const handleDelete = (id, router) => {
+        api.delete(`${router}/${id}`).then(() => {
+            setUserRows(userRows.filter(item => item.id !== id))
+        }).catch((err) => {
+            Swal.fire({
+                icon: 'error',
+                title: `Error ${err.response.status}`,
+                text: err.response.data.message,
+                // footer: '<a href="">Why do I have this issue?</a>'
+            })
+        })
     } 
 
     const onCellEditCommit = ({ id, field, value }) => {

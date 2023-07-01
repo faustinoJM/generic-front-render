@@ -14,7 +14,7 @@ const DropDownLang = ({setOpenLang, setLangOption}) => {
 
         language === "pt" ? setLangOption("PT") : setLangOption("EN")
         await api.post("settings", { language_options: language })
-        window.location.reload(true)
+        // window.location.reload(true)
         
     }
 
