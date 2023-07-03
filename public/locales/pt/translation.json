@@ -238,7 +238,9 @@
         "22": "Activo",
         "23": "Inactivo",
         "24": "Comentario no Recibo",
-        "25": "Emprestimo Longo Prazo"
+        "25": "Emprestimo Longo Prazo",
+        "26": "Recibo",
+        "27": "Modelo de Recibo"
     },
 
     "Month": {

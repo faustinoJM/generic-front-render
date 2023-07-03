@@ -15,12 +15,22 @@ const payrollColumns = [
     // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
     { field: "year", headerName:"ANO", width: 180,  align:'center', headerAlign: 'center', },
     { field: "total_employee", headerName:"TOTAL FUNCIONARIOS", width: 180,  align:'center', headerAlign: 'center', },
- 
+]
+
+const payrollColumnsEN = [
+    { field: 'id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center',},
+    { field: 'month', headerName: 'MONTH', width: 150,align:'center', headerAlign: 'center',},
+    // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
+    { field: "year", headerName:"YEAR", width: 180,  align:'center', headerAlign: 'center', },
+    { field: "total_employee", headerName:"TOTAL EMPLOYEES", width: 180,  align:'center', headerAlign: 'center', },
 ]
 
 const ListAbsences = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
+    const [loadLang, SetLoadLang] = useState(false)
+    const [columns,  setColumns] = useState(payrollColumns)
+
 
     useEffect(() => {
         async function fetchData() {
@@ -28,21 +38,22 @@ const ListAbsences = ({ listName, listPath }) => {
             if (response.data) {
 
                 payrollColumns.map(data => {
-                    if (data.field === "month") {
-                        response.data.language_options === "en" ? data.headerName = "MONTH" : data.headerName = data.headerName
-                    }
-                    if (data.field === "year") {
-                        response.data.language_options === "en" ? data.headerName = "YEAR" : data.headerName = data.headerName
-                    }
-                    if (data.field === "total") {
-                        response.data.language_options === "en" ? data.headerName = "TOTAL EMPLOYEES" : data.headerName = data.headerName
-                    }
+                    // if (data.field === "month") {
+                    //     response.data.language_options === "en" ? data.headerName = "MONTH" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "year") {
+                    //     response.data.language_options === "en" ? data.headerName = "YEAR" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "total") {
+                    //     response.data.language_options === "en" ? data.headerName = "TOTAL EMPLOYEES" : data.headerName = data.headerName
+                    // }
+                    response.data.language_options === "en" ? setColumns(payrollColumnsEN) : setColumns(payrollColumns)
                 })
             }
         }
 
             fetchData()
-    }, [])
+    }, [loadLang])
 
     useEffect(() => {
         async function fetchData() {
@@ -63,12 +74,12 @@ const ListAbsences = ({ listName, listPath }) => {
         <div className="list">
             <Sidebar />
             <div className="listContainer">
-                <Navbar />
+                <Navbar SetLoadLang={SetLoadLang}/>
                 {/* <ChakraProvider>
                     <Register />
                 </ChakraProvider> */}
 
-                <DatatableResourceAbsences listName={listName} listPath={listPath} columns={payrollColumns} 
+                <DatatableResourceAbsences listName={listName} listPath={listPath} columns={columns} 
                 userRows={userRows} setUserRows={setUserRows} 
                 loading={loading} setLoading={setLoading}/>
             </div>

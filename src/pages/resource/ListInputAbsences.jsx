@@ -18,6 +18,17 @@ const payrollInputColumns = [
     { field: "month",headerName: "MES", width: 100},
     { field: "year",headerName: "ANO", width: 70}
 ]
+
+const payrollInputColumnsEN = [
+    { field: 'employee_id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center', hide: true},
+    { field: 'employee_name', headerName: 'Name', width: 200,align:'left', headerAlign: 'center', },
+    // { field: "salary_base", headerName: "Salario Base", width: 130, editable: false, align:'center', headerAlign: 'center',},
+    { field: "absences",  headerName: "Absences", width: 100, editable: true, align:'center', headerAlign: 'center'},
+    // { field: "subsidy", headerName: "Subsidio", width: 130, editable: true, align:'center', headerAlign: 'center',},
+    // { field: "bonus", headerName: "Comissao", width: 100, editable: true, align:'center', headerAlign: 'center',},
+    { field: "month",headerName: "MONTH", width: 100},
+    { field: "year",headerName: "YEAR", width: 70}
+]
 const formatSalary = () => {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
   }
@@ -40,6 +51,9 @@ const ListInputAbsences = ({ listName, listPath }) => {
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true)
     const [searchName, setSearchName] = useState("")
+    const [loadLang, SetLoadLang] = useState(false)
+    const [columns,  setColumns] = useState(payrollInputColumns)
+
     const params = useParams()
 
     useEffect(() => {
@@ -47,11 +61,12 @@ const ListInputAbsences = ({ listName, listPath }) => {
             const response = await api.get("settings")
             if (response.data) {
                 setSettings(response.data)
+                response.data.language_options === "en" ? setColumns(payrollInputColumnsEN) : setColumns(payrollInputColumns)
             }
         }
 
             fetchData()
-        }, [])
+        }, [loadLang])
 
     useEffect(() => {
         async function fetchData() {
@@ -95,8 +110,8 @@ const ListInputAbsences = ({ listName, listPath }) => {
         <div className="list">
             <Sidebar />
             <div className="listContainer">
-                <Navbar searchName={searchName} setSearchName={setSearchName}/>
-                <DatatableInputAbsences listName={listName} listPath={listPath} columns={payrollInputColumns}
+                <Navbar searchName={searchName} setSearchName={setSearchName} SetLoadLang={SetLoadLang}/>
+                <DatatableInputAbsences listName={listName} listPath={listPath} columns={columns}
                 userRows={userRows} setUserRows={setUserRows} settings={settings}
                 loading={loading} setLoading={setLoading}
                 searchName={searchName} setSearchName={setSearchName}

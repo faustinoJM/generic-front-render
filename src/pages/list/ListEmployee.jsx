@@ -28,6 +28,27 @@ const employeeColumns = [
     { field: "employee_status",headerName: "Estado", width: 70, align:'center', headerAlign: 'center'}
 ]
 
+const employeeColumnsEN = [
+    { field: 'employee_id', headerName: 'ID', width: 70, pinnable: true },
+    { field: 'name', headerName: 'Name', width: 200, editable: true, align:'left', headerAlign: 'center'},
+    { field: "birth_date", headerName:"Birth Date", width: 160,  },
+    { field: "gender", headerName: "Gender", width: 130, align:'center', headerAlign: 'center' },
+    // { field: "address", headerName: "Endereco", width: 130, align:'center', headerAlign: 'center' },
+    { field: "contact", headerName: "Contact", width: 130, align:'center', headerAlign: 'center' },
+    // { field: "email",  headerName: "Email", width: 100, align:'center', headerAlign: 'center' },
+    // { field: "nuit",  headerName: "NUIT", width: 130, align:'center', headerAlign: 'center' },
+    { field: "dependents",  headerName: "Dependents", width: 120, align:'center', headerAlign: 'center' },
+    { field: "salary",  headerName: "Base Salary", width: 130, align:'center', headerAlign: 'center' },
+    { field: "subsidy",  headerName: "Subsidy", width: 100, align:'center', headerAlign: 'center' },
+    // { field: "bank_name",headerName: "Nome do Banco", width: 130, align:'center', headerAlign: 'center' },
+    // { field: "bank_account",headerName: "Numero da Conta", width: 130, align:'center', headerAlign: 'center' },
+    // { field: "nib",headerName: "NIB", width: 50, align:'center', headerAlign: 'center' ,},
+    // { field: "social_security",headerName: "Numero Seg. Social", width: 130, align:'center', headerAlign: 'center'},
+    { field: "start_date",headerName: "Start Date", width: 100,align:'center', headerAlign: 'center' },
+    { field: "end_date",headerName: "End Date", width: 100, align:'center', headerAlign: 'center' },
+    { field: "employee_status",headerName: "Employee Status", width: 70, align:'center', headerAlign: 'center'}
+]
+
 const formatSalary = new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
   
 const formatDate = new Intl.DateTimeFormat("pt-br", { dateStyle: 'short'})  
@@ -35,7 +56,11 @@ const formatDate = new Intl.DateTimeFormat("pt-br", { dateStyle: 'short'})
 const ListEmployee = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
+    const [setting, setSetting] = useState(null)
+    const [columns,  setColumns] = useState(employeeColumns)
     const [searchName, setSearchName] = useState("")
+    const [loadLang, SetLoadLang] = useState(false)
+
 
     useEffect(() => {
         async function fetchData() {
@@ -43,42 +68,45 @@ const ListEmployee = ({ listName, listPath }) => {
             if (response.data) {
 
                 employeeColumns.map(data => {
-                    if (data.field === "name") {
-                        response.data.language_options === "en" ? data.headerName = "Name" : data.headerName = data.headerName
-                    }
-                    if (data.field === "birth_date") {
-                        response.data.language_options === "en" ? data.headerName = "Birth Data" : data.headerName = data.headerName
-                    }
-                    if (data.field === "gender") {
-                        response.data.language_options === "en" ? data.headerName = "Gender" : data.headerName = data.headerName
-                    }
-                    if (data.field === "contact") {
-                        response.data.language_options === "en" ? data.headerName = "Contact" : data.headerName = data.headerName
-                    }
-                    if (data.field === "dependents") {
-                        response.data.language_options === "en" ? data.headerName = "Dependents" : data.headerName = data.headerName
-                    }
-                    if (data.field === "salary") {
-                            response.data.language_options === "en" ? data.headerName = "Salary" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy") {
-                        response.data.language_options === "en" ? data.headerName = "Subsidy" : data.headerName = data.headerName
-                    }
-                    if (data.field === "start_date") {
-                        response.data.language_options === "en" ? data.headerName = "Start Date" : data.headerName = data.headerName
-                    }
-                    if (data.field === "end_date") {
-                        response.data.language_options === "en" ? data.headerName = "End Date" : data.headerName = data.headerName
-                    }
-                    if (data.field === "employee_status") {
-                        response.data.language_options === "en" ? data.headerName = "Employee Status" : data.headerName = data.headerName
-                    }
-                    })
+                    // if (data.field === "name") {
+                    //     response.data.language_options === "en" ? data.headerName = "Name" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "birth_date") {
+                    //     response.data.language_options === "en" ? data.headerName = "Birth Data" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "gender") {
+                    //     response.data.language_options === "en" ? data.headerName = "Gender" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "contact") {
+                    //     response.data.language_options === "en" ? data.headerName = "Contact" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "dependents") {
+                    //     response.data.language_options === "en" ? data.headerName = "Dependents" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "salary") {
+                    //         response.data.language_options === "en" ? data.headerName = "Salary" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "subsidy") {
+                    //     response.data.language_options === "en" ? data.headerName = "Subsidy" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "start_date") {
+                    //     response.data.language_options === "en" ? data.headerName = "Start Date" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "end_date") {
+                    //     response.data.language_options === "en" ? data.headerName = "End Date" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "employee_status") {
+                    //     response.data.language_options === "en" ? data.headerName = "Employee Status" : data.headerName = data.headerName
+                    // }
+                    response.data.language_options === "en" ? setColumns(employeeColumnsEN) : setColumns(employeeColumns)
+                })
+                setSetting(response.data)
+                console.log("7854",loadLang)
             }
         }
 
             fetchData()
-        }, [])
+        }, [loadLang])
  
     useEffect(() => {
         async function fetchData() {
@@ -129,9 +157,9 @@ const ListEmployee = ({ listName, listPath }) => {
             <Sidebar/>
             {console.log("Pora",searchName)}
             <div className="listContainer">
-                <Navbar searchName={searchName} setSearchName={setSearchName}/>
-                <DatatableEmployee listName={listName} listPath={listPath} 
-                columns={employeeColumns} userRows={userRows} setUserRows={setUserRows}
+                <Navbar searchName={searchName} setSearchName={setSearchName} loadLang={loadLang} SetLoadLang={SetLoadLang}/>
+                <DatatableEmployee listName={listName} listPath={listPath} columns={columns} setColumns={setColumns}
+                 userRows={userRows} setUserRows={setUserRows} //columns={employeeColumns}
                 loading={loading} setLoading={setLoading}
                 searchName={searchName} setSearchName={setSearchName}/>
             </div>

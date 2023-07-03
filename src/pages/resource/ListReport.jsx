@@ -12,13 +12,23 @@ const payrollColumns = [
     // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
     { field: "year", headerName:"Ano", width: 180,  align:'center', headerAlign: 'center', },
     { field: "total", headerName:"Total Funcionarios", width: 180,  align:'center', headerAlign: 'center', },
- 
+]
+
+const payrollColumnsEN = [
+    { field: 'id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center',},
+    { field: 'month', headerName: 'Mes', width: 150,align:'center', headerAlign: 'center',},
+    // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
+    { field: "year", headerName:"Ano", width: 180,  align:'center', headerAlign: 'center', },
+    { field: "total", headerName:"Total Funcionarios", width: 180,  align:'center', headerAlign: 'center', },
 ]
 
 const ListReport = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
     const [single, setSingle] = useState({})
+    const [loadLang, SetLoadLang] = useState(false)
+    const [columns,  setColumns] = useState(payrollColumns)
+
 
     useEffect(() => {
         async function fetchData() {
@@ -42,7 +52,7 @@ const ListReport = ({ listName, listPath }) => {
         <div className="list">
             <Sidebar />
             <div className="listContainer">
-                <Navbar />
+                <Navbar  SetLoadLang={SetLoadLang}/>
                 <PrintZ single={single}/>
                 {/* <DatatableResource listName={listName} listPath={listPath} columns={payrollColumns} 
                 userRows={userRows} setUserRows={setUserRows} 

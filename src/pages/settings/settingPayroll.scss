@@ -133,6 +133,16 @@
                 div {
                     display: flex;
                     flex-direction: column;
+                    gap: 5px;
+                    
+                    div {
+                        display: flex;
+                        flex-direction: row;
+
+                        input {
+                            width: 20px;
+                        }
+                    }
                 }
             }
 

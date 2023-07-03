@@ -38,7 +38,7 @@ const keyToPropMap = {
     "Numero de Seg. Social": "social_security"
   };
 
-const DatatableEmployee = ({ listName, listPath, columns, userRows, setUserRows, loading, setLoading, searchName, setSearchName}) => {
+const DatatableEmployee = ({ listName, listPath, columns, setColumns, userRows, setUserRows, loading, setLoading, searchName, setSearchName}) => {
     const { t, i18n } = useTranslation();
     const [excelFile, setExcelFile] = useState([]);
     const [excelError, setExcellError] = useState("")

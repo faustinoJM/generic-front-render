@@ -3,7 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import { useEffect, useState } from "react"
 import api from "../../services/api"
-import DatatableListInput from "../../components/datatable/DatatableListPayrolls"
+import DatatableListPayrolls from "../../components/datatable/DatatableListPayrolls"
 
 const payrollColumns = [
     { field: 'id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center',},
@@ -13,11 +13,20 @@ const payrollColumns = [
     { field: "total_employee", headerName:"TOTAL FUNCIONARIOS", width: 180,  align:'center', headerAlign: 'center', },
 ]
 
+const payrollColumnsEN = [
+    { field: 'id', headerName: 'ID', width: 70, align:'center', headerAlign: 'center',},
+    { field: 'month', headerName: 'MONTH', width: 150,align:'center', headerAlign: 'center',},
+    // { field: "dependents", headerName:"Dependentes", width: 120,  align:'center', headerAlign: 'center', },
+    { field: "year", headerName:"YEAR", width: 180,  align:'center', headerAlign: 'center', },
+    { field: "total_employee", headerName:"TOTAL EMPLOYEES", width: 180,  align:'center', headerAlign: 'center', },
+]
+
 const ListPayrolls = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [loading, setLoading] = useState(true)
     const [setting, setSetting] = useState(null)
     const [columns,  setColumns] = useState(payrollColumns)
+    const [loadLang, SetLoadLang] = useState(false)
 
     useEffect(() => {
         async function fetchData() {
@@ -25,22 +34,23 @@ const ListPayrolls = ({ listName, listPath }) => {
             if (response.data) {
 
                 payrollColumns.map(data => {
-                    if (data.field === "month") {
-                        response.data.language_options === "en" ? data.headerName = "MONTH" : data.headerName = data.headerName
-                    }
-                    if (data.field === "year") {
-                        response.data.language_options === "en" ? data.headerName = "YEAR" : data.headerName = data.headerName
-                    }
-                    if (data.field === "total_employee") {
-                        response.data.language_options === "en" ? data.headerName = "TOTAL EMPLOYEES" : data.headerName = data.headerName
-                    }
+                    // if (data.field === "month") {
+                    //     response.data.language_options === "en" ? data.headerName = "MONTH" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "year") {
+                    //     response.data.language_options === "en" ? data.headerName = "YEAR" : data.headerName = data.headerName
+                    // }
+                    // if (data.field === "total_employee") {
+                    //     response.data.language_options === "en" ? data.headerName = "TOTAL EMPLOYEES" : data.headerName = data.headerName
+                    // }
+                    response.data.language_options === "en" ? setColumns(payrollColumnsEN) : setColumns(payrollColumns)
                 })
                 setSetting(response.data)
             }
         }
 
             fetchData()
-    }, [])
+    }, [loadLang])
 
     useEffect(() => {
         async function fetchData() {
@@ -61,8 +71,8 @@ const ListPayrolls = ({ listName, listPath }) => {
         <div className="list">
             <Sidebar />
             <div className="listContainer">
-                <Navbar />
-                <DatatableListInput listName={listName} listPath={listPath} columns={columns} setColumns={setColumns} 
+                <Navbar SetLoadLang={SetLoadLang}/>
+                <DatatableListPayrolls listName={listName} listPath={listPath} columns={columns} setColumns={setColumns} 
                 userRows={userRows} setUserRows={setUserRows}
                 loading={loading} setLoading={setLoading}
                 setting={setting} setSetting={setSetting}/>

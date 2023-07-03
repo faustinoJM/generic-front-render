@@ -14,6 +14,7 @@ const SettingPayroll = () => {
     const [setting, setSetting] = useState("")
     const [day, setday] = useState("")
     const [hour, sethour] = useState("")
+    const [Inta, setInta] = useState("")
     const { t, i18n } = useTranslation();
 
     useEffect(() => {
@@ -29,6 +30,7 @@ const SettingPayroll = () => {
                 setSetting(response.data)
                 setday(response.data.payroll_month_total_workdays)
                 sethour(response.data.payroll_day_total_workhours)
+                setInta(response.data.payslip_type)
             } else {
                 setday(30)
                 sethour(8)
@@ -83,6 +85,7 @@ const SettingPayroll = () => {
             column_salary_thirteenth: setting.column_salary_thirteenth,
             column_salary_fourteenth: setting.column_salary_fourteenth,
             payslip_comment: setting.payslip_comment,
+            payslip_type: setting.payslip_type,
             column_loan: setting.column_loan
         },
         validationSchema: schema,
@@ -333,7 +336,16 @@ const SettingPayroll = () => {
                         </div>
                         <div className="folhaDiv2">
                             <div>
-                                <h2>{t("SettingPayroll.24")}</h2>
+                                <h2>{t("SettingPayroll.26")}</h2>
+                                <div>
+                                    <label>{t("SettingPayroll.27")}:</label>
+                                    <select id="payslip_type" name="payslip_type" value={values.payslip_type}
+                                            onChange={e => setFieldValue("payslip_type", e.target.value)} onBlur={handleBlur}>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option> 
+                                    </select>
+                                </div>
+                                <h4>{t("SettingPayroll.24")}</h4>
                                 <input type="text" id="payslip_comment"
                                     defaultValue={values.payslip_comment} onChange={handleChange} onBlur={handleBlur}/>
                             </div>

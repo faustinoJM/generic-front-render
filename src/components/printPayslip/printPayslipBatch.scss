@@ -160,6 +160,84 @@
       font-size: 10px;
     }
   }
+
+  .employee-company-data {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    // background-color: red;
+
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .wrapper-div {
+    display: flex;
+    width: 80%;
+    // border: 1px solid red;
+    margin: 0 auto;
+    font-size: 12px;
+
+    .column-head {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      // border: 1px solid pink;
+      gap: 5px;
+
+    }
+    .column-img {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      // border: 1px solid yellow;
+
+      img {
+        width: 200px;
+        height: 150px;
+      }
+
+    }
+    .column-data {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      // border: 1px solid blue;
+      align-items: center;
+      gap: 5px;
+
+
+    }
+  }
+  
+  .footer-2 {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    // gap: 5px;
+    // border: 1px solid green;
+
+    .signature {
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .date {
+      font-size: 12px;
+    }
+
+    .comment {
+      display: flex;
+      justify-content: center;
+      font-style: italic;
+      font-size: 10px;
+    }
+  }
+
+  
 }
 
 @page {

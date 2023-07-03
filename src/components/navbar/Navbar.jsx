@@ -15,7 +15,7 @@ import api from "../../services/api";
 // import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 
-const Navbar = ({searchName, setSearchName}) => {
+const Navbar = ({searchName, setSearchName, loadLang, SetLoadLang}) => {
     const { t, i18n } = useTranslation();
     const [openProfile, setOpenProfile] = useState(false)
     const [openLang, setOpenLang] = useState(false)
@@ -72,7 +72,7 @@ const Navbar = ({searchName, setSearchName}) => {
                     <div className="item" >
                         <LanguageOutlinedIcon className="icon" onClick={() => handleLanguage("en")}/>
                         {langOption} {/* EN */}
-                        {openLang && <DropDownLang setOpenLang={setOpenLang} setLangOption={setLangOption}/>}
+                        {openLang && <DropDownLang setOpenLang={setOpenLang} setLangOption={setLangOption} SetLoadLang={SetLoadLang}/>}
                     </div>
                     {/* <div className="item" onClick={() => handleLanguage("ko")}>
                         <LanguageOutlinedIcon className="icon" />

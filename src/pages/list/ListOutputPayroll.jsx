@@ -36,6 +36,35 @@ const payrollOutputColumns = [
     { field: "year",headerName: "ANO", width: 70}
 ]
 
+const payrollOutputColumnsEN = [
+    { field: 'employee_id', headerName: 'ID', width: 70, pinnable: true, headerAlign: 'center',},
+    { field: 'employee_name', headerName: 'Name', width: 200, headerAlign: 'center',},
+    { field: "department_name", headerName:"Department", width: 150,  align:'center', headerAlign: 'center', },
+    { field: "position_name", headerName:"Position", width: 150,  align:'center', headerAlign: 'center', },
+    { field: "salary_base", headerName: "Base Salary", width: 130, align:'center', headerAlign: 'center',},
+    { field: "subsidy",  headerName: "Subsidy", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_transport",  headerName: "Transport Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_food",  headerName: "Food Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_residence",  headerName: "Residence Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_medical",  headerName: "Medical Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_vacation",  headerName: "Vacation Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "salary_thirteenth",  headerName: "Salary Thirtheen", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "bonus",  headerName: "Bonus", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "total_overtime", headerName: "Total Overtime", width: 135,  align:'center', headerAlign: 'center',},
+    { field: "total_absences", headerName: "Total Absences", width: 100, align:'center', headerAlign: 'center',},
+    { field: "cash_advances",  headerName: "Cash Advances", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "backpay",  headerName: "Backpay", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "total_income",  headerName: "Gross Salary", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "irps",  headerName: "IRPS", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "syndicate_employee",  headerName: "Syndicate", width: 130, align:'center', headerAlign: 'center',},
+    { field: "inss_employee",  headerName: "INSS (3%)", width: 130, align:'center', headerAlign: 'center',},
+    { field: "inss_company",  headerName: "INSS (4%)", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "total_inss",  headerName: "Total INSS", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "salary_liquid",headerName: "Liquid Salary", width: 150, align:'center', headerAlign: 'center',},
+    { field: "month",headerName: "MONTH", width: 100},
+    { field: "year",headerName: "YEAR", width: 70}
+]
+
 export const outputColumnVisible= {
     employee_id: true,
     employee_name: true,
@@ -63,6 +92,8 @@ const ListOutputPayroll = ({ listName, listPath }) => {
     const [active, setActive] = useState(true)
     const params = useParams()
     const [searchName, setSearchName] = useState("")
+    const [columns,  setColumns] = useState(payrollOutputColumns)
+    const [loadLang, SetLoadLang] = useState(false)
 
     useEffect(() => {
         async function fetchData() {
@@ -86,89 +117,90 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                 // response.data.column_salary_thirteenth === "true" ? outputColumnVisible.salary_thirteenth = true : outputColumnVisible.salary_thirteenth = false
                 payrollOutputColumns.map(data => {
                     if (data.field === "employee_name") {
-                        response.data.language_options === "en" ? data.headerName = "Name" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Name" : data.headerName = data.headerName
                     }
                     if (data.field === "position_name") {
                         response.data.column_position_name === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Position" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Position" : data.headerName = data.headerName
                     }
                     if (data.field === "department_name") {
                         response.data.column_department_name === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Department" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Department" : data.headerName = data.headerName
                     }
                     if (data.field === "total_absences") {
                         response.data.column_absences === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Total Absences" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Total Absences" : data.headerName = data.headerName
                     }
                     if (data.field === "cash_advances") {
                         response.data.column_cash_advances === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Cash Advances" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Cash Advances" : data.headerName = data.headerName
                     }
                     if (data.field === "total_overtime") {
                         response.data.column_overtime === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Total Overtime" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Total Overtime" : data.headerName = data.headerName
                     }
                     if (data.field === "backpay") {
                         response.data.column_backpay === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Backpay" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Backpay" : data.headerName = data.headerName
                     }
                     if (data.field === "bonus") {
                         response.data.column_bonus === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Bonus" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Bonus" : data.headerName = data.headerName
                     }
                     if (data.field === "syndicate_employee") {
                         response.data.column_syndicate === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Syndicate Employee" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Syndicate Employee" : data.headerName = data.headerName
                     }
                     if (data.field === "subsidy") {
                         response.data.column_subsidy === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Subsidy" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Subsidy" : data.headerName = data.headerName
                     }
                     if (data.field === "subsidy_transport") {
                         response.data.column_subsidy_transport === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Transport Allowance" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Transport Allowance" : data.headerName = data.headerName
                     }
                     if (data.field === "subsidy_food") {
                         response.data.column_subsidy_food === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Food Allowance" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Food Allowance" : data.headerName = data.headerName
                     }
                     if (data.field === "subsidy_residence") {
                         response.data.column_subsidy_residence === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Residence Allowance" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Residence Allowance" : data.headerName = data.headerName
                     }
                     if (data.field === "subsidy_medical") {
                         response.data.column_subsidy_medical === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Medical Allowance" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Medical Allowance" : data.headerName = data.headerName
                     }
                     if (data.field === "subsidy_vacation") {
                         response.data.column_subsidy_vacation === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
                     }
                     if (data.field === "salary_thirteenth") {
                         response.data.column_salary_thirteenth === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Salary thirteenth" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Salary thirteenth" : data.headerName = data.headerName
                     }
                     if (data.field === "salary_fourteenth") {
                         response.data.column_salary_thirteenth === "true" ? data.hide = false : data.hide = true
-                        response.data.language_options === "en" ? data.headerName = "Salary Fourteenth" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Salary Fourteenth" : data.headerName = data.headerName
                     }
                     if (data.field === "salary_base") {
-                        response.data.language_options === "en" ? data.headerName = "Base Salary" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Base Salary" : data.headerName = data.headerName
                     }
                     if (data.field === "total_income") {
-                        response.data.language_options === "en" ? data.headerName = "Gross Salary" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Gross Salary" : data.headerName = data.headerName
                     }
                     if (data.field === "salary_liquid") {
-                        response.data.language_options === "en" ? data.headerName = "Net Salary" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Net Salary" : data.headerName = data.headerName
                     }
                     if (data.field === "month") {
-                        response.data.language_options === "en" ? data.headerName = "Month" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Month" : data.headerName = data.headerName
                     }
                     if (data.field === "year") {
-                        response.data.language_options === "en" ? data.headerName = "Year" : data.headerName = data.headerName
+                        // response.data.language_options === "en" ? data.headerName = "Year" : data.headerName = data.headerName
                     }
-                    })
 
+                    response.data.language_options === "en" ? setColumns(payrollOutputColumnsEN) : setColumns(payrollOutputColumns)
+                })
                     console.log("output", payrollOutputColumns)
                     console.log("output", params.payrollId)
 
@@ -177,7 +209,8 @@ const ListOutputPayroll = ({ listName, listPath }) => {
         }
 
             fetchData()
-        }, [])
+        }, [loadLang])
+        
     useEffect(() => {
         async function fetchData() {
             const response = await api.get(`${listPath}/output/${params.payrollId}`)
@@ -288,9 +321,9 @@ const ListOutputPayroll = ({ listName, listPath }) => {
             {/* {console.log(userRows)} */}
             <Sidebar active={active} setActiv={setActive}/>
             <div className="listContainer">
-                <Navbar searchName={searchName} setSearchName={setSearchName}/>
+                <Navbar searchName={searchName} setSearchName={setSearchName} SetLoadLang={SetLoadLang}/>
                 <DatatableOutputPayroll listName={listName} listPath={listPath} 
-                    columns={payrollOutputColumns} userRows={userRows} setUserRows={setUserRows} 
+                    columns={columns} userRows={userRows} setUserRows={setUserRows} 
                     active={loading} setLoading={setLoading} settings={settings} 
                     payrollId={params.payrollId}
                     searchName={searchName} setSearchName={setSearchName}

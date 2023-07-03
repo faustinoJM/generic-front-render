@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import "./dropdownLang.scss"
 import api from '../../services/api';
 
-const DropDownLang = ({setOpenLang, setLangOption}) => {
+const DropDownLang = ({setOpenLang, setLangOption, SetLoadLang}) => {
     const { t, i18n } = useTranslation();
 
     async function handleLanguage(language) {
@@ -14,6 +14,8 @@ const DropDownLang = ({setOpenLang, setLangOption}) => {
 
         language === "pt" ? setLangOption("PT") : setLangOption("EN")
         await api.post("settings", { language_options: language })
+        SetLoadLang(prev => !prev)
+
         // window.location.reload(true)
         
     }

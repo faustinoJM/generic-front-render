@@ -17,7 +17,7 @@ import { printPDF } from "../printPayroll/PrintPayroll";
 import {useQuery} from 'react-query'
 import Swal from "sweetalert2";
 import { useTranslation } from 'react-i18next';
-import PrintPayslipBucket from "../printPayslip/PrintPayslipBucket";
+import PrintPayslipBatch from "../printPayslip/PrintPayslipBatch";
 
 const formatSalary = () => {
     return new Intl.NumberFormat("en-US",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -32,7 +32,7 @@ async function fetchPrintData(){
     return data
 }
 
-const DatatableListInput = ({ listName, listPath, columns, setColumns, userRows, setUserRows, loading, setLoading, setting, setSetting }) => {
+const DatatableListPayrolls = ({ listName, listPath, columns, setColumns, userRows, setUserRows, loading, setLoading, setting, setSetting }) => {
     const workbook = new exceljs.Workbook();
     const [year, setYear] = useState(0);
     const componentRef = useRef();
@@ -687,7 +687,7 @@ const DatatableListInput = ({ listName, listPath, columns, setColumns, userRows,
                         </select>
                 */}
                 {/* <PrintPayroll componentRef={componentRef} printData={printPayroll}/> */}
-                <PrintPayslipBucket componentRef={componentRef} printData={printPayroll} />
+                <PrintPayslipBatch componentRef={componentRef} printData={printPayroll} />
             </div>
             <DataGrid
             sx={{
@@ -728,7 +728,7 @@ const DatatableListInput = ({ listName, listPath, columns, setColumns, userRows,
     )
 }
 
-export default DatatableListInput;
+export default DatatableListPayrolls;
 
 
 const columnsExcel = [
