@@ -1,0 +1,154 @@
+.noneDiv{
+    
+    .componentRef {
+    }
+    
+    
+    
+}
+
+@media print {
+    @page { size: portrait !important; }
+    // @page {
+    //     size: portrait !important;
+    //   }
+  }   
+
+.containerPrintSlip {
+    display: flex;
+    flex-direction: column;
+    // background-color: GREEN;
+    // height: 950px;
+    padding: 10px;
+    margin-bottom: 30px;
+    // border: 1px solid green;
+
+    .printSlip-1, .printSlip-2 {
+        font-size: 10px;
+    }
+     
+    .logo_and_adress {
+        display: flex;
+        flex-direction:  row;
+        justify-content: space-between;
+        .nameAdress{
+            display: flex;
+            flex-direction: column;
+            // border: 1px solid yellow;
+        }
+
+        .logo_print {
+            // border: 1px solid red;
+
+            img {
+                width: 120px;
+                height: 85px;
+                // border-radius: %;
+                // object-fit: cover;
+                justify-self: center;
+            }
+        }
+    }
+
+    .employeeData {
+        display: flex;
+        flex-direction: column;
+        // border: 1px solid red;
+
+        .idRecibo{
+            display: flex;
+            justify-content: space-between;
+                            
+            .id{
+                align-self: end;
+                // margin-top: 25px;
+                margin-right: 10px;
+
+                span {
+                    margin-right: 5px;
+                }
+            }
+            .recibo {
+                display: flex;
+                flex-direction: column;
+
+                .title {
+                    text-align: center;
+                    font-size: 20px;
+                }
+
+                .mes{
+                    display: flex;
+                    flex-direction: row;
+
+                    span{
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+          }
+
+        .tableEmployeeData {
+            th {
+                width: 200px; 
+                background:	silver;
+            }
+            td {
+                width: 200px; 
+                text-align: center;
+            }
+        }
+    }
+
+    .employePayment {
+        margin-top: 8px;
+        // border: 1px solid yellow;
+
+          th{
+            width: 200px;
+          }td{
+            width: 200px;
+            text-align: center;
+          }
+
+    }
+
+    .footer{
+        display: flex;
+        flex-direction: column;
+        margin-top: 4px;
+           
+        .signature {
+            display: flex;
+            justify-content: space-between;
+         
+        }
+
+        .comment {
+            display: flex;
+            justify-content: center;
+            font-style: italic;
+            font-size: 10px;
+          }
+
+        // div {
+        //     .linha{
+        //         width: 40px;
+        //         border-bottom: 1px solid #000;
+        //     }
+        // }
+    }
+   
+}
+
+
+
+
+
+
+

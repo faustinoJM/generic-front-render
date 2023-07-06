@@ -239,7 +239,15 @@
         "24": "Payslip comment",
         "25": "Loan",
         "26": "Payslip",
-        "27": "Payslip Type"
+        "27": "Payslip Type",
+        "28": "IPA",
+        "29": "Shift Allowance",
+        "30": "Night Allowance",
+        "31": "Risk Allowance",
+        "32": "Attendance Allowance",
+        "33": "Performance Allowance",
+        "34": "Leadership Allowance",
+        "35": "Commission Allowance"
 
     },
 

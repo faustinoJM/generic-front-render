@@ -223,12 +223,12 @@
         "7": "Departamento",
         "8": "Horas Extras",
         "9": "Faltas",
-        "10": "Emprestimos",
+        "10": "Emprestimo",
         "11": "Bonus",
         "12": "Retroativo",
         "13": "Sindicato",
         "14": "Subsidio",
-        "15": "Subsidio Transporte",
+        "15": "Subsidio de Transporte",
         "16": "Subsidio de Alimentacao",
         "17": "Subsidio de Residencia",
         "18": "Subsidio Medico",
@@ -240,7 +240,15 @@
         "24": "Comentario no Recibo",
         "25": "Emprestimo Longo Prazo",
         "26": "Recibo",
-        "27": "Modelo de Recibo"
+        "27": "Modelo de Recibo",
+        "28": "IPA",
+        "29": "Subsidio de Turno",
+        "30": "Subsidio Noturno",
+        "31": "Subsidio de Risco",
+        "32": "Subsidio de Asseduidade",
+        "33": "Subsidio de Desempenho",
+        "34": "Subsidio de Chefia",
+        "35": "Comissao"
     },
 
     "Month": {

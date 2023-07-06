@@ -19,6 +19,13 @@ const payrollOutputColumns = [
     { field: "subsidy_residence",  headerName: "Subsidio Residencia", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "subsidy_medical",  headerName: "Subsidio Medico", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "subsidy_vacation",  headerName: "Subsidio de ferias", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_shift",  headerName: "Subsidio de Turno", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_night",  headerName: "Subsidio de Noturno", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_risk",  headerName: "Subsidio de Risco", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_attendance",  headerName: "Subsidio de Assiduidade", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_performance",  headerName: "Subsidio de Desempenho", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_leadership",  headerName: "Subsidio de Chefia", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_commission",  headerName: "Comissao", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "salary_thirteenth",  headerName: "Decimo Terceiro", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "bonus",  headerName: "Bonus", width: 130,  align:'center', headerAlign: 'center',},
     { field: "total_overtime", headerName: "Total Horas Extras", width: 135,  align:'center', headerAlign: 'center',},
@@ -27,9 +34,10 @@ const payrollOutputColumns = [
     { field: "backpay",  headerName: "Retroativos", width: 130,  align:'center', headerAlign: 'center',},
     { field: "total_income",  headerName: "Salario Bruto", width: 130,  align:'center', headerAlign: 'center',},
     { field: "irps",  headerName: "IRPS", width: 130,  align:'center', headerAlign: 'center',},
-    { field: "syndicate_employee",  headerName: "Sindicato", width: 130, align:'center', headerAlign: 'center',},
     { field: "inss_employee",  headerName: "INSS (3%)", width: 130, align:'center', headerAlign: 'center',},
     { field: "inss_company",  headerName: "INSS (4%)", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "syndicate_employee",  headerName: "Sindicato", width: 130, align:'center', headerAlign: 'center',},
+    { field: "ipa_employee",  headerName: "IPA", hide: true, width: 130, align:'center', headerAlign: 'center',},
     { field: "total_inss",  headerName: "Total INSS", width: 130,  align:'center', headerAlign: 'center',},
     { field: "salary_liquid",headerName: "Salario Liquido", width: 150, align:'center', headerAlign: 'center',},
     { field: "month",headerName: "MES", width: 100},
@@ -48,6 +56,13 @@ const payrollOutputColumnsEN = [
     { field: "subsidy_residence",  headerName: "Residence Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "subsidy_medical",  headerName: "Medical Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "subsidy_vacation",  headerName: "Vacation Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_shift",  headerName: "Shift Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_night",  headerName: "Night Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_risk",  headerName: "Risk Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_attendance",  headerName: "Attendance Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_performance",  headerName: "Performance Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_leadership",  headerName: "Leadership Allowance", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_commission",  headerName: "Commission", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "salary_thirteenth",  headerName: "Salary Thirtheen", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "bonus",  headerName: "Bonus", width: 130,  align:'center', headerAlign: 'center',},
     { field: "total_overtime", headerName: "Total Overtime", width: 135,  align:'center', headerAlign: 'center',},
@@ -56,10 +71,11 @@ const payrollOutputColumnsEN = [
     { field: "backpay",  headerName: "Backpay", width: 130,  align:'center', headerAlign: 'center',},
     { field: "total_income",  headerName: "Gross Salary", width: 130,  align:'center', headerAlign: 'center',},
     { field: "irps",  headerName: "IRPS", width: 130,  align:'center', headerAlign: 'center',},
-    { field: "syndicate_employee",  headerName: "Syndicate", width: 130, align:'center', headerAlign: 'center',},
     { field: "inss_employee",  headerName: "INSS (3%)", width: 130, align:'center', headerAlign: 'center',},
     { field: "inss_company",  headerName: "INSS (4%)", width: 130,  align:'center', headerAlign: 'center',},
     { field: "total_inss",  headerName: "Total INSS", width: 130,  align:'center', headerAlign: 'center',},
+    { field: "syndicate_employee",  headerName: "Syndicate", width: 130, align:'center', headerAlign: 'center',},
+    { field: "ipa_employee",  headerName: "IPA", hide: true, width: 130, align:'center', headerAlign: 'center',},
     { field: "salary_liquid",headerName: "Liquid Salary", width: 150, align:'center', headerAlign: 'center',},
     { field: "month",headerName: "MONTH", width: 100},
     { field: "year",headerName: "YEAR", width: 70}
@@ -175,6 +191,38 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                         response.data.column_subsidy_vacation === "true" ? data.hide = false : data.hide = true
                         // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
                     }
+                    if (data.field === "subsidy_shift") {
+                        response.data.column_subsidy_shift === "true" ? data.hide = false : data.hide = true
+                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                    }
+                    if (data.field === "subsidy_night") {
+                        response.data.column_subsidy_night === "true" ? data.hide = false : data.hide = true
+                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                    }
+                    if (data.field === "subsidy_risk") {
+                        response.data.column_subsidy_risk === "true" ? data.hide = false : data.hide = true
+                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                    }
+                    if (data.field === "subsidy_attendance") {
+                        response.data.column_subsidy_attendance === "true" ? data.hide = false : data.hide = true
+                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                    }
+                    if (data.field === "subsidy_performance") {
+                        response.data.column_subsidy_performance === "true" ? data.hide = false : data.hide = true
+                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                    }
+                    if (data.field === "subsidy_leadership") {
+                        response.data.column_subsidy_leadership === "true" ? data.hide = false : data.hide = true
+                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                    }
+                    if (data.field === "subsidy_commission") {
+                        response.data.column_subsidy_commission === "true" ? data.hide = false : data.hide = true
+                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                    }
+                    if (data.field === "ipa_employee") {
+                        response.data.column_ipa_employee === "true" ? data.hide = false : data.hide = true
+                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                    }
                     if (data.field === "salary_thirteenth") {
                         response.data.column_salary_thirteenth === "true" ? data.hide = false : data.hide = true
                         // response.data.language_options === "en" ? data.headerName = "Salary thirteenth" : data.headerName = data.headerName
@@ -199,10 +247,11 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                         // response.data.language_options === "en" ? data.headerName = "Year" : data.headerName = data.headerName
                     }
 
-                    response.data.language_options === "en" ? setColumns(payrollOutputColumnsEN) : setColumns(payrollOutputColumns)
+                    // response.data.language_options === "en" ? setColumns(payrollOutputColumnsEN) : setColumns(payrollOutputColumns)
                 })
-                    console.log("output", payrollOutputColumns)
-                    console.log("output", params.payrollId)
+                response.data.language_options === "en" ? setColumns(payrollOutputColumnsEN) : setColumns(payrollOutputColumns)
+                // console.log("output", payrollOutputColumns)
+                // console.log("output", params.payrollId)
 
                 setSettings(response.data)
             }
@@ -301,6 +350,7 @@ const ListOutputPayroll = ({ listName, listPath }) => {
             if (response.status === 200) {
                 setLoading(false)
             }
+            
             // setUserRows(response.data.concat(totalRow))
             console.log("::", searchName)
             setUserRows(response.data.filter(data => {

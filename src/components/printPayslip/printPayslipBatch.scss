@@ -93,7 +93,7 @@
 
             .title {
                 text-align: center;
-                font-size: 24px;
+                font-size: 20px;
             }
 
             .mes{
@@ -125,7 +125,7 @@
   }
   
   .employePayment {
-    font-size: 10px;
+    font-size: 9.5px;
     // border: 1px solid red;
 
     th{
@@ -137,35 +137,38 @@
   }
 
   .footer {
-    margin-top: 5px;
+    margin-top: 4px;
     display: flex;
     flex-direction: column;
     // gap: 5px;
     // border: 1px solid green;
 
     .signature {
-      font-size: 16px;
+      font-size: 12px;
       display: flex;
       justify-content: space-between;
     }
 
     .date {
-      font-size: 12px;
+      font-size: 10px;
     }
 
     .comment {
       display: flex;
       justify-content: center;
       font-style: italic;
-      font-size: 10px;
+      font-size: 8px;
     }
   }
+
+  
 
   .employee-company-data {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
     // background-color: red;
+    font-size: 14px;
 
     div {
       display: flex;
@@ -178,14 +181,14 @@
     width: 80%;
     // border: 1px solid red;
     margin: 0 auto;
-    font-size: 12px;
+    font-size: 10px;
 
     .column-head {
       flex: 1;
       display: flex;
       flex-direction: column;
       // border: 1px solid pink;
-      gap: 5px;
+      // gap: 5px;
 
     }
     .column-img {
@@ -206,34 +209,34 @@
       flex-direction: column;
       // border: 1px solid blue;
       align-items: center;
-      gap: 5px;
+      // gap: 5px;
 
 
     }
   }
   
   .footer-2 {
-    margin-top: 5px;
+    margin-top: 4px;
     display: flex;
     flex-direction: column;
     // gap: 5px;
     // border: 1px solid green;
 
     .signature {
-      font-size: 16px;
+      font-size: 12px;
       display: flex;
       justify-content: space-between;
     }
 
     .date {
-      font-size: 12px;
+      font-size: 10px;
     }
 
     .comment {
       display: flex;
       justify-content: center;
       font-style: italic;
-      font-size: 10px;
+      font-size: 8px;
     }
   }
 

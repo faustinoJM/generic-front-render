@@ -225,6 +225,18 @@ const SettingPayroll = () => {
                                     </select>
                                 </div>
                                 <div>
+                                    <label>{t("SettingPayroll.28")}</label>
+                                    <select id="column_ipa_employee" name="column_ipa_employee"
+                                            onChange={e => setFieldValue("column_ipa_employee", e.target.value)} onBlur={handleBlur}>
+                                        {setting.column_ipa_employee === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                        <option value="true">{t("SettingPayroll.22")}</option> 
+                                        }
+                                        {setting.column_ipa_employee === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                        <option value="false">{t("SettingPayroll.23")}</option> 
+                                        }
+                                    </select>
+                                </div>
+                                <div>
                                     <label>{t("SettingPayroll.25")}</label>
                                     <select id="column_loan" name="column_loan"
                                             onChange={e => setFieldValue("column_loan", e.target.value)} onBlur={handleBlur}>
@@ -232,6 +244,18 @@ const SettingPayroll = () => {
                                         <option value="true">{t("SettingPayroll.22")}</option> 
                                         }
                                         {setting.column_loan === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                        <option value="false">{t("SettingPayroll.23")}</option> 
+                                        }
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>{t("SettingPayroll.35")}</label>
+                                    <select id="column_subsidy_commission" name="column_subsidy_commission"
+                                            onChange={e => setFieldValue("column_subsidy_commission", e.target.value)} onBlur={handleBlur}>
+                                        {setting.column_subsidy_commission === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                        <option value="true">{t("SettingPayroll.22")}</option> 
+                                        }
+                                        {setting.column_subsidy_commission === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
                                         <option value="false">{t("SettingPayroll.23")}</option> 
                                         }
                                     </select>
@@ -308,6 +332,81 @@ const SettingPayroll = () => {
                                         }
                                     </select>
                                 </div>
+                              
+                               
+                                <div>
+                                    <label>{t("SettingPayroll.29")}</label>
+                                    <select id="column_subsidy_shift" name="column_subsidy_shift"
+                                            onChange={e => setFieldValue("column_subsidy_shift", e.target.value)} onBlur={handleBlur}>
+                                        {setting.column_subsidy_shift === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                        <option value="true">{t("SettingPayroll.22")}</option> 
+                                        }
+                                        {setting.column_subsidy_shift === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                        <option value="false">{t("SettingPayroll.23")}</option> 
+                                        }
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>{t("SettingPayroll.30")}</label>
+                                    <select id="column_subsidy_night" name="column_subsidy_night"
+                                            onChange={e => setFieldValue("column_subsidy_night", e.target.value)} onBlur={handleBlur}>
+                                        {setting.column_subsidy_night === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                        <option value="true">{t("SettingPayroll.22")}</option> 
+                                        }
+                                        {setting.column_subsidy_night === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                        <option value="false">{t("SettingPayroll.23")}</option> 
+                                        }
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>{t("SettingPayroll.31")}</label>
+                                    <select id="column_subsidy_risk" name="column_subsidy_risk"
+                                            onChange={e => setFieldValue("column_subsidy_risk", e.target.value)} onBlur={handleBlur}>
+                                        {setting.column_subsidy_risk === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                        <option value="true">{t("SettingPayroll.22")}</option> 
+                                        }
+                                        {setting.column_subsidy_risk === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                        <option value="false">{t("SettingPayroll.23")}</option> 
+                                        }
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>{t("SettingPayroll.33")}</label>
+                                    <select id="column_subsidy_performance" name="column_subsidy_performance"
+                                            onChange={e => setFieldValue("column_subsidy_performance", e.target.value)} onBlur={handleBlur}>
+                                        {setting.column_subsidy_performance === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                        <option value="true">{t("SettingPayroll.22")}</option> 
+                                        }
+                                        {setting.column_subsidy_performance === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                        <option value="false">{t("SettingPayroll.23")}</option> 
+                                        }
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>{t("SettingPayroll.32")}</label>
+                                    <select id="column_subsidy_attendance" name="column_subsidy_attendance"
+                                            onChange={e => setFieldValue("column_subsidy_attendance", e.target.value)} onBlur={handleBlur}>
+                                        {setting.column_subsidy_attendance === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                        <option value="true">{t("SettingPayroll.22")}</option> 
+                                        }
+                                        {setting.column_subsidy_attendance === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                        <option value="false">{t("SettingPayroll.23")}</option> 
+                                        }
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>{t("SettingPayroll.34")}</label>
+                                    <select id="column_subsidy_leadership" name="column_subsidy_leadership"
+                                            onChange={e => setFieldValue("column_subsidy_leadership", e.target.value)} onBlur={handleBlur}>
+                                        {setting.column_subsidy_leadership === "true" ? <option value="true" selected>{t("SettingPayroll.22")}</option> :
+                                        <option value="true">{t("SettingPayroll.22")}</option> 
+                                        }
+                                        {setting.column_subsidy_leadership === "false" ? <option value="false" selected>{t("SettingPayroll.23")}</option> :
+                                        <option value="false">{t("SettingPayroll.23")}</option> 
+                                        }
+                                    </select>
+                                </div>
+
                                 <div>
                                     <label>{t("SettingPayroll.20")}</label>
                                     <select id="column_salary_thirteenth" name="column_salary_thirteenth"
