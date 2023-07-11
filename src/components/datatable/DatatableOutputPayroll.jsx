@@ -24,7 +24,7 @@ async function fetchPrintData(){
   return data
 }
 
-const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, outputColumnVisible, loading, setLoading, payrollId, searchName, setSearchName}) => {
+const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, outputColumnVisible, loading, setLoading, searchName, setSearchName}) => {
     const workbook = new exceljs.Workbook();
     const [data2, setData2] = useState(userRows);
     const [columnVisible, setColumnVisible] = useState(columns);
@@ -51,17 +51,23 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
     }, [userRows])
 
     
-    useEffect(() => {
-      console.log("45",outputColumnVisible)
-         if((Object.keys(settings).length) > 0)
-          setColumnVisible(columns)
+    // useEffect(() => {
+    //   console.log("45",outputColumnVisible)
+    //      if((Object.keys(settings).length) > 0)
+    //       setColumnVisible(columns)
        
-    }, [settings])
+    // }, [settings])
+    // useEffect(() => {
+    //   console.log("45",outputColumnVisible)
+    //      if((columns.length) > 0)
+    //       setColumnVisible(columns)
+       
+    // }, [columns])
 
 
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get("payrolls")
+            const response = await api.get(`${listPath}`)
 
             if (response.data){
               // setExcelPayroll(response.data)
@@ -77,7 +83,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
         async function fetchData() {
             let years = 0;
             const yearsArray = []
-            const response = await api.get("payroll")
+            const response = await api.get(`${listPath}`)
 
             response.data.map(data => {
                 if (years !== +(data.year))
@@ -913,7 +919,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
              
                 columnBuffer={columns.length}
                 rows={userRows}
-                columns={columnVisible.concat(actionColumn)}
+                columns={columns.concat(actionColumn)}
                 pageSize={8}
                 rowsPerPageOptions={[8]}
                 // checkboxSelection
@@ -924,7 +930,7 @@ const DatatableOutputPayroll = ({ listName, listPath, columns, userRows, setUser
                 // slots={{
                 //   loadingOverlay: LinearProgress,
                 // }}
-                // loading={loading}
+                loading={loading}
                 initialState={{
                     pinnedColumns: { left: ['id', 'name'] },
                     sorting: {

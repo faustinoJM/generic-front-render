@@ -1,11 +1,10 @@
 import "./datatableInputPayroll.scss";
 import { DataGrid} from '@mui/x-data-grid';
 // import { userColumns, userRows } from "../../datatablesource";
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import { useTranslation } from 'react-i18next';
-
 
 const formatSalary = () => {
     return new Intl.NumberFormat("de-DE",{maximumFractionDigits: 2, minimumFractionDigits: 2})
@@ -32,38 +31,33 @@ export const visible = {
 const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserRows, settings, loading, setLoading, searchName, setSearchName}) => {
     const [data2, setData2] = useState(userRows);
     // const [loading, setLoading] = useState(true)
-    const [columnsVisible, setColumnsVisible] = useState(payrollInputColumns);
+    const [columnsVisible, setColumnsVisible] = useState(columns);
     const [year, setYear] = useState(0);
     const [month, setMonth] = useState("");
     const [yearOptions, setYearOptions] = useState([])
     const { t, i18n } = useTranslation();
+    const params = useParams()
 
-    useEffect(() => {
-        console.log("2", settings)
-        if((Object.keys(settings).length) > 0)
-            setColumnsVisible(columns)
+
+    // useEffect(() => {
+    //     console.log("2", settings)
+    //     if((Object.keys(settings).length) > 0)
+    //         setColumnsVisible(columns)
         
-    }, [settings])
+    // }, [settings])
+    // useEffect(() => {
+    //     // console.log("2", settings)
+    //     if((columns.length) > 0){
+    //         setColumnsVisible(columns)
+    //         console.log("799",columns)
+    //     }
+    // }, [columns])
 
   useEffect(() => {
-        let monthGreater = 0
-        let yearGreater = 0
-        let dateAux = new Date("2000/12/31")
-
-        if (year <= 0) {
-            userRows.map((data, index) => {
-
-                if (dateAux.getTime() < new Date(data.created_at).getTime()) {
-                    monthGreater = data.month
-                    yearGreater = data.year
-                    dateAux = new Date(data.created_at)
-                }
-             })
-             setYear(yearGreater)
-             setMonth(monthGreater)
-             console.log(monthGreater, yearGreater)
-        } 
-        
+        if (userRows.length > 0) {
+            setYear(userRows[0]?.year)
+            setMonth(userRows[0]?.month)
+        }
     }, [userRows])
 
     useEffect(() => {
@@ -81,7 +75,7 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
     useEffect(() => {
         async function fetchData() {
             // const response = await api.get("payrolls/input")
-            const response = await api.get("payrolls")
+            const response = await api.get(`payrolls`)
 
             response.data.map((data) => {
                 data.salary_base = formatSalary().format(data.salary_base)
@@ -108,7 +102,7 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
         const yearsArray = []
         let years = 0;
         // const response = await api.get("payrolls/input")
-        const response = await api.get("payrolls")
+        const response = await api.get("payroll")
 
         response.data.map(data => {
             if (years !== +(data.year))
@@ -249,7 +243,7 @@ const DatatableInputPayroll = ({ listName, listPath, columns, userRows, setUserR
              }}
                  columnBuffer={columns.length}
                 rows={userRows}
-                columns={columnsVisible}
+                columns={columns}
                 pageSize={8}
                 rowsPerPageOptions={[8]}
                 // checkboxSelection

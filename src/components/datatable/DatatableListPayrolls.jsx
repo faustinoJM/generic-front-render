@@ -697,7 +697,7 @@ const DatatableListPayrolls = ({ listName, listPath, columns, setColumns, userRo
                 return (
                     <div className="cellAction">
                       {params.row.payroll_status !==  "true" ? 
-                        <Link to={`/${listPath}/input/${params.row.id}`} style={{textDecoration: "none"}}>
+                        <Link to={`/${listPath}/list/input/${params.row.id}`} style={{textDecoration: "none"}}>
                           <div className="editButton">
                               <EditIcon /> {t("Datatable.2")}
                           </div>
@@ -711,7 +711,7 @@ const DatatableListPayrolls = ({ listName, listPath, columns, setColumns, userRo
                         <div className="editButton" onClick={() => exportExcelFile(params.row.year, params.row.month, setting)}>
                             <DescriptionIcon className="edIcon"/> {t("Datatable.4")}
                         </div>
-                        <Link to={`/${listPath}/output/${params.row.id}`} style={{textDecoration: "none"}}>
+                        <Link to={`/${listPath}/list/output/${params.row.id}`} style={{textDecoration: "none"}}>
                           {/* to={`/${listPath}/${params.row.id}`} */}
                           {/* to={`/${listPath}/output/${params.row.month}-${params.row.year}`} */}
                           <div className="viewButton">

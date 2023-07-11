@@ -25,13 +25,14 @@ export function printPDF(printData, settingData, urlLogo) {
 
         printData.map(data => {
             data.salary_base = formatSalary().format(data.salary_base)
-            data.subsidy = data.subsidy > 0 ? formatSalary().format(
+            data.subsidy = (
                 data.subsidy + data.subsidy_attendance 
                 + data.subsidy_commission + data.subsidy_food + data.subsidy_leadership 
                 + data.subsidy_medical + data.subsidy_night + data.subsidy_shift
                 + data.subsidy_risk + data.subsidy_performance + data.subsidy_residence
                 + data.subsidy_transport + data.subsidy_vacation
-            ) : "-"
+            )
+            data.subsidy = data.subsidy > 0 ? data.subsidy = formatSalary().format(data.subsidy) : "-"
             data.total_overtime =  data.total_overtime > 0 ? formatSalary().format(data.total_overtime) : "-"
             data.bonus = data.bonus > 0 ? formatSalary().format(data.bonus) : "-"
             data.total_absences = data.total_absences > 0 ? formatSalary().format(data.total_absences) : "-"

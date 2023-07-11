@@ -18,7 +18,7 @@ const payrollOutputColumns = [
     { field: "subsidy_food",  headerName: "Subsidio Alimentacao", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "subsidy_residence",  headerName: "Subsidio Residencia", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "subsidy_medical",  headerName: "Subsidio Medico", hide: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_vacation",  headerName: "Subsidio de ferias", hide: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_vacation",  headerName: "Subsidio de Ferias", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "subsidy_shift",  headerName: "Subsidio de Turno", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "subsidy_night",  headerName: "Subsidio de Noturno", hide: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "subsidy_risk",  headerName: "Subsidio de Risco", hide: true, width: 130,  align:'center', headerAlign: 'center',},
@@ -105,7 +105,6 @@ const ListOutputPayroll = ({ listName, listPath }) => {
     const [userRows, setUserRows] = useState([]);
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true)
-    const [active, setActive] = useState(true)
     const params = useParams()
     const [searchName, setSearchName] = useState("")
     const [columns,  setColumns] = useState(payrollOutputColumns)
@@ -131,124 +130,126 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                 // response.data.column_subsidy_medical === "true" ? outputColumnVisible.subsidy_medical = true : outputColumnVisible.subsidy_medical = false
                 // response.data.column_subsidy_vacation === "true" ? outputColumnVisible.subsidy_vacation = true : outputColumnVisible.subsidy_vacation = false
                 // response.data.column_salary_thirteenth === "true" ? outputColumnVisible.salary_thirteenth = true : outputColumnVisible.salary_thirteenth = false
-                payrollOutputColumns.map(data => {
-                    if (data.field === "employee_name") {
-                        // response.data.language_options === "en" ? data.headerName = "Name" : data.headerName = data.headerName
-                    }
-                    if (data.field === "position_name") {
-                        response.data.column_position_name === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Position" : data.headerName = data.headerName
-                    }
-                    if (data.field === "department_name") {
-                        response.data.column_department_name === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Department" : data.headerName = data.headerName
-                    }
-                    if (data.field === "total_absences") {
-                        response.data.column_absences === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Total Absences" : data.headerName = data.headerName
-                    }
-                    if (data.field === "cash_advances") {
-                        response.data.column_cash_advances === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Cash Advances" : data.headerName = data.headerName
-                    }
-                    if (data.field === "total_overtime") {
-                        response.data.column_overtime === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Total Overtime" : data.headerName = data.headerName
-                    }
-                    if (data.field === "backpay") {
-                        response.data.column_backpay === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Backpay" : data.headerName = data.headerName
-                    }
-                    if (data.field === "bonus") {
-                        response.data.column_bonus === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Bonus" : data.headerName = data.headerName
-                    }
-                    if (data.field === "syndicate_employee") {
-                        response.data.column_syndicate === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Syndicate Employee" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy") {
-                        response.data.column_subsidy === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Subsidy" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_transport") {
-                        response.data.column_subsidy_transport === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Transport Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_food") {
-                        response.data.column_subsidy_food === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Food Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_residence") {
-                        response.data.column_subsidy_residence === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Residence Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_medical") {
-                        response.data.column_subsidy_medical === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Medical Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_vacation") {
-                        response.data.column_subsidy_vacation === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_shift") {
-                        response.data.column_subsidy_shift === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_night") {
-                        response.data.column_subsidy_night === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_risk") {
-                        response.data.column_subsidy_risk === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_attendance") {
-                        response.data.column_subsidy_attendance === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_performance") {
-                        response.data.column_subsidy_performance === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_leadership") {
-                        response.data.column_subsidy_leadership === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "subsidy_commission") {
-                        response.data.column_subsidy_commission === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "ipa_employee") {
-                        response.data.column_ipa_employee === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
-                    }
-                    if (data.field === "salary_thirteenth") {
-                        response.data.column_salary_thirteenth === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Salary thirteenth" : data.headerName = data.headerName
-                    }
-                    if (data.field === "salary_fourteenth") {
-                        response.data.column_salary_thirteenth === "true" ? data.hide = false : data.hide = true
-                        // response.data.language_options === "en" ? data.headerName = "Salary Fourteenth" : data.headerName = data.headerName
-                    }
-                    if (data.field === "salary_base") {
-                        // response.data.language_options === "en" ? data.headerName = "Base Salary" : data.headerName = data.headerName
-                    }
-                    if (data.field === "total_income") {
-                        // response.data.language_options === "en" ? data.headerName = "Gross Salary" : data.headerName = data.headerName
-                    }
-                    if (data.field === "salary_liquid") {
-                        // response.data.language_options === "en" ? data.headerName = "Net Salary" : data.headerName = data.headerName
-                    }
-                    if (data.field === "month") {
-                        // response.data.language_options === "en" ? data.headerName = "Month" : data.headerName = data.headerName
-                    }
-                    if (data.field === "year") {
-                        // response.data.language_options === "en" ? data.headerName = "Year" : data.headerName = data.headerName
-                    }
+                // payrollOutputColumns.map(data => {
+                //     if (data.field === "employee_name") {
+                //         // response.data.language_options === "en" ? data.headerName = "Name" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "position_name") {
+                //         response.data.column_position_name === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Position" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "department_name") {
+                //         response.data.column_department_name === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Department" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "total_absences") {
+                //         response.data.column_absences === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Total Absences" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "cash_advances") {
+                //         response.data.column_cash_advances === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Cash Advances" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "total_overtime") {
+                //         response.data.column_overtime === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Total Overtime" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "backpay") {
+                //         response.data.column_backpay === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Backpay" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "bonus") {
+                //         response.data.column_bonus === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Bonus" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "syndicate_employee") {
+                //         response.data.column_syndicate === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Syndicate Employee" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy") {
+                //         response.data.column_subsidy === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Subsidy" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_transport") {
+                //         response.data.column_subsidy_transport === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Transport Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_food") {
+                //         response.data.column_subsidy_food === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Food Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_residence") {
+                //         response.data.column_subsidy_residence === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Residence Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_medical") {
+                //         response.data.column_subsidy_medical === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Medical Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_vacation") {
+                //         response.data.column_subsidy_vacation === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_shift") {
+                //         response.data.column_subsidy_shift === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_night") {
+                //         response.data.column_subsidy_night === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_risk") {
+                //         response.data.column_subsidy_risk === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_attendance") {
+                //         response.data.column_subsidy_attendance === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_performance") {
+                //         response.data.column_subsidy_performance === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_leadership") {
+                //         response.data.column_subsidy_leadership === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "subsidy_commission") {
+                //         response.data.column_subsidy_commission === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "ipa_employee") {
+                //         response.data.column_ipa_employee === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "salary_thirteenth") {
+                //         response.data.column_salary_thirteenth === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Salary thirteenth" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "salary_fourteenth") {
+                //         response.data.column_salary_thirteenth === "true" ? data.hide = false : data.hide = true
+                //         // response.data.language_options === "en" ? data.headerName = "Salary Fourteenth" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "salary_base") {
+                //         // response.data.language_options === "en" ? data.headerName = "Base Salary" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "total_income") {
+                //         // response.data.language_options === "en" ? data.headerName = "Gross Salary" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "salary_liquid") {
+                //         // response.data.language_options === "en" ? data.headerName = "Net Salary" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "month") {
+                //         // response.data.language_options === "en" ? data.headerName = "Month" : data.headerName = data.headerName
+                //     }
+                //     if (data.field === "year") {
+                //         // response.data.language_options === "en" ? data.headerName = "Year" : data.headerName = data.headerName
+                //     }
 
-                    // response.data.language_options === "en" ? setColumns(payrollOutputColumnsEN) : setColumns(payrollOutputColumns)
-                })
+                //     // response.data.language_options === "en" ? setColumns(payrollOutputColumnsEN) : setColumns(payrollOutputColumns)
+                // })
+                payroll_hide_column(payrollOutputColumnsEN, response.data)
+                payroll_hide_column(payrollOutputColumns, response.data)
                 response.data.language_options === "en" ? setColumns(payrollOutputColumnsEN) : setColumns(payrollOutputColumns)
                 // console.log("output", payrollOutputColumns)
                 // console.log("output", params.payrollId)
@@ -258,8 +259,24 @@ const ListOutputPayroll = ({ listName, listPath }) => {
         }
 
             fetchData()
-        }, [loadLang])
+    }, [loadLang])
         
+    useEffect(() => {
+        async function fetchData() {
+            const response = await api.get("settings")
+            if (response.data) {
+                
+                payroll_hide_column(payrollOutputColumnsEN, response.data)
+                payroll_hide_column(payrollOutputColumns, response.data)
+                response.data.language_options === "en" ? setColumns(payrollOutputColumnsEN) : setColumns(payrollOutputColumns)
+
+                setSettings(response.data)
+            }
+        }
+
+            fetchData()
+    }, [])
+            
     useEffect(() => {
         async function fetchData() {
             const response = await api.get(`${listPath}/output/${params.payrollId}`)
@@ -321,6 +338,13 @@ const ListOutputPayroll = ({ listName, listPath }) => {
                 data.subsidy_residence = formatSalary().format(data.subsidy_residence)
                 data.subsidy_medical = formatSalary().format(data.subsidy_medical)
                 data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
+                data.subsidy_shift = formatSalary().format(data.subsidy_shift)
+                data.subsidy_night = formatSalary().format(data.subsidy_night)
+                data.subsidy_risk = formatSalary().format(data.subsidy_risk)
+                data.subsidy_attendance = formatSalary().format(data.subsidy_attendance)
+                data.subsidy_performance = formatSalary().format(data.subsidy_performance)
+                data.subsidy_leadership = formatSalary().format(data.subsidy_leadership)
+                data.subsidy_commission = formatSalary().format(data.subsidy_commission)
                 data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
             })
 
@@ -369,13 +393,12 @@ const ListOutputPayroll = ({ listName, listPath }) => {
     return (
         <div className="list">
             {/* {console.log(userRows)} */}
-            <Sidebar active={active} setActiv={setActive}/>
+            <Sidebar/>
             <div className="listContainer">
                 <Navbar searchName={searchName} setSearchName={setSearchName} SetLoadLang={SetLoadLang}/>
                 <DatatableOutputPayroll listName={listName} listPath={listPath} 
                     columns={columns} userRows={userRows} setUserRows={setUserRows} 
-                    active={loading} setLoading={setLoading} settings={settings} 
-                    payrollId={params.payrollId}
+                    loading={loading} setLoading={setLoading} settings={settings} 
                     searchName={searchName} setSearchName={setSearchName}
                     />
             </div>
@@ -389,3 +412,113 @@ function formatSalary() {
 
 export default ListOutputPayroll
 
+
+const payroll_hide_column = (payrollColumns, responseData) => {
+    payrollColumns.map(data => {
+       if (data.field === "employee_name") {
+           // response.data.language_options === "en" ? data.headerName = "Name" : data.headerName = data.headerName
+       }
+       if (data.field === "position_name") {
+           responseData.column_position_name === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Position" : data.headerName = data.headerName
+       }
+       if (data.field === "department_name") {
+           responseData.column_department_name === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Department" : data.headerName = data.headerName
+       }
+       if (data.field === "total_absences") {
+           responseData.column_absences === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Absences" : data.headerName = data.headerName
+       }
+       if (data.field === "cash_advances") {
+           responseData.column_cash_advances === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Cash Advances" : data.headerName = data.headerName
+       }
+       if (data.field === "total_overtime") {
+           responseData.column_overtime === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Overtime 50%" : data.headerName = data.headerName
+       }
+       if (data.field === "backpay") {
+           responseData.column_backpay === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Backpay" : data.headerName = data.headerName
+       }
+       if (data.field === "bonus") {
+           responseData.column_bonus === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Bonus" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy") {
+           responseData.column_subsidy === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Subsidy" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_transport") {
+           responseData.column_subsidy_transport === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Transport Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_food") {
+           responseData.column_subsidy_food === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Food Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_residence") {
+           responseData.column_subsidy_residence === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Residence Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_medical") {
+           responseData.column_subsidy_medical === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Medical Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_vacation") {
+           responseData.column_subsidy_vacation === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_shift") {
+           responseData.column_subsidy_shift === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_night") {
+           responseData.column_subsidy_night === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_risk") {
+           responseData.column_subsidy_risk === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_attendance") {
+           responseData.column_subsidy_attendance === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_performance") {
+           responseData.column_subsidy_performance === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_leadership") {
+           responseData.column_subsidy_leadership === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "subsidy_commission") {
+           responseData.column_subsidy_commission === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "ipa_employee") {
+           responseData.column_ipa_employee === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Vacation Allowance" : data.headerName = data.headerName
+       }
+       if (data.field === "salary_thirteenth") {
+           responseData.column_salary_thirteenth === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Salary Thirteenth" : data.headerName = data.headerName
+       }
+       if (data.field === "salary_fourteenth") {
+           responseData.column_salary_thirteenth === "true" ? data.hide = false : data.hide = true
+           // response.data.language_options === "en" ? data.headerName = "Salary Fourteenth" : data.headerName = data.headerName
+       }
+       if (data.field === "salary_base") {
+           // response.data.language_options === "en" ? data.headerName = "Base Salary" : data.headerName = data.headerName
+       }
+       if (data.field === "month") {
+           // response.data.language_options === "en" ? data.headerName = "Month" : data.headerName = data.headerName
+       }
+       if (data.field === "year") {
+           // response.data.language_options === "en" ? data.headerName = "Year" : data.headerName = data.headerName
+       }
+
+   })
+}

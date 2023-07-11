@@ -14,25 +14,25 @@ const payrollInputColumns = [
     { field: "position_name", headerName:"Cargo", width: 180,  align:'left', headerAlign: 'center', },
     { field: "salary_base", headerName: "Salario Base", width: 130, editable: false, align:'center', headerAlign: 'center',},
     { field: "subsidy", headerName: "Subsidio", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "subsidy_transport",  headerName: "Subsidio Transporte", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "subsidy_food",  headerName: "Subsidio Alimentacao", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "subsidy_residence",  headerName: "Subsidio Residencia", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "subsidy_medical",  headerName: "Subsidio Medico", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "subsidy_vacation",  headerName: "Subsidio de ferias", width: 130, editable: true,   align:'center', headerAlign: 'center',},
-    { field: "subsidy_shift",  headerName: "Subsidio de Turno", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_night",  headerName: "Subsidio Noturno", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_risk",  headerName: "Subsidio  de Riso", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_attendance",  headerName: "Subsidio  de Assiduidade", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_performance",  headerName: "Subsidio  de Desempenho", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_leadership",  headerName: "Subsidio  de Lideranca", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_commission",  headerName: "Comissao", editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_transport",  headerName: "Subsidio Transporte", hide: true, width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_food",  headerName: "Subsidio Alimentacao", hide: true, width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_residence",  headerName: "Subsidio Residencia", hide: true, width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_medical",  headerName: "Subsidio Medico", hide: true, width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_vacation",  headerName: "Subsidio de Ferias", hide: true, width: 130, editable: true,   align:'center', headerAlign: 'center',},
+    { field: "subsidy_shift",  headerName: "Subsidio de Turno", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_night",  headerName: "Subsidio Noturno", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_risk",  headerName: "Subsidio  de Riso", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_attendance",  headerName: "Subsidio  de Assiduidade", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_performance",  headerName: "Subsidio  de Desempenho", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_leadership",  headerName: "Subsidio  de Chefia", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_commission",  headerName: "Comissao", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "overtime50", headerName: "Horas Extras 50%", width: 135, editable: true, align:'center', headerAlign: 'center',},
     { field: "overtime100", headerName: "Horas Extras 100%", width: 140, editable: true,  align:'center', headerAlign: 'center',},
     { field: "bonus", headerName: "Bonus", width: 100, editable: true, align:'center', headerAlign: 'center',},
     { field: "absences",  headerName: "Faltas", width: 100, editable: true, align:'center', headerAlign: 'center'},
     { field: "cash_advances",  headerName: "Emprestimos", width: 130, editable: true, align:'center', headerAlign: 'center',},
     { field: "backpay",  headerName: "Retroativos", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "ipa_employee",  headerName: "IPA", width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "ipa_employee",  headerName: "IPA", width: 130, hide: true, editable: true, align:'center', headerAlign: 'center',},
     { field: "salary_thirteenth",  headerName: "Decimo Terceiro", width: 130, editable: true,   align:'center', headerAlign: 'center',},
     // { field: "total_income",  headerName: "Rendimento Total", width: 130,  align:'center', headerAlign: 'center',},
     // { field: "irps",  headerName: "IRPS", width: 130,  align:'center', headerAlign: 'center',},
@@ -50,25 +50,25 @@ const payrollInputColumnsEN = [
     { field: "position_name", headerName:"Position", width: 180,  align:'left', headerAlign: 'center', },
     { field: "salary_base", headerName: "Base Salary", width: 130, editable: false, align:'center', headerAlign: 'center',},
     { field: "subsidy", headerName: "Subsidy", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "subsidy_transport",  headerName: "Transport Allowance", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "subsidy_food",  headerName: "Food Allowance", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "subsidy_residence",  headerName: "Residence Allowance", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "subsidy_medical",  headerName: "Medical Allowance", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "subsidy_vacation",  headerName: "Vacation Allowance", width: 130, editable: true,   align:'center', headerAlign: 'center',},
-    { field: "subsidy_shift",  headerName: "Shift Allowance", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_night",  headerName: "Night Allowance", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_risk",  headerName: "Risk Allowance", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_attendance",  headerName: "Attendance Allowance", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_performance",  headerName: "Performance Allowance", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_leadership",  headerName: "Leadership Allowance", editable: true, width: 130,  align:'center', headerAlign: 'center',},
-    { field: "subsidy_commission",  headerName: "Comission", editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_transport",  headerName: "Transport Allowance", hide: true, width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_food",  headerName: "Food Allowance", hide: true, width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_residence",  headerName: "Residence Allowance", hide: true, width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_medical",  headerName: "Medical Allowance", hide: true, width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "subsidy_vacation",  headerName: "Vacation Allowance",hide: true,  width: 130, editable: true,   align:'center', headerAlign: 'center',},
+    { field: "subsidy_shift",  headerName: "Shift Allowance", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_night",  headerName: "Night Allowance", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_risk",  headerName: "Risk Allowance", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_attendance",  headerName: "Attendance Allowance", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_performance",  headerName: "Performance Allowance", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_leadership",  headerName: "Leadership Allowance", hide: true,  editable: true, width: 130,  align:'center', headerAlign: 'center',},
+    { field: "subsidy_commission",  headerName: "Comission", hide: true, editable: true, width: 130,  align:'center', headerAlign: 'center',},
     { field: "overtime50", headerName: "Overtime 50%", width: 135, editable: true, align:'center', headerAlign: 'center',},
     { field: "overtime100", headerName: "Overtime 100%", width: 140, editable: true,  align:'center', headerAlign: 'center',},
     { field: "bonus", headerName: "Bonus", width: 100, editable: true, align:'center', headerAlign: 'center',},
     { field: "absences",  headerName: "Absences", width: 100, editable: true, align:'center', headerAlign: 'center'},
     { field: "cash_advances",  headerName: "Cash Advances", width: 130, editable: true, align:'center', headerAlign: 'center',},
     { field: "backpay",  headerName: "Backpay", width: 130, editable: true, align:'center', headerAlign: 'center',},
-    { field: "ipa_employee",  headerName: "IPA", width: 130, editable: true, align:'center', headerAlign: 'center',},
+    { field: "ipa_employee",  headerName: "IPA", hide: true, width: 130, editable: true, align:'center', headerAlign: 'center',},
     { field: "salary_thirteenth",  headerName: "Salary Thirteenth", width: 130, editable: true,   align:'center', headerAlign: 'center',},
     // { field: "total_income",  headerName: "Rendimento Total", width: 130,  align:'center', headerAlign: 'center',},
     // { field: "irps",  headerName: "IRPS", width: 130,  align:'center', headerAlign: 'center',},
@@ -198,16 +198,32 @@ const ListInputPayroll = ({ listName, listPath }) => {
         }
 
             fetchData()
-        }, [loadLang])
+    }, [loadLang])
 
     useEffect(() => {
         async function fetchData() {
-            // const response = await api.get(`payrolls/input/${params.payrollId}`)
-            let response 
-            if (params.payrollId)
-                response = await api.get(`payrolls/input/${params.payrollId}`)
-            else 
-                response = await api.get(`payrolls`)
+            const response = await api.get("settings")
+            if (response.data) {
+                
+                payroll_hide_column(payrollInputColumnsEN, response.data)
+                payroll_hide_column(payrollInputColumns, response.data)
+                response.data.language_options === "en" ? setColumns(payrollInputColumnsEN) : setColumns(payrollInputColumns)
+
+                setSettings(response.data)
+            }
+        }
+
+            fetchData()
+    }, [])
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await api.get(`payrolls/input/${params.payrollId}`)
+            // let response 
+            // if (params.payrollId)
+            //     response = await api.get(`payrolls/input/${params.payrollId}`)
+            // else 
+            //     response = await api.get(`payrolls`)
                 
              console.log(listPath)
              console.log(response.data)
@@ -227,6 +243,18 @@ const ListInputPayroll = ({ listName, listPath }) => {
                 data.subsidy_medical = formatSalary().format(data.subsidy_medical)
                 data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
                 data.salary_thirteenth = formatSalary().format(data.salary_thirteenth)
+                data.subsidy_transport = formatSalary().format(data.subsidy_transport)
+                data.subsidy_food = formatSalary().format(data.subsidy_food)
+                data.subsidy_residence = formatSalary().format(data.subsidy_residence)
+                data.subsidy_medical = formatSalary().format(data.subsidy_medical)
+                data.subsidy_vacation = formatSalary().format(data.subsidy_vacation)
+                data.subsidy_shift = formatSalary().format(data.subsidy_shift)
+                data.subsidy_night = formatSalary().format(data.subsidy_night)
+                data.subsidy_risk = formatSalary().format(data.subsidy_risk)
+                data.subsidy_attendance = formatSalary().format(data.subsidy_attendance)
+                data.subsidy_performance = formatSalary().format(data.subsidy_performance)
+                data.subsidy_leadership = formatSalary().format(data.subsidy_leadership)
+                data.subsidy_commission = formatSalary().format(data.subsidy_commission)
             })
             if (response.status === 200) {
                 setLoading(false)

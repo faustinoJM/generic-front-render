@@ -74,8 +74,10 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
           // data.inss_event_date = data?.inss_event > 0 ? event_date : ""
           data.days = 30 - (+data.absences)
           data.inss_event = data.inss_event > 0 ? data.inss_event : ""
-          sismo_txt = sismo_txt + `${data.social_security};${data.days};${(data.salary_base * 100).toFixed(0)};${+data.subsidy * 100};${+data.bonus * 100};${data.inss_event};${event_date_txt};\n`
-      })
+          // sismo_txt = sismo_txt + `${data.social_security};${data.days};${(data.salary_base * 100).toFixed(0)};${+data.subsidy * 100};${+data.bonus * 100};${data.inss_event};${event_date_txt};\n`
+          sismo_txt = sismo_txt + `${data.social_security};${data.days};${(data.total_income * 100).toFixed(0)};;;${data.inss_event};${event_date_txt};\n`
+
+        })
         const element = document.createElement("a")
         const file = new Blob([sismo_txt], {
           type: "text/plain;charset-utf-8",
@@ -152,6 +154,7 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
               let event_date = formatDate.format(new Date(data.inss_event_date))
               let event_date_txt = event_date.split("/")
               event_date_txt = +data.inss_event > 0 ? `${event_date_txt[0]}${event_date_txt[1]}${event_date_txt[2]}` : ""
+              data.inss_event = data.inss_event > 0 ? data.inss_event : ""
 
               salary_liquid = salary_liquid + data.salary_liquid
               salary_base = salary_base + data.salary_base
@@ -162,19 +165,26 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
               total_inss = total_inss + data.total_inss
               total_cash_advances = total_cash_advances + data.cash_advances
               total_subsidy = total_subsidy + data.subsidy + data.subsidy_food + data.subsidy_medical 
-                              + data.subsidy_residence + data.subsidy_vacation + data.total_overtime
-              total_bonus +=  data.bonus
+                              + data.subsidy_residence + data.subsidy_vacation + data.total_overtime + 
+                              data.subsidy_shift + data.subsidy_transport + data.subsidy_night + data.subsidy_risk +
+                              data.subsidy_attendance + data.subsidy_performance + data.subsidy_leadership+
+                              data.subsidy_commission
+              total_bonus +=  data.bonus + data.subsidy_commission
               total_backpay += data.backpay
               total_total_absences += data.total_absences
               total_total_overtime += data.total_overtime
               total_syndicate_employee += data.syndicate_employee
 
               // data.inss_event
-              data.salary_base = (+data.salary_base + data.total_overtime - data.total_absences).toFixed(2)
-              data.subsidy = data.subsidy + data.subsidy_food + data.subsidy_medical + data.subsidy_residence + data.subsidy_vacation
+              // data.salary_base = (+data.salary_base + data.total_overtime - data.total_absences).toFixed(2)
+              data.subsidy = data.subsidy + data.subsidy_food + data.subsidy_medical + data.subsidy_residence + data.subsidy_vacation + 
+                              data.total_overtime + data.subsidy_shift + data.subsidy_transport + data.subsidy_night + data.subsidy_risk +
+                              data.subsidy_attendance + data.subsidy_performance + data.subsidy_leadership
+              data.bonus = data.bonus + data.subsidy_commission 
               data.inss_event_date = data?.inss_event ? event_date : ""
               data.days = 30 - (+data.absences)
-              data.sismo_txt = `${data.social_security};${data.days};${+(data.salary_base * 100).toFixed(0)};${+data.subsidy * 100};${+data.bonus * 100};${data?.inss_event ?? ""};${event_date_txt}`
+              // data.sismo_txt = `${data.social_security};${data.days};${+(data.salary_base * 100).toFixed(0)};${+data.subsidy * 100};${+data.bonus * 100};${data?.inss_event ?? ""};${event_date_txt}`
+              data.sismo_txt = `${data.social_security};${data.days};${+(data.total_income * 100).toFixed(0)};;;${data?.inss_event ?? ""};${event_date_txt}`
               data.nib = String(data.nib)
               data.birth_date = ""
               
@@ -201,6 +211,7 @@ const DatatableResourceINSS = ({ listName, listPath, columns, userRows, setUserR
           // total_bonus
         });
         worksheet.lastRow.font = { bold: true };
+        // worksheet.getColumn(4).numFmt = "#,##0.00"
         worksheet.getColumn(5).numFmt = "#,##0.00"
         worksheet.getColumn(6).numFmt = "#,##0.00"
         worksheet.getColumn(7).numFmt = "#,##0.00"

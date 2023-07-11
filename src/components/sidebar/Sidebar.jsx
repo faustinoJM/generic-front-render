@@ -37,7 +37,7 @@ function addToken() {
     api.defaults.headers['Authorization'] = !!localStorage.getItem('@ConsulPayroll:refresh_token') ? `Bearer ${localStorage.getItem('@ConsulPayroll:refresh_token')}` : '';
   }
 
-const Sidebar = ({active, setActive}) => {
+const Sidebar = () => {
     addToken()
     const { signOut } = useAuth();
     const [setting, setSetting] = useState(null)
@@ -145,7 +145,7 @@ const Sidebar = ({active, setActive}) => {
                         </NavLink>
                     </li> */}
                     <li>
-                        <NavLink to="/payrolls/list" className={`navLink ${active ? "active" : ""}`} style={{textDecoration: "none"}}>
+                        <NavLink to="/payrolls/list" className="navLink" style={{textDecoration: "none"}}>
                             <PaymentOutlinedIcon className="icon" />
                             <span>{t('Sidebar.11')}</span>
                         </NavLink>
